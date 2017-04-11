@@ -4,9 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DMXforDummies"
+        xmlns:ViewModel="clr-namespace:DMXforDummies.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="DMX for Dummies" Height="329" Width="600" ResizeMode="CanMinimize">
+    <Window.DataContext>
+        <ViewModel:DMX/>
+    </Window.DataContext>
+    <Grid Margin="0,0,0,0" Width="auto" Height="auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="200*"/>
+        </Grid.ColumnDefinitions>
+        <Grid HorizontalAlignment="Left" Width="198" Height="225" VerticalAlignment="Top">
+            <TextBlock HorizontalAlignment="Center" Margin="0,10,10,0" TextWrapping="Wrap" Text="kl. Saal Bar" VerticalAlignment="Top"/>
+            <Button x:Name="BtnKlSaalAVFarben" Command="{Binding SetAVFarbenKlSaalCommand}" Content="AV Farben" Margin="0,52,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
+            <Button x:Name="BtnKlSaalWarmeFarben" Command="{Binding SetWarmeFarbenKlSaalCommand}" Content="Warme Farben" Margin="0,87,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
+            <Button x:Name="BtnKlSaalKalteFarben" Command="{Binding SetKalteFarbenKlSaalCommand}" Content="Kalte Farben" Margin="0,122,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
+            <Button x:Name="BtnKlSaalRotBlau" Command="{Binding SetRotBlauKlSaalCommand}" Content="Rot Blau" Margin="0,157,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Width="198" Height="225" VerticalAlignment="Top" Grid.Column="1">
+            <TextBlock HorizontalAlignment="Center" Margin="0,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="gr"/><Run Text=". Saal Bar"/></TextBlock>
+            <Button x:Name="BtnGrSaalAVFarben" Command="{Binding SetAVFarbenGrSaalCommand}" Content="AV Farben" Margin="0,52,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
+            <Button x:Name="BtnGrSaalWarmeFarben" Command="{Binding SetWarmeFarbenGrSaalCommand}" Content="Warme Farben" Margin="0,87,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
+            <Button x:Name="BtnGrSaalKalteFarben" Command="{Binding SetKalteFarbenGrSaalCommand}" Content="Kalte Farben" Margin="0,122,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
+            <Button x:Name="BtnGrSaalRotBlau" Command="{Binding SetRotBlauGrSaalCommand}" Content="Rot Blau" Margin="0,157,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Width="198" Height="225" VerticalAlignment="Top" Grid.Column="2">
+            <TextBlock HorizontalAlignment="Center" Margin="0,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="gr"/><Run Text=". Saal"/></TextBlock>
+        </Grid>
+        <Button Command="{Binding SetAllesAusCommand}" Content="Licht AUS" Margin="10,230,10,0" FontWeight="Bold" Background="Red" BorderBrush="Black" FontSize="18" Grid.ColumnSpan="3" Height="60" VerticalAlignment="Top"/>
     </Grid>
 </Window>
