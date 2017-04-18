@@ -190,23 +190,23 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AutoSetPublishVersionVersion" BeforeTargets="_DeploymentComputeClickOnceManifestInfo">
-    <Message Text="ApplicationVersion is (probably defined in config file): $(ApplicationVersion)">
+    <Message Text="ApplicationVersion is (probably defined in config file): $(ApplicationVersion)" />
     <GetAssemblyIdentity AssemblyFiles="$(IntermediateOutputPath)$(MSBuildProjectName).exe">
       <Output TaskParameter="Assemblies" ItemName="MainAssemblyInfo" />
     </GetAssemblyIdentity>
     <FormatVersion Version="%(MainAssemblyInfo.Version)">
       <Output PropertyName="ApplicationVersion" TaskParameter="OutputVersion" />
     </FormatVersion>
-    <Message Text="ApplicationVersion dynamically set to $(ApplicationVersion)">
+    <Message Text="ApplicationVersion dynamically set to $(ApplicationVersion)" />
   </Target>
   <Target Name="AutoSetMinimumRequiredVersion" BeforeTargets="GenerateDeploymentManifest">
-    <Message Text="MinimumRequiredVersion is (probably defined in config file): $(MinimumRequiredVersion)">
+    <Message Text="MinimumRequiredVersion is (probably defined in config file): $(MinimumRequiredVersion)" />
     <FormatVersion Version="$(ApplicationVersion)" Revision="$(ApplicationRevision)">
       <Output PropertyName="MinimumRequiredVersion" TaskParameter="OutputVersion" />
     </FormatVersion>
     <FormatVersion Version="$(ApplicationVersion)" Revision="$(ApplicationRevision)">
       <Output PropertyName="_DeploymentBuiltMinimumRequiredVersion" TaskParameter="OutputVersion" />
     </FormatVersion>
-    <Message Text="MinimumRequiredVersion dynamically set to $(MinimumRequiredVersion)">
+    <Message Text="MinimumRequiredVersion dynamically set to $(MinimumRequiredVersion)" />
   </Target>
 </Project>
