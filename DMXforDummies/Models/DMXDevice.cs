@@ -4,25 +4,20 @@ namespace DMXforDummies.Models
 {
     public class DMXDevice
     {
-        private byte _start_channel;
-        private byte _n_channels;
-        private string _type;
-        private string _name;
-
-        public DMXDevice(byte start_channel, byte n_channels, string type, string name)
+        public DMXDevice(byte startChannel, byte nChannels, string type, string name)
         {
-            _start_channel = start_channel;
-            _n_channels = n_channels;
-            _type = type;
-            _name = name;
+            StartChannel = startChannel;
+            NChannels = nChannels;
+            Type = type;
+            Name = name;
         }
 
-        public byte StartChannel { get => _start_channel; }
+        public byte StartChannel { get; }
 
-        public byte Nchannels { get => _n_channels; }
+        public byte NChannels { get; }
 
-        public string Type { get => _type; }
+        public string Type { get; }
 
-        public string Name { get => _name; }
+        public string Name { get; }
     }
 }

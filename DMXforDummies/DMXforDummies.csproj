@@ -68,9 +68,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>DMXforDummies.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -85,14 +89,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    </Page>
     <Compile Include="Models\DMXUniverse.cs" />
     <Compile Include="Models\DMXDeviceGroup.cs" />
     <Compile Include="Models\DMXDevice.cs" />
     <Compile Include="Models\DMXKanalplan.cs" />
+    <Compile Include="SingleInstance.cs" />
     <Compile Include="ViewModels\SetGlobalSceneCommand.cs" />
     <Compile Include="ViewModels\SetGroupSceneCommand.cs" />
     <Compile Include="ViewModels\DelegateCommand.cs" />
