@@ -33,7 +33,7 @@ deploy-to-fs:
     - 'set PATH=%PATH%;C:\Program Files (x86)\MSBuild\14.0\Bin'
   script:
     - net use \\fs\Software %AVAdmin_PW% /user:haus.akademischerverein.de\AVAdmin
-    - msbuild /t:Clean,Rebuild,Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\fs\Software\DMXforDummies\
+    - msbuild /t:Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\fs\Software\DMXforDummies\
   when: manual
   artifacts:
     when: on_success
