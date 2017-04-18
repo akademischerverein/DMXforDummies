@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription("Steuert die Lichtanlage im großen Saal sowie an der Bar.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Akademischer Verein Darmstadt e.V.")]
-[assembly: AssemblyProduct("DMXforDummies")]
+[assembly: AssemblyProduct("DMX for Dummies")]
 [assembly: AssemblyCopyright("Copyright © Akademischer Verein Darmstadt e.V. 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
