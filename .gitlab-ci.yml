@@ -23,6 +23,8 @@ build:
     key: "windows/$CI_PIPELINE_ID"
     paths:
       - packages
+      - DMXforDummies\bin
+      - DMXforDummies\obj
       
 deploy-to-fs:
   stage: deploy
@@ -39,3 +41,5 @@ deploy-to-fs:
     key: "windows/$CI_PIPELINE_ID"
     paths:
       - packages
+      - DMXforDummies\bin
+      - DMXforDummies\obj
