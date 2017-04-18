@@ -35,12 +35,6 @@ deploy-to-fs:
     - net use \\fs\Software %AVAdmin_PW% /user:haus.akademischerverein.de\AVAdmin
     - msbuild /t:Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\fs\Software\DMXforDummies\
   when: manual
-  artifacts:
-    when: on_success
-    paths:
-      - DMXforDummies
-    expire_in: 14 days
-    name: "%CI_BUILD_REF_SLUG%_%CI_BUILD_NAME%_%CI_BUILD_REF%"
   cache:
     key: "windows/$CI_PIPELINE_ID"
     paths:
