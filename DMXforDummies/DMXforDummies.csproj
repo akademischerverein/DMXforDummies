@@ -29,7 +29,7 @@
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -189,6 +189,14 @@
     <None Include="Resources\Logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AutoSetPublishVersionVersion" BeforeTargets="_DeploymentComputeClickOnceManifestInfo">
+    <GetAssemblyIdentity AssemblyFiles="obj\Release\$(MSBuildProjectName).exe">
+     <Output TaskParameter="Assemblies" ItemName="MainAssemblyInfo"/>
+    </GetAssemblyIdentity>
+    <FormatVersion Version="%(MainAssemblyInfo.Version)">
+      <Output PropertyName="ApplicationVersion" TaskParameter="OutputVersion" />
+    </FormatVersion>
+  </Target>
   <Target Name="AutoSetMinimumRequiredVersion" BeforeTargets="GenerateDeploymentManifest">
     <FormatVersion Version="$(ApplicationVersion)" Revision="$(ApplicationRevision)">
       <Output PropertyName="MinimumRequiredVersion" TaskParameter="OutputVersion" />
