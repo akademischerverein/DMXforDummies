@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace DMXforDummies.Models
 {
@@ -25,26 +26,11 @@ namespace DMXforDummies.Models
             AddGroup(grSaalGrp);
         }
 
-        public DMXDeviceGroup Group(string name)
-        {
-            foreach(var g in _groups)
-            {
-                if (g.name == name) {
-                    return g;
-                }
-            }
-            throw new IndexOutOfRangeException();
-        }
+        public DMXDeviceGroup Group(string name) => _groups.First(g => g.Name == name);
 
         public void AddGroup(DMXDeviceGroup group)
         {
-            foreach (var g in _groups)
-            {
-                if (group.name == g.name)
-                {
-                    throw new IndexOutOfRangeException();
-                }
-            }
+            if (_groups.Any(g => g.Name == group.Name)) throw new InvalidOperationException("One Kanalplan can not contain more than one group with the same name");
             _groups.Add(group);
         }
     }

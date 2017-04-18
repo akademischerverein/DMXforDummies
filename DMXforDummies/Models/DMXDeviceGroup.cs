@@ -1,44 +1,25 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace DMXforDummies.Models
 {
     public class DMXDeviceGroup
     {
-        private string _name;
         private readonly ObservableCollection<DMXDevice> _devices = new ObservableCollection<DMXDevice>();
 
         public DMXDeviceGroup(string name)
         {
-            _name = name;
+            Name = name;
         }
 
-        public string name
-        {
-            get { return _name; }
-        }
+        public string Name { get; }
 
-        public DMXDevice Device (string name)
-        {
-            foreach (var d in _devices)
-            {
-                if (d.Name == name)
-                {
-                    return d;
-                }
-            }
-            throw new IndexOutOfRangeException();
-        }
+        public DMXDevice Device(string name) => _devices.First(d => d.Name == name);
 
         public void AddDevice (DMXDevice device)
         {
-            foreach (var d in _devices)
-            {
-                if (device.Name == d.Name)
-                {
-                    throw new IndexOutOfRangeException();
-                }
-            }
+            if (_devices.Any(d => d.Name == device.Name)) throw new InvalidOperationException("One DeviceGroup can not contain more than one Device with the same name.");
             _devices.Add(device);
         }
 
