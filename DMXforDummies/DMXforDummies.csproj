@@ -190,7 +190,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AutoSetPublishVersionVersion" BeforeTargets="_DeploymentComputeClickOnceManifestInfo">
-    <GetAssemblyIdentity AssemblyFiles="obj\Release\$(MSBuildProjectName).exe">
+    <GetAssemblyIdentity AssemblyFiles="$(IntermediateOutputPath)$(MSBuildProjectName).exe">
       <Output TaskParameter="Assemblies" ItemName="MainAssemblyInfo" />
     </GetAssemblyIdentity>
     <FormatVersion Version="%(MainAssemblyInfo.Version)">

@@ -8,6 +8,7 @@ build:
     - 'set PATH=%PATH%;C:\Program Files (x86)\MSBuild\14.0\Bin'
   script:
     - 'C:\multirunner\nuget.exe restore DMXforDummies.sln'
+    - msbuild /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Debug"
     - msbuild /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Release"
   tags:
     - vs2015
@@ -31,6 +32,7 @@ deploy-to-fs:
   before_script:
     - 'set PATH=%PATH%;C:\Program Files (x86)\MSBuild\14.0\Bin'
   script:
+    - net use \\fs\Software %AVAdmin_PW% /user:AVAdmin
     - msbuild /t:Clean,Rebuild,Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\fs\Software\DMXforDummies\
   when: manual
   artifacts:
