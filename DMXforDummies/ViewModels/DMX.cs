@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 using DMXforDummies.Models;
 using System.Threading.Tasks;
@@ -124,6 +125,9 @@ namespace DMXforDummies.ViewModels
 
         private async Task UpdateDMXUniverse()
         {
+#if DEBUG
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
+#endif
             while (true)
             {
                 universe.Commit();
