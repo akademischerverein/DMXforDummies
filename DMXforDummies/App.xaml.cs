@@ -39,6 +39,8 @@ namespace DMXforDummies
         {
             // Handle command line arguments of second instance
 
+            MainWindow.Show();
+
             // Bring window to foreground
             if (MainWindow.WindowState == WindowState.Minimized)
             {

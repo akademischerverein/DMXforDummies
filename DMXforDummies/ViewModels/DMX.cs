@@ -3,6 +3,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DMXforDummies.Models;
 using System.Threading.Tasks;
+using System.Windows;
+using Prism.Commands;
+using static DMXforDummies.Helpers;
 
 namespace DMXforDummies.ViewModels
 {
@@ -11,152 +14,112 @@ namespace DMXforDummies.ViewModels
         private readonly DMXUniverse universe = new DMXUniverse("192.168.0.2", 5120);
         private readonly DMXKanalplan kanalplan = new DMXKanalplan();
         private readonly Task _universe_update_task;
+        private Visibility _windowVisibility;
 
         public DMX()
         {
+            SetRotBlauKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneRotBlau);
+            SetRotBlauGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneRotBlau);
+            SetAllesAusCommand = new SetGlobalSceneCommand(kanalplan, SceneAllesAus);
+            SetKalteFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneKalteFarben);
+            SetKalteFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneKalteFarben);
+            SetWarmeFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneWarmeFarben);
+            SetWarmeFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneWarmeFarben);
+            SetAVFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneAVFarben);
+            SetAVFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneAVFarben);
+            HideWindowCommand = new DelegateCommand(() => WindowVisibility = Visibility.Collapsed);
             _universe_update_task = UpdateDMXUniverse();
         }
 
-        public ICommand SetAVFarbenKlSaalCommand
+        public Visibility WindowVisibility
         {
-            get { return new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneAVFarben); }
+            get { return _windowVisibility; }
+            set { SetField(ref _windowVisibility, value, OnPropertyChanged); }
         }
 
-        public ICommand SetAVFarbenGrSaalCommand
-        {
-            get { return new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneAVFarben); }
-        }
+        public ICommand HideWindowCommand { get; }
 
-        private int SceneAVFarben(DMXDeviceGroup group)
+        public ICommand SetAVFarbenKlSaalCommand { get; }
+
+        public ICommand SetAVFarbenGrSaalCommand { get; }
+
+        public ICommand SetWarmeFarbenKlSaalCommand { get; }
+
+        public ICommand SetWarmeFarbenGrSaalCommand { get; }
+
+        public ICommand SetKalteFarbenKlSaalCommand { get; }
+
+        public ICommand SetKalteFarbenGrSaalCommand { get; }
+
+        public ICommand SetRotBlauKlSaalCommand { get; }
+
+        public ICommand SetRotBlauGrSaalCommand { get; }
+
+        public ICommand SetAllesAusCommand { get; }
+
+        private void SceneAVFarben(DMXDeviceGroup group)
         {
             DMXDevice dev;
             foreach (var name in new string[] { "Bar oben", "Bar unten", "Schattenfuge" })
             {
                 dev = group.Device(name);
-                universe.Set(dev.StartChannel + 0, 255);
-                universe.Set(dev.StartChannel + 1, 0);
-                universe.Set(dev.StartChannel + 2, 0);
+                universe.SetRgb(dev.StartChannel, 255, 0, 0);
             }
             dev = group.Device("Bar weiß");
-            universe.Set(dev.StartChannel + 0, 128);
-            universe.Set(dev.StartChannel + 1, 0);
-            universe.Set(dev.StartChannel + 2, 0);
-
-            return 0;
+            universe.SetRgb(dev.StartChannel, 192, 0, 0);
         }
 
-        public ICommand SetWarmeFarbenKlSaalCommand
-        {
-            get { return new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneWarmeFarben); }
-        }
-
-        public ICommand SetWarmeFarbenGrSaalCommand
-        {
-            get { return new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneWarmeFarben); }
-        }
-
-        private int SceneWarmeFarben(DMXDeviceGroup group)
+        private void SceneWarmeFarben(DMXDeviceGroup group)
         {
             DMXDevice dev;
             foreach (var name in new string[] { "Bar unten", "Schattenfuge" })
             {
                 dev = group.Device(name);
-                universe.Set(dev.StartChannel + 0, 220);
-                universe.Set(dev.StartChannel + 1, 50);
-                universe.Set(dev.StartChannel + 2, 0);
+                universe.SetRgb(dev.StartChannel, 220, 50, 0);
             }
             dev = group.Device("Bar oben");
-            universe.Set(dev.StartChannel + 0, 200);
-            universe.Set(dev.StartChannel + 1, 150);
-            universe.Set(dev.StartChannel + 2, 0);
+            universe.SetRgb(dev.StartChannel, 200, 150, 0);
 
             dev = group.Device("Bar weiß");
-            universe.Set(dev.StartChannel + 0, 0);
-            universe.Set(dev.StartChannel + 1, 0);
-            universe.Set(dev.StartChannel + 2, 0);
-
-            return 0;
+            universe.SetRgb(dev.StartChannel, 0, 0, 0);
         }
 
-        public ICommand SetKalteFarbenKlSaalCommand
-        {
-            get { return new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneKalteFarben); }
-        }
-
-        public ICommand SetKalteFarbenGrSaalCommand
-        {
-            get { return new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneKalteFarben); }
-        }
-
-        private int SceneKalteFarben(DMXDeviceGroup group)
+        private void SceneKalteFarben(DMXDeviceGroup group)
         {
             DMXDevice dev;
             foreach (var name in new string[] { "Bar unten", "Schattenfuge" })
             {
                 dev = group.Device(name);
-                universe.Set(dev.StartChannel + 0, 200);
-                universe.Set(dev.StartChannel + 1, 200);
-                universe.Set(dev.StartChannel + 2, 0);
+                universe.SetRgb(dev.StartChannel, 200, 200, 0);
             }
             dev = group.Device("Bar oben");
-            universe.Set(dev.StartChannel + 0, 0);
-            universe.Set(dev.StartChannel + 1, 200);
-            universe.Set(dev.StartChannel + 2, 200);
+            universe.SetRgb(dev.StartChannel, 0, 200, 200);
 
             dev = group.Device("Bar weiß");
-            universe.Set(dev.StartChannel + 0, 0);
-            universe.Set(dev.StartChannel + 1, 0);
-            universe.Set(dev.StartChannel + 2, 0);
-
-            return 0;
+            universe.SetRgb(dev.StartChannel, 0, 0, 0);
         }
 
-
-        public ICommand SetRotBlauKlSaalCommand
-        {
-            get { return new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneRotBlau); }
-        }
-
-        public ICommand SetRotBlauGrSaalCommand
-        {
-            get { return new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneRotBlau); }
-        }
-
-        private int SceneRotBlau(DMXDeviceGroup group)
+        private void SceneRotBlau(DMXDeviceGroup group)
         {
             DMXDevice dev;
             foreach (var name in new string[] { "Bar unten", "Schattenfuge" })
             {
                 dev = group.Device(name);
-                universe.Set(dev.StartChannel + 0, 255);
-                universe.Set(dev.StartChannel + 1, 0);
-                universe.Set(dev.StartChannel + 2, 0);
+                universe.SetRgb(dev.StartChannel, 255, 0, 0);
             }
             dev = group.Device("Bar oben");
-            universe.Set(dev.StartChannel + 0, 0);
-            universe.Set(dev.StartChannel + 1, 0);
-            universe.Set(dev.StartChannel + 2, 255);
+            universe.SetRgb(dev.StartChannel, 0, 0, 255);
 
             dev = group.Device("Bar weiß");
-            universe.Set(dev.StartChannel + 0, 0);
-            universe.Set(dev.StartChannel + 1, 0);
-            universe.Set(dev.StartChannel + 2, 0);
-
-            return 0;
+            universe.SetRgb(dev.StartChannel, 0, 0, 0);
         }
 
-        public ICommand SetAllesAusCommand
-        {
-            get { return new SetGlobalSceneCommand(kanalplan, SceneAllesAus); }
-        }
-
-        private int SceneAllesAus(DMXKanalplan kanalplan)
+        private void SceneAllesAus(DMXKanalplan kanalplan)
         {
             for (int i = 1; i <= 512; i++)
             {
                 universe.Set(i, 0);
             }
-            return 0;
         }
 
         private async Task UpdateDMXUniverse()

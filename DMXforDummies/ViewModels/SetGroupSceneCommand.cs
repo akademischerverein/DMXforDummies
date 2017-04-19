@@ -7,9 +7,9 @@ namespace DMXforDummies.ViewModels
     public class SetGroupSceneCommand : ICommand
     {
         private readonly DMXDeviceGroup _group;
-        private readonly Func<DMXDeviceGroup,int> _scene;
+        private readonly Action<DMXDeviceGroup> _scene;
 
-        public SetGroupSceneCommand(DMXDeviceGroup group, Func<DMXDeviceGroup, int> scene)
+        public SetGroupSceneCommand(DMXDeviceGroup group, Action<DMXDeviceGroup> scene)
         {
             _group = group;
             _scene = scene;

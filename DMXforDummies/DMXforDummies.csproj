@@ -101,6 +101,10 @@
     <ManifestTimestampUrl>http://timestamp.comodoca.com/</ManifestTimestampUrl>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Remoting" />
@@ -123,6 +127,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Helpers.cs" />
     <Compile Include="Models\DMXUniverse.cs" />
     <Compile Include="Models\DMXDeviceGroup.cs" />
     <Compile Include="Models\DMXDevice.cs" />
@@ -130,7 +135,6 @@
     <Compile Include="SingleInstance.cs" />
     <Compile Include="ViewModels\SetGlobalSceneCommand.cs" />
     <Compile Include="ViewModels\SetGroupSceneCommand.cs" />
-    <Compile Include="ViewModels\DelegateCommand.cs" />
     <Compile Include="ViewModels\DMX.cs" />
     <Compile Include="ViewModels\ObservableObject.cs" />
     <Page Include="MainWindow.xaml">
@@ -165,6 +169,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="DMXforDummies_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
