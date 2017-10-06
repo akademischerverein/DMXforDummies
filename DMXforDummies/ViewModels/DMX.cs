@@ -28,6 +28,8 @@ namespace DMXforDummies.ViewModels
             SetWarmeFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneWarmeFarben);
             SetAVFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneAVFarben);
             SetAVFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneAVFarben);
+            SetAusGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneAus);
+            SetAusKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneAus);
             HideWindowCommand = new DelegateCommand(() => WindowVisibility = Visibility.Collapsed);
             _universe_update_task = UpdateDMXUniverse();
         }
@@ -56,7 +58,23 @@ namespace DMXforDummies.ViewModels
 
         public ICommand SetRotBlauGrSaalCommand { get; }
 
+        public ICommand SetAusKlSaalCommand { get; }
+
+        public ICommand SetAusGrSaalCommand { get; }
+
         public ICommand SetAllesAusCommand { get; }
+
+        private void SceneAus(DMXDeviceGroup group)
+        {
+            DMXDevice dev;
+            foreach (var name in new[] { "Bar oben", "Bar unten", "Schattenfuge" })
+            {
+                dev = group.Device(name);
+                universe.SetRgb(dev.StartChannel, 0, 0, 0);
+            }
+            dev = group.Device("Bar weiß");
+            universe.SetRgb(dev.StartChannel, 0, 0, 0);
+        }
 
         private void SceneAVFarben(DMXDeviceGroup group)
         {
