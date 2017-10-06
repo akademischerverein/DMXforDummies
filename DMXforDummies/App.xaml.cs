@@ -19,19 +19,17 @@ namespace DMXforDummies
         [STAThread]
         public static void Main()
         {
-            if (SingleInstance<App>.InitializeAsFirstInstance(Unique))
+            if (!SingleInstance<App>.InitializeAsFirstInstance(Unique)) return;
+            try
             {
-                try
-                {
-                    var application = new App();
-                    application.InitializeComponent();
-                    application.Run();
-                }
-                finally
-                {
-                    // Allow single instance code to perform cleanup operations
-                    SingleInstance<App>.Cleanup();
-                }
+                var application = new App();
+                application.InitializeComponent();
+                application.Run();
+            }
+            finally
+            {
+                // Allow single instance code to perform cleanup operations
+                SingleInstance<App>.Cleanup();
             }
         }
 
