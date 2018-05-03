@@ -20,7 +20,7 @@ build:
     expire_in: 14 days
     name: "%CI_BUILD_REF_SLUG%_%CI_BUILD_NAME%_%CI_BUILD_REF%"
   cache:
-    key: "windows/$CI_PIPELINE_ID"
+    key: "windows_$CI_PIPELINE_ID"
     paths:
       - packages
       - DMXforDummies\bin
@@ -38,7 +38,7 @@ deploy-to-fs:
     - msbuild /t:Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\fs\Software\DMXforDummies\
   when: manual
   cache:
-    key: "windows/$CI_PIPELINE_ID"
+    key: "windows_$CI_PIPELINE_ID"
     paths:
       - packages
       - DMXforDummies\bin
