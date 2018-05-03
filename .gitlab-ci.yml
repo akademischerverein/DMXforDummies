@@ -2,11 +2,14 @@ stages:
   - build
   - deploy
 
+before_script:
+  - install_choco.bat
+  - choco install vswhere -y
+
 build:
   stage: build
   before_script:
-    - install_choco.bat
-    - choco install nuget.commandline vswhere -y
+    - choco install nuget.commandline -y
   script:
     - nuget restore DMXforDummies.sln
     - msbuild /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Debug"
@@ -32,8 +35,6 @@ deploy-to-fs:
   tags:
     - vs2015
     - windows
-  before_script:
-    - 'set PATH=%PATH%;C:\Program Files (x86)\MSBuild\14.0\Bin'
   script:
     - net use \\fs\Software %AVAdmin_PW% /user:haus.akademischerverein.de\AVAdmin
     - msbuild /t:Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\fs\Software\DMXforDummies\
