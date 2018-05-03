@@ -4,8 +4,11 @@ stages:
 
 build:
   stage: build
+  before_script:
+    - install_choco.bat
+    - choco install nuget.commandline vswhere -y
   script:
-    - 'C:\multirunner\nuget.exe restore DMXforDummies.sln'
+    - nuget restore DMXforDummies.sln
     - msbuild /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Debug"
     - msbuild /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Release"
   tags:
