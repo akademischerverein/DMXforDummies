@@ -9,8 +9,8 @@ build:
     - choco install nuget.commandline vswhere -y
   script:
     - nuget restore DMXforDummies.sln
-    - msbuild /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Debug"
-    - msbuild /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Release"
+    - call msbuild.bat /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Debug"
+    - call msbuild.bat /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Release"
   tags:
     - vs2015
     - windows
@@ -26,7 +26,7 @@ build:
       - packages
       - DMXforDummies\bin
       - DMXforDummies\obj
-      
+
 deploy-to-fs:
   stage: deploy
   tags:
@@ -37,7 +37,7 @@ deploy-to-fs:
     - choco install vswhere -y
   script:
     - net use \\fs\Software %AVAdmin_PW% /user:haus.akademischerverein.de\AVAdmin
-    - msbuild /t:Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\fs\Software\DMXforDummies\
+    - call msbuild.bat /t:Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\fs\Software\DMXforDummies\
   when: manual
   cache:
     key: "windows_$CI_PIPELINE_ID"
