@@ -5,7 +5,7 @@ stages:
 build:
   stage: build
   before_script:
-    - install_choco.bat
+    - call install_choco.bat
     - choco install nuget.commandline vswhere -y
   script:
     - nuget restore DMXforDummies.sln
@@ -33,7 +33,7 @@ deploy-to-fs:
     - vs2015
     - windows
   before_script:
-    - install_choco.bat
+    - call install_choco.bat
     - choco install vswhere -y
   script:
     - net use \\fs\Software %AVAdmin_PW% /user:haus.akademischerverein.de\AVAdmin
