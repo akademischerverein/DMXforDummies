@@ -19,9 +19,9 @@ namespace DMXforDummies.ViewModels
 
         public void Execute(object parameter)
         {
+            _dmx.KlSaalLastCommand = _dmx.SetAusKlSaalCommand;
+            _dmx.GrSaalLastCommand = _dmx.SetAusGrSaalCommand;
             _scene(_kanalplan);
-            _dmx.KlSaalLastCommand = this;
-            _dmx.GrSaalLastCommand = this;
         }
 
         public bool CanExecute(object parameter)

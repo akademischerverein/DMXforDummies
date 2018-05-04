@@ -19,8 +19,6 @@ namespace DMXforDummies.ViewModels
 
         public void Execute(object parameter)
         {
-            _scene(_group);
-
             if (_group.Name.Equals("gr Saal"))
             {
                 _dmx.GrSaalLastCommand = this;
@@ -28,6 +26,8 @@ namespace DMXforDummies.ViewModels
             {
                 _dmx.KlSaalLastCommand = this;
             }
+
+            _scene(_group);
         }
 
         public bool CanExecute(object parameter)
