@@ -1,33 +1,31 @@
 ﻿using DMXforDummies.Models;
 using System;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace DMXforDummies.ViewModels
 {
     public class SetGroupSceneCommand : ICommand
     {
         private readonly DMXDeviceGroup _group;
-        private readonly Action<DMXDeviceGroup> _scene;
         private readonly DMX _dmx;
+        private readonly SaalStatus _saal;
 
-        public SetGroupSceneCommand(DMXDeviceGroup group, Action<DMXDeviceGroup> scene, DMX dmx)
+        public SetGroupSceneCommand(DMXDeviceGroup @group, DMX dmx, Color schattenfuge, Color barOben,
+            Color barUnten, byte barWeiß)
         {
             _group = group;
-            _scene = scene;
             _dmx = dmx;
+            _saal = SaalStatus.Create();
+            _saal.Schattenfuge = schattenfuge;
+            _saal.BarOben = barOben;
+            _saal.BarUnten = barUnten;
+            _saal.BarWeiß = barWeiß;
         }
 
         public void Execute(object parameter)
         {
-            if (_group.Name.Equals("gr Saal"))
-            {
-                _dmx.GrSaalLastCommand = this;
-            } else if (_group.Name.Equals("kl Saal"))
-            {
-                _dmx.KlSaalLastCommand = this;
-            }
-
-            _scene(_group);
+            _dmx.SetSceneRGBFarben(_group, _saal);
         }
 
         public bool CanExecute(object parameter)

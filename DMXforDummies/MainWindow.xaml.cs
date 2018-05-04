@@ -25,6 +25,9 @@ namespace DMXforDummies
         {
             InitializeComponent();
             Title = $"DMX for Dummies {Assembly.GetExecutingAssembly().GetName().Version}";
+            INSTANCE = this;
         }
+
+        public static MainWindow INSTANCE;
     }
 }
