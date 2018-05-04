@@ -8,16 +8,20 @@ namespace DMXforDummies.ViewModels
     {
         private readonly DMXKanalplan _kanalplan;
         private readonly Action<DMXKanalplan> _scene;
+        private readonly DMX _dmx;
 
-        public SetGlobalSceneCommand(DMXKanalplan kanalplan, Action<DMXKanalplan> scene)
+        public SetGlobalSceneCommand(DMXKanalplan kanalplan, Action<DMXKanalplan> scene, DMX dmx)
         {
             _kanalplan = kanalplan;
             _scene = scene;
+            _dmx = dmx;
         }
 
         public void Execute(object parameter)
         {
             _scene(_kanalplan);
+            _dmx.KlSaalLastCommand = this;
+            _dmx.GrSaalLastCommand = this;
         }
 
         public bool CanExecute(object parameter)

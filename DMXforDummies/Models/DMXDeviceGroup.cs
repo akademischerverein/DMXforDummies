@@ -11,9 +11,12 @@ namespace DMXforDummies.Models
         public DMXDeviceGroup(string name)
         {
             Name = name;
+            Dimmer = 1.0f;
         }
 
         public string Name { get; }
+
+        public float Dimmer { get; set; }
 
         public DMXDevice Device(string name) => _devices.First(d => d.Name == name);
 

@@ -19,17 +19,19 @@ namespace DMXforDummies.ViewModels
 
         public DMX()
         {
-            SetRotBlauKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneRotBlau);
-            SetRotBlauGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneRotBlau);
-            SetAllesAusCommand = new SetGlobalSceneCommand(kanalplan, SceneAllesAus);
-            SetKalteFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneKalteFarben);
-            SetKalteFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneKalteFarben);
-            SetWarmeFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneWarmeFarben);
-            SetWarmeFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneWarmeFarben);
-            SetAVFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneAVFarben);
-            SetAVFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneAVFarben);
-            SetAusGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneAus);
-            SetAusKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneAus);
+            SetRotBlauKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneRotBlau, this);
+            SetRotBlauGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneRotBlau, this);
+            SetAllesAusCommand = new SetGlobalSceneCommand(kanalplan, SceneAllesAus, this);
+            SetKalteFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneKalteFarben, this);
+            SetKalteFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneKalteFarben, this);
+            SetWarmeFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneWarmeFarben, this);
+            SetWarmeFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneWarmeFarben, this);
+            SetAVFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneAVFarben, this);
+            SetAVFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneAVFarben, this);
+            SetRGBKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneRGBFarben, this);
+            SetRGBGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneRGBFarben, this);
+            SetAusGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), SceneAus, this);
+            SetAusKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), SceneAus, this);
             HideWindowCommand = new DelegateCommand(() => WindowVisibility = Visibility.Collapsed);
             _universe_update_task = UpdateDMXUniverse();
         }
@@ -58,11 +60,39 @@ namespace DMXforDummies.ViewModels
 
         public ICommand SetRotBlauGrSaalCommand { get; }
 
+        public ICommand SetRGBKlSaalCommand { get; }
+
+        public ICommand SetRGBGrSaalCommand { get; }
+
         public ICommand SetAusKlSaalCommand { get; }
 
         public ICommand SetAusGrSaalCommand { get; }
 
         public ICommand SetAllesAusCommand { get; }
+
+        public ICommand KlSaalLastCommand { get; set; }
+
+        public ICommand GrSaalLastCommand { get; set; }
+
+        public float SetDimmKlSaalCommand
+        {
+            get { return kanalplan.Group("kl Saal").Dimmer; }
+            set
+            {
+                kanalplan.Group("kl Saal").Dimmer = value;
+                KlSaalLastCommand.Execute(null);
+            }
+        }
+
+        public float SetDimmGrSaalCommand
+        {
+            get { return kanalplan.Group("gr Saal").Dimmer; }
+            set
+            {
+                kanalplan.Group("gr Saal").Dimmer = value;
+                GrSaalLastCommand.Execute(null);
+            }
+        }
 
         private void SceneAus(DMXDeviceGroup group)
         {
@@ -70,10 +100,10 @@ namespace DMXforDummies.ViewModels
             foreach (var name in new[] { "Bar oben", "Bar unten", "Schattenfuge" })
             {
                 dev = group.Device(name);
-                universe.SetRgb(dev.StartChannel, 0, 0, 0);
+                universe.SetRgb(dev.StartChannel, 0, 0, 0, group);
             }
             dev = group.Device("Bar weiß");
-            universe.SetRgb(dev.StartChannel, 0, 0, 0);
+            universe.SetRgb(dev.StartChannel, 0, 0, 0, group);
         }
 
         private void SceneAVFarben(DMXDeviceGroup group)
@@ -82,10 +112,10 @@ namespace DMXforDummies.ViewModels
             foreach (var name in new string[] { "Bar oben", "Bar unten", "Schattenfuge" })
             {
                 dev = group.Device(name);
-                universe.SetRgb(dev.StartChannel, 255, 0, 0);
+                universe.SetRgb(dev.StartChannel, 255, 0, 0, group);
             }
             dev = group.Device("Bar weiß");
-            universe.SetRgb(dev.StartChannel, 192, 0, 0);
+            universe.SetRgb(dev.StartChannel, 192, 0, 0, group);
         }
 
         private void SceneWarmeFarben(DMXDeviceGroup group)
@@ -94,13 +124,13 @@ namespace DMXforDummies.ViewModels
             foreach (var name in new string[] { "Bar unten", "Schattenfuge" })
             {
                 dev = group.Device(name);
-                universe.SetRgb(dev.StartChannel, 220, 50, 0);
+                universe.SetRgb(dev.StartChannel, 220, 50, 0, group);
             }
             dev = group.Device("Bar oben");
-            universe.SetRgb(dev.StartChannel, 200, 150, 0);
+            universe.SetRgb(dev.StartChannel, 200, 150, 0, group);
 
             dev = group.Device("Bar weiß");
-            universe.SetRgb(dev.StartChannel, 0, 0, 0);
+            universe.SetRgb(dev.StartChannel, 0, 0, 0, group);
         }
 
         private void SceneKalteFarben(DMXDeviceGroup group)
@@ -109,13 +139,13 @@ namespace DMXforDummies.ViewModels
             foreach (var name in new string[] { "Bar unten", "Schattenfuge" })
             {
                 dev = group.Device(name);
-                universe.SetRgb(dev.StartChannel, 200, 200, 0);
+                universe.SetRgb(dev.StartChannel, 200, 200, 0, group);
             }
             dev = group.Device("Bar oben");
-            universe.SetRgb(dev.StartChannel, 0, 200, 200);
+            universe.SetRgb(dev.StartChannel, 0, 200, 200, group);
 
             dev = group.Device("Bar weiß");
-            universe.SetRgb(dev.StartChannel, 0, 0, 0);
+            universe.SetRgb(dev.StartChannel, 0, 0, 0, group);
         }
 
         private void SceneRotBlau(DMXDeviceGroup group)
@@ -124,13 +154,29 @@ namespace DMXforDummies.ViewModels
             foreach (var name in new string[] { "Bar unten", "Schattenfuge" })
             {
                 dev = group.Device(name);
-                universe.SetRgb(dev.StartChannel, 255, 0, 0);
+                universe.SetRgb(dev.StartChannel, 255, 0, 0, group);
             }
             dev = group.Device("Bar oben");
-            universe.SetRgb(dev.StartChannel, 0, 0, 255);
+            universe.SetRgb(dev.StartChannel, 0, 0, 255, group);
 
             dev = group.Device("Bar weiß");
-            universe.SetRgb(dev.StartChannel, 0, 0, 0);
+            universe.SetRgb(dev.StartChannel, 0, 0, 0, group);
+        }
+
+        private void SceneRGBFarben(DMXDeviceGroup group)
+        {
+            DMXDevice dev;
+            dev = group.Device("Schattenfuge");
+            universe.SetRgb(dev.StartChannel, 0, 0, 255, group);
+
+            dev = group.Device("Bar oben");
+            universe.SetRgb(dev.StartChannel, 0, 255, 0, group);
+
+            dev = group.Device("Bar unten");
+            universe.SetRgb(dev.StartChannel, 255, 0, 0, group);
+
+            dev = group.Device("Bar weiß");
+            universe.SetRgb(dev.StartChannel, 0, 0, 0, group);
         }
 
         private void SceneAllesAus(DMXKanalplan kanalplan)

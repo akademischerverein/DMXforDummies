@@ -8,16 +8,26 @@ namespace DMXforDummies.ViewModels
     {
         private readonly DMXDeviceGroup _group;
         private readonly Action<DMXDeviceGroup> _scene;
+        private readonly DMX _dmx;
 
-        public SetGroupSceneCommand(DMXDeviceGroup group, Action<DMXDeviceGroup> scene)
+        public SetGroupSceneCommand(DMXDeviceGroup group, Action<DMXDeviceGroup> scene, DMX dmx)
         {
             _group = group;
             _scene = scene;
+            _dmx = dmx;
         }
 
         public void Execute(object parameter)
         {
             _scene(_group);
+
+            if (_group.Name.Equals("gr Saal"))
+            {
+                _dmx.GrSaalLastCommand = this;
+            } else if (_group.Name.Equals("kl Saal"))
+            {
+                _dmx.KlSaalLastCommand = this;
+            }
         }
 
         public bool CanExecute(object parameter)
