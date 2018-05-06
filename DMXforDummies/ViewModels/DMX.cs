@@ -36,6 +36,17 @@ namespace DMXforDummies.ViewModels
             HideWindowCommand = new DelegateCommand(() => WindowVisibility = Visibility.Collapsed);
             _universe_update_task = UpdateDMXUniverse();
 
+            SetLicht1AnCommand = new DelegateCommand(() => { universe.Set(49, 255); });
+            SetLicht2AnCommand = new DelegateCommand(() => { universe.Set(53, 255); });
+            SetLicht3AnCommand = new DelegateCommand(() => { universe.Set(57, 255); });
+            SetLicht4AnCommand = new DelegateCommand(() => { universe.Set(61, 255); });
+            SetLicht5AnCommand = new DelegateCommand(() => { universe.Set(81, 255); universe.Set(82, 255); });
+            SetLicht6AnCommand = new DelegateCommand(() => { universe.Set(85, 255); universe.Set(86, 255); });
+            SetLicht7AnCommand = new DelegateCommand(() => { universe.Set(89, 255); universe.Set(90, 255); });
+            SetLicht8AnCommand = new DelegateCommand(() => { universe.Set(93, 255); universe.Set(94, 255); });
+
+            SetRelaisAnCommand = new DelegateCommand(() => {universe.Set(1, 255);universe.Set(5, 255);});
+
             klSaal = SaalStatus.Create();
             grSaal = SaalStatus.Create();
         }
@@ -73,6 +84,16 @@ namespace DMXforDummies.ViewModels
         public ICommand SetAusGrSaalCommand { get; }
 
         public ICommand SetAllesAusCommand { get; }
+        
+        public ICommand SetLicht1AnCommand { get; }
+        public ICommand SetLicht2AnCommand { get; }
+        public ICommand SetLicht3AnCommand { get; }
+        public ICommand SetLicht4AnCommand { get; }
+        public ICommand SetLicht5AnCommand { get; }
+        public ICommand SetLicht6AnCommand { get; }
+        public ICommand SetLicht7AnCommand { get; }
+        public ICommand SetLicht8AnCommand { get; }
+        public ICommand SetRelaisAnCommand { get; }
 
         public float SetDimmKlSaalCommand
         {
