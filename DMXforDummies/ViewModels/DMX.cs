@@ -147,16 +147,16 @@ namespace DMXforDummies.ViewModels
             }
 
             dev = group.Device("Schattenfuge");
-            universe.SetRgb(dev.StartChannel, saal.Schattenfuge.R, saal.Schattenfuge.G, saal.Schattenfuge.B, group);
+            universe.SetValues(dev.StartChannel, group, saal.Schattenfuge.R, saal.Schattenfuge.G, saal.Schattenfuge.B);
 
             dev = group.Device("Bar oben");
-            universe.SetRgb(dev.StartChannel, saal.BarOben.R, saal.BarOben.G, saal.BarOben.B, group);
+            universe.SetValues(dev.StartChannel, group, saal.BarOben.R, saal.BarOben.G, saal.BarOben.B);
 
             dev = group.Device("Bar unten");
-            universe.SetRgb(dev.StartChannel, saal.BarUnten.R, saal.BarUnten.G, saal.BarUnten.B, group);
+            universe.SetValues(dev.StartChannel, group, saal.BarUnten.R, saal.BarUnten.G, saal.BarUnten.B);
 
             dev = group.Device("Bar weiß");
-            universe.SetRgb(dev.StartChannel, saal.BarWeiß, 0, 0, group);
+            universe.SetValues(dev.StartChannel, group, saal.BarWeiß, 0, 0);
 
             UpdateBrushes();
         }

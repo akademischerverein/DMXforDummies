@@ -27,11 +27,12 @@ namespace DMXforDummies
             return true;
         }
 
-        public static void SetRgb(this DMXUniverse universe, int firstChannel, byte r, byte g, byte b, DMXDeviceGroup group)
+        public static void SetValues(this DMXUniverse universe, int firstChannel, DMXDeviceGroup group, params byte[] values)
         {
-            universe.Set(firstChannel, (byte) (r * group.Dimmer));
-            universe.Set(firstChannel + 1, (byte) (g * group.Dimmer));
-            universe.Set(firstChannel + 2, (byte) (b * group.Dimmer));
+            for (int i = 0; i < values.Length; ++i)
+            {
+                universe.Set(firstChannel+i, (byte) (values[i] * group.Dimmer));
+            }
         }
     }
 }
