@@ -146,8 +146,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorDialog.xaml.cs">
-      <DependentUpon>ColorDialog.xaml</DependentUpon>
+    <Compile Include="ColorBarDialog.xaml.cs">
+      <DependentUpon>ColorBarDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ColorSaalDialog.xaml.cs">
+      <DependentUpon>ColorSaalDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -176,7 +179,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ColorDialog.xaml">
+    <Page Include="ColorBarDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ColorSaalDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

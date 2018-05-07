@@ -154,7 +154,7 @@ namespace DMXforDummies.ViewModels
 
         private void SelectBarFarben(DMXDeviceGroup group)
         {
-            ColorDialog dialog = new ColorDialog();
+            ColorBarDialog dialog = new ColorBarDialog();
 
             if (group.Name.Equals("kl Saal"))
             {
@@ -190,6 +190,52 @@ namespace DMXforDummies.ViewModels
             groupStatus.Identifiers[3].R = (byte) (dialog.barWeiß.Value * 255);
 
             SetSceneRGBFarben(group, groupStatus, BarDevices);
+        }
+
+        private void SelectSaalFarben(DMXDeviceGroup group)
+        {
+            ColorSaalDialog dialog = new ColorSaalDialog();
+            string[] devices = null;
+
+            if (group.Name.Equals("Bühne"))
+            {
+                dialog.colorOne.SelectedColor = buehne.Identifiers[0];
+                dialog.colorTwo.SelectedColor = buehne.Identifiers[1];
+                dialog.colorThree.SelectedColor = buehne.Identifiers[2];
+                dialog.colorFour.SelectedColor = buehne.Identifiers[3];
+
+                devices = BuehneDevices;
+            }
+            else if (group.Name.Equals("LED Kanne Saal"))
+            {
+                dialog.colorOne.SelectedColor = ledSaal.Identifiers[0];
+                dialog.colorTwo.SelectedColor = ledSaal.Identifiers[1];
+                dialog.colorThree.SelectedColor = ledSaal.Identifiers[2];
+                dialog.colorFour.SelectedColor = ledSaal.Identifiers[3];
+
+                devices = SaalDevices;
+            }
+
+            if (devices == null || dialog.ShowDialog() == false)
+            {
+                return;
+            }
+
+            if (!dialog.colorOne.SelectedColor.HasValue ||
+                !dialog.colorTwo.SelectedColor.HasValue ||
+                !dialog.colorThree.SelectedColor.HasValue ||
+                !dialog.colorFour.SelectedColor.HasValue)
+            {
+                return;
+            }
+
+            GroupStatus groupStatus = GroupStatus.Create(4);
+            groupStatus.Identifiers[0] = dialog.colorOne.SelectedColor.Value;
+            groupStatus.Identifiers[1] = dialog.colorTwo.SelectedColor.Value;
+            groupStatus.Identifiers[2] = dialog.colorThree.SelectedColor.Value;
+            groupStatus.Identifiers[3] = dialog.colorFour.SelectedColor.Value;
+
+            SetSceneRGBFarben(group, groupStatus, devices);
         }
 
         public void SetSceneRGBFarben(DMXDeviceGroup group, GroupStatus groupStatus, string[] devices)
