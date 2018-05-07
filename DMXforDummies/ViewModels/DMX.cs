@@ -58,11 +58,6 @@ namespace DMXforDummies.ViewModels
             grSaalBar = GroupStatus.Create(4);
             buehne = GroupStatus.Create(4);
             ledSaal = GroupStatus.Create(4);
-
-            kanalplan.Group("kl Saal").Dimmer = (float) MainWindow.INSTANCE.SldrKlSaalDimm.Maximum;
-            kanalplan.Group("gr Saal").Dimmer = (float)MainWindow.INSTANCE.SldrGrSaalDimm.Maximum;
-            kanalplan.Group("Bühne").Dimmer = (float)MainWindow.INSTANCE.SldrBühneDimm.Maximum;
-            kanalplan.Group("LED Kanne Saal").Dimmer = (float)MainWindow.INSTANCE.SldrSaalDimm.Maximum;
         }
 
         public Visibility WindowVisibility

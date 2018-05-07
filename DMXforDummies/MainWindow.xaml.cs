@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DMXforDummies.ViewModels;
 
 namespace DMXforDummies
 {
@@ -23,9 +24,14 @@ namespace DMXforDummies
     {
         public MainWindow()
         {
+            INSTANCE = this;
             InitializeComponent();
             Title = $"DMX for Dummies {Assembly.GetExecutingAssembly().GetName().Version}";
-            INSTANCE = this;
+            
+            foreach (var slider in new Slider[] {SldrKlSaalDimm, SldrGrSaalDimm, SldrBühneDimm, SldrSaalDimm})
+            {
+                slider.Value = slider.Maximum;
+            }
         }
 
         public static MainWindow INSTANCE;
