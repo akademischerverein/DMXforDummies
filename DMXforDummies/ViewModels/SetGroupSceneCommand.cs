@@ -10,22 +10,26 @@ namespace DMXforDummies.ViewModels
         private readonly DMXDeviceGroup _group;
         private readonly DMX _dmx;
         private readonly SaalStatus _saal;
+        private readonly string[] _devices;
 
-        public SetGroupSceneCommand(DMXDeviceGroup @group, DMX dmx, Color schattenfuge, Color barOben,
-            Color barUnten, byte barWeiß)
+        public static readonly string[] BarDevices = new string[]{ "Schattenfuge", "Bar oben", "Bar unten", "Bar weiß" };
+
+        public SetGroupSceneCommand(DMXDeviceGroup group, DMX dmx, string[] devices, params Color[] colors)
         {
             _group = group;
             _dmx = dmx;
-            _saal = SaalStatus.Create();
-            _saal.Schattenfuge = schattenfuge;
-            _saal.BarOben = barOben;
-            _saal.BarUnten = barUnten;
-            _saal.BarWeiß = barWeiß;
+            _saal = SaalStatus.Create(devices.Length);
+            _devices = devices;
+
+            for (int i = 0; i < devices.Length; ++i)
+            {
+                _saal.Identifiers[i] = colors[i];
+            }
         }
 
         public void Execute(object parameter)
         {
-            _dmx.SetSceneRGBFarben(_group, _saal);
+            _dmx.SetSceneRGBFarben(_group, _saal, _devices);
         }
 
         public bool CanExecute(object parameter)

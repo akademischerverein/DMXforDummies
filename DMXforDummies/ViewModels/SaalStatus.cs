@@ -4,18 +4,18 @@ namespace DMXforDummies.ViewModels
 {
     public struct SaalStatus
     {
-        public Color Schattenfuge;
-        public Color BarOben;
-        public Color BarUnten;
-        public byte BarWeiß;
+        public Color[] Identifiers;
 
-        public static SaalStatus Create()
+        public static SaalStatus Create(int ids)
         {
             SaalStatus s;
-            s.Schattenfuge = Color.FromRgb(0, 0, 0);
-            s.BarOben = Color.FromRgb(0, 0, 0);
-            s.BarUnten = Color.FromRgb(0, 0, 0);
-            s.BarWeiß = 0;
+            s.Identifiers = new Color[ids];
+
+            for (int i = 0; i < ids; ++i)
+            {
+                s.Identifiers[i] = Color.FromRgb(0, 0, 0);
+            }
+
             return s;
         }
     }
