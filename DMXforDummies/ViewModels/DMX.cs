@@ -8,6 +8,7 @@ using System.Windows;
 using Prism.Commands;
 using static DMXforDummies.Helpers;
 using static DMXforDummies.ViewModels.SetGroupSceneCommand;
+using static DMXforDummies.ColorSaalDialog;
 
 namespace DMXforDummies.ViewModels
 {
@@ -200,11 +201,12 @@ namespace DMXforDummies.ViewModels
 
         private void SelectSaalFarben(DMXDeviceGroup group)
         {
-            ColorSaalDialog dialog = new ColorSaalDialog();
+            ColorSaalDialog dialog = null;
             string[] devices = null;
 
             if (group.Name.Equals("Bühne"))
             {
+                dialog = new ColorSaalDialog(CaptionBuehne);
                 dialog.colorOne.SelectedColor = buehne.Identifiers[0];
                 dialog.colorTwo.SelectedColor = buehne.Identifiers[1];
                 dialog.colorThree.SelectedColor = buehne.Identifiers[2];
@@ -214,6 +216,7 @@ namespace DMXforDummies.ViewModels
             }
             else if (group.Name.Equals("LED Kanne Saal"))
             {
+                dialog = new ColorSaalDialog(CaptionSaal);
                 dialog.colorOne.SelectedColor = ledSaal.Identifiers[0];
                 dialog.colorTwo.SelectedColor = ledSaal.Identifiers[1];
                 dialog.colorThree.SelectedColor = ledSaal.Identifiers[2];

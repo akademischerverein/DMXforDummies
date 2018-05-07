@@ -19,11 +19,19 @@ namespace DMXforDummies
     /// </summary>
     public partial class ColorSaalDialog : Window
     {
-        public ColorSaalDialog()
+        public static readonly string[] CaptionBuehne = new string[] {"Links", "Halblinks", "Halbrechts", "Rechts"};
+        public static readonly string[] CaptionSaal = new string[] {"Hinten rechts", "Vorne rechts", "Vorne links", "Hinten links"};
+
+        public ColorSaalDialog(string[] captions)
         {
             InitializeComponent();
 
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            lblOne.Content = captions[0];
+            lblTwo.Content = captions[1];
+            lblThree.Content = captions[2];
+            lblFour.Content = captions[3];
         }
 
         private void DialogFinish(object sender, RoutedEventArgs e)

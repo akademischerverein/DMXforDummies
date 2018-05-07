@@ -8,13 +8,13 @@
         mc:Ignorable="d"
         Title="Farben auswählen..." Height="210" Width="449">
     <Grid>
-        <Label Content="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.421,0.462"/>
+        <Label x:Name="lblOne" Content="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.421,0.462"/>
         <xctk:ColorPicker x:Name="colorOne"  VerticalAlignment="Top" Margin="115,14,10,0"/>
-        <Label Content="2" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.229,0.577"/>
+        <Label x:Name="lblTwo" Content="2" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.229,0.577"/>
         <xctk:ColorPicker x:Name="colorTwo" VerticalAlignment="Top" Margin="115,45,10,0"/>
-        <Label Content="3" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblThree" Content="3" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
         <xctk:ColorPicker x:Name="colorThree" VerticalAlignment="Top" Margin="115,76,10,0"/>
-        <Label Content="4" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblFour" Content="4" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top"/>
         <xctk:ColorPicker x:Name="colorFour" VerticalAlignment="Top" Margin="115,103,10,0"/>
         <Button Content="OK" Click="DialogFinish" HorizontalAlignment="Left" Margin="10,142,0,0" VerticalAlignment="Top" Width="199"/>
         <Button Content="Cancel" Click="DialogFinish"  HorizontalAlignment="Left" Margin="231,139,0,0" VerticalAlignment="Top" Width="200"/>

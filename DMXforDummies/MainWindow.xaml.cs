@@ -27,11 +27,11 @@ namespace DMXforDummies
             INSTANCE = this;
             InitializeComponent();
             Title = $"DMX for Dummies {Assembly.GetExecutingAssembly().GetName().Version}";
-            
-            foreach (var slider in new Slider[] {SldrKlSaalDimm, SldrGrSaalDimm, SldrBühneDimm, SldrSaalDimm})
-            {
-                slider.Value = slider.Maximum;
-            }
+
+            SldrKlSaalDimm.Value = SldrKlSaalDimm.Maximum;
+            SldrGrSaalDimm.Value = SldrGrSaalDimm.Maximum;
+            SldrBühneDimm.Value = SldrBühneDimm.Maximum;
+            SldrSaalDimm.Value = SldrSaalDimm.Maximum;
         }
 
         public static MainWindow INSTANCE;
