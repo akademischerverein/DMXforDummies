@@ -48,7 +48,7 @@ namespace DMXforDummies.ViewModels
             SelectRGBBuehneCommand = new DelegateCommand(() => SelectSaalFarben(kanalplan.Group("Bühne")));
             SetAusBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
 
-            SetRotSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0));
+            SetBuntSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 0, 255), Color.FromRgb(175, 175, 0));
             SetGruenSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0));
             SetBlauSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255));
             SetGelbSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0));
@@ -107,7 +107,7 @@ namespace DMXforDummies.ViewModels
 
         public ICommand SetAusBuehneCommand { get; }
 
-        public ICommand SetRotSaalCommand { get; }
+        public ICommand SetBuntSaalCommand { get; }
 
         public ICommand SetGruenSaalCommand { get; }
 
@@ -317,6 +317,16 @@ namespace DMXforDummies.ViewModels
             MainWindow.INSTANCE.ColorGrSaalSchattenfuge.Background = new SolidColorBrush(grSaalBar.Identifiers[0]);
             MainWindow.INSTANCE.ColorGrSaalBarOben.Background = new SolidColorBrush(grSaalBar.Identifiers[1]);
             MainWindow.INSTANCE.ColorGrSaalBarUnten.Background = new SolidColorBrush(grSaalBar.Identifiers[2]);
+
+            MainWindow.INSTANCE.ColorBühneLinks.Background = new SolidColorBrush(buehne.Identifiers[0]);
+            MainWindow.INSTANCE.ColorBühneHalblinks.Background = new SolidColorBrush(buehne.Identifiers[1]);
+            MainWindow.INSTANCE.ColorBühneHalbrechts.Background = new SolidColorBrush(buehne.Identifiers[2]);
+            MainWindow.INSTANCE.ColorBühneRechts.Background = new SolidColorBrush(buehne.Identifiers[3]);
+
+            MainWindow.INSTANCE.ColorSaalHintenRechts.Background = new SolidColorBrush(ledSaal.Identifiers[0]);
+            MainWindow.INSTANCE.ColorSaalVorneRechts.Background = new SolidColorBrush(ledSaal.Identifiers[1]);
+            MainWindow.INSTANCE.ColorSaalsVorneLinks.Background = new SolidColorBrush(ledSaal.Identifiers[2]);
+            MainWindow.INSTANCE.ColorSaalHintenLinks.Background = new SolidColorBrush(ledSaal.Identifiers[3]);
         }
 
         private void SceneAllesAus(DMXKanalplan kanalplan)

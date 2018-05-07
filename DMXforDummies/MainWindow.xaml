@@ -65,13 +65,14 @@
             <Button x:Name="BtnBühneAus" Background="DarkGray" Command="{Binding SetAusBuehneCommand}" Content="Aus" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/>
             <Slider x:Name="SldrBühneDimm" Value="{Binding SetDimmBuehneCommand, Mode=TwoWay}" Margin="0,280,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" Maximum="0.66" SmallChange="0.01"/>
-            <!--<Label x:Name="ColorGrSaalSchattenfuge" Content="" HorizontalAlignment="Left" Margin="64,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
-            <Label x:Name="ColorGrSaalBarOben" Content="" HorizontalAlignment="Left" Margin="85,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
-            <Label x:Name="ColorGrSaalBarUnten" Content="" HorizontalAlignment="Left" Margin="106,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>-->
+            <Label x:Name="ColorBühneLinks" Content="" HorizontalAlignment="Left" Margin="55,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
+            <Label x:Name="ColorBühneHalblinks" Content="" HorizontalAlignment="Left" Margin="76,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
+            <Label x:Name="ColorBühneHalbrechts" Content="" HorizontalAlignment="Left" Margin="97,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
+            <Label x:Name="ColorBühneRechts" Content="" HorizontalAlignment="Left" Margin="118,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
         </Grid>
         <Grid HorizontalAlignment="Left" Width="198" Height="315" VerticalAlignment="Top" Grid.Column="3" Grid.Row="1">
             <TextBlock HorizontalAlignment="Center" Margin="0,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="gr"/><Run Text=". Saal"/></TextBlock>
-            <Button x:Name="BtnSaalBunt" Command="{Binding SetRotSaalCommand}" Content="Bunt" Margin="0,52,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
+            <Button x:Name="BtnSaalBunt" Command="{Binding SetBuntSaalCommand}" Content="Bunt" Margin="0,52,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
             <Button x:Name="BtnSaalGrün" Command="{Binding SetGruenSaalCommand}" Content="Schema 2" Margin="0,87,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
             <Button x:Name="BtnSaalBlau" Command="{Binding SetBlauSaalCommand}" Content="Schema 3" Margin="0,122,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
             <Button x:Name="BtnSaalGelb" Command="{Binding SetGelbSaalCommand}" Content="Schema 4" Margin="0,157,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
@@ -79,9 +80,10 @@
             <Button x:Name="BtnSaalAus" Background="DarkGray" Command="{Binding SetAusSaalCommand}" Content="Aus" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/>
             <Slider x:Name="SldrSaalDimm" Value="{Binding SetDimmLEDSaalCommand, Mode=TwoWay}" Margin="0,280,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" Maximum="1" SmallChange="0.01"/>
-            <!--<Label x:Name="ColorGrSaalSchattenfuge" Content="" HorizontalAlignment="Left" Margin="64,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
-            <Label x:Name="ColorGrSaalBarOben" Content="" HorizontalAlignment="Left" Margin="85,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
-            <Label x:Name="ColorGrSaalBarUnten" Content="" HorizontalAlignment="Left" Margin="106,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>-->
+            <Label x:Name="ColorSaalHintenLinks" Content="" HorizontalAlignment="Left" Margin="55,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
+            <Label x:Name="ColorSaalsVorneLinks" Content="" HorizontalAlignment="Left" Margin="76,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
+            <Label x:Name="ColorSaalVorneRechts" Content="" HorizontalAlignment="Left" Margin="97,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
+            <Label x:Name="ColorSaalHintenRechts" Content="" HorizontalAlignment="Left" Margin="118,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
         </Grid>
         <Button Command="{Binding SetAllesAusCommand}" Content="Licht AUS" Margin="12,0,12,12"
                 FontWeight="Bold" Background="Red" BorderBrush="Black" FontSize="18"
