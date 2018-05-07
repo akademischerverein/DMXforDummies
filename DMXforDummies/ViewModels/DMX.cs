@@ -20,6 +20,7 @@ namespace DMXforDummies.ViewModels
         private GroupStatus klSaalBar;
         private GroupStatus grSaalBar;
         private GroupStatus buehne;
+        private GroupStatus ledSaal;
         
         public DMX()
         {
@@ -45,9 +46,16 @@ namespace DMXforDummies.ViewModels
             SetGelbBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0));
             SetAusBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
 
+            SetRotSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0));
+            SetGruenSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0));
+            SetBlauSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255));
+            SetGelbSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0));
+            SetAusSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
+
             klSaalBar = GroupStatus.Create(4);
             grSaalBar = GroupStatus.Create(4);
             buehne = GroupStatus.Create(4);
+            ledSaal = GroupStatus.Create(4);
         }
 
         public Visibility WindowVisibility
@@ -94,6 +102,16 @@ namespace DMXforDummies.ViewModels
 
         public ICommand SetAusBuehneCommand { get; }
 
+        public ICommand SetRotSaalCommand { get; }
+
+        public ICommand SetGruenSaalCommand { get; }
+
+        public ICommand SetBlauSaalCommand { get; }
+
+        public ICommand SetGelbSaalCommand { get; }
+
+        public ICommand SetAusSaalCommand { get; }
+
         public float SetDimmKlSaalCommand
         {
             get { return kanalplan.Group("kl Saal").Dimmer; }
@@ -121,6 +139,16 @@ namespace DMXforDummies.ViewModels
             {
                 kanalplan.Group("Bühne").Dimmer = value;
                 SetSceneRGBFarben(kanalplan.Group("Bühne"), buehne, BuehneDevices);
+            }
+        }
+
+        public float SetDimmLEDSaalCommand
+        {
+            get { return kanalplan.Group("LED Kanne Saal").Dimmer; }
+            set
+            {
+                kanalplan.Group("LED Kanne Saal").Dimmer = value;
+                SetSceneRGBFarben(kanalplan.Group("LED Kanne Saal"), ledSaal, SaalDevices);
             }
         }
 
@@ -187,9 +215,22 @@ namespace DMXforDummies.ViewModels
                     universe.Set(kanalplan.Group("Feststrom").Device("Türseite 1").StartChannel, 0);
                     universe.Set(kanalplan.Group("Feststrom").Device("Kammerseite 1").StartChannel, 0);
                 }*/
+            } else if (group.Name.Equals("LED Kanne Saal"))
+            {
+                ledSaal = groupStatus;
+                if (groupStatus.Identifiers.Any((color) => !color.Equals(Color.FromRgb(0, 0, 0))))
+                 {
+                     universe.Set(kanalplan.Group("Feststrom").Device("Türseite 1").StartChannel, 255);
+                     universe.Set(kanalplan.Group("Feststrom").Device("Kammerseite 1").StartChannel, 255);
+                 }
+                 else
+                 {
+                     universe.Set(kanalplan.Group("Feststrom").Device("Türseite 1").StartChannel, 0);
+                     universe.Set(kanalplan.Group("Feststrom").Device("Kammerseite 1").StartChannel, 0);
+                 }
             }
 
-            for(int i=0; i<devices.Length; ++i)
+            for (int i=0; i<devices.Length; ++i)
             {
                 dev = group.Device(devices[i]);
 
@@ -202,6 +243,9 @@ namespace DMXforDummies.ViewModels
 
                     case "DRGB":
                         universe.SetValues(dev.StartChannel, group, groupStatus.Identifiers[i].A, groupStatus.Identifiers[i].R, groupStatus.Identifiers[i].G, groupStatus.Identifiers[i].B);
+                        break;
+                    case "RGBW":
+                        universe.SetValues(dev.StartChannel, group, groupStatus.Identifiers[i].R, groupStatus.Identifiers[i].G, groupStatus.Identifiers[i].B, 0);
                         break;
                 }
             }

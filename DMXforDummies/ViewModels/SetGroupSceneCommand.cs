@@ -14,6 +14,7 @@ namespace DMXforDummies.ViewModels
 
         public static readonly string[] BarDevices = new string[]{ "Schattenfuge", "Bar oben", "Bar unten", "Bar weiß" };
         public static readonly string[] BuehneDevices = new string[]{ "links", "halblinks", "halbrechts", "rechts" };
+        public static readonly string[] SaalDevices = new string[]{ "1", "2", "3", "4"};
 
         public SetGroupSceneCommand(DMXDeviceGroup group, DMX dmx, string[] devices, params Color[] colors)
         {
