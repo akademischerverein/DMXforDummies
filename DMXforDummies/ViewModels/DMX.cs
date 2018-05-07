@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 using DMXforDummies.Models;
@@ -18,11 +19,10 @@ namespace DMXforDummies.ViewModels
         private Visibility _windowVisibility;
         private GroupStatus klSaalBar;
         private GroupStatus grSaalBar;
+        private GroupStatus buehne;
         
         public DMX()
         {
-            //SetRotBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this);
-
             SetRotBlauKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), this, BarDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(0, 0, 255), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 0, 0));
             SetRotBlauGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), this, BarDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(0, 0, 255), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 0, 0));
             SetAllesAusCommand = new SetGlobalSceneCommand(kanalplan, SceneAllesAus, this);
@@ -39,9 +39,15 @@ namespace DMXforDummies.ViewModels
             HideWindowCommand = new DelegateCommand(() => WindowVisibility = Visibility.Collapsed);
             _universe_update_task = UpdateDMXUniverse();
 
+            SetRotBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0));
+            SetGruenBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0));
+            SetBlauBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255));
+            SetGelbBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0));
+            SetAusBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
 
             klSaalBar = GroupStatus.Create(4);
             grSaalBar = GroupStatus.Create(4);
+            buehne = GroupStatus.Create(4);
         }
 
         public Visibility WindowVisibility
@@ -86,6 +92,8 @@ namespace DMXforDummies.ViewModels
 
         public ICommand SetGelbBuehneCommand { get; }
 
+        public ICommand SetAusBuehneCommand { get; }
+
         public float SetDimmKlSaalCommand
         {
             get { return kanalplan.Group("kl Saal").Dimmer; }
@@ -112,7 +120,7 @@ namespace DMXforDummies.ViewModels
             set
             {
                 kanalplan.Group("Bühne").Dimmer = value;
-                SetSceneRGBFarben(kanalplan.Group("Bühne"), grSaalBar, BuehneDevices);
+                SetSceneRGBFarben(kanalplan.Group("Bühne"), buehne, BuehneDevices);
             }
         }
 
@@ -166,12 +174,36 @@ namespace DMXforDummies.ViewModels
             } else if (group.Name.Equals("gr Saal"))
             {
                 grSaalBar = groupStatus;
+            } else if (group.Name.Equals("Bühne"))
+            {
+                buehne = groupStatus;
+               /* if (groupStatus.Identifiers.Any((color) => !color.Equals(Color.FromRgb(0, 0, 0))))
+                {
+                    universe.Set(kanalplan.Group("Feststrom").Device("Türseite 1").StartChannel, 255);
+                    universe.Set(kanalplan.Group("Feststrom").Device("Kammerseite 1").StartChannel, 255);
+                }
+                else
+                {
+                    universe.Set(kanalplan.Group("Feststrom").Device("Türseite 1").StartChannel, 0);
+                    universe.Set(kanalplan.Group("Feststrom").Device("Kammerseite 1").StartChannel, 0);
+                }*/
             }
 
             for(int i=0; i<devices.Length; ++i)
             {
                 dev = group.Device(devices[i]);
-                universe.SetValues(dev.StartChannel, group, groupStatus.Identifiers[i].R, groupStatus.Identifiers[i].G, groupStatus.Identifiers[i].B);
+
+                switch (dev.Type)
+                {
+                    case "RGB":
+                    case "Dimmer":
+                        universe.SetValues(dev.StartChannel, group, groupStatus.Identifiers[i].R, groupStatus.Identifiers[i].G, groupStatus.Identifiers[i].B);
+                        break;
+
+                    case "DRGB":
+                        universe.SetValues(dev.StartChannel, group, groupStatus.Identifiers[i].A, groupStatus.Identifiers[i].R, groupStatus.Identifiers[i].G, groupStatus.Identifiers[i].B);
+                        break;
+                }
             }
 
             UpdateBrushes();
