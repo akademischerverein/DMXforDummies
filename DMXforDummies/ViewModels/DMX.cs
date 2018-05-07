@@ -16,11 +16,13 @@ namespace DMXforDummies.ViewModels
         private readonly DMXKanalplan kanalplan = new DMXKanalplan();
         private readonly Task _universe_update_task;
         private Visibility _windowVisibility;
-        private SaalStatus klSaal;
-        private SaalStatus grSaal;
+        private GroupStatus klSaalBar;
+        private GroupStatus grSaalBar;
         
         public DMX()
         {
+            //SetRotBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this);
+
             SetRotBlauKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), this, BarDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(0, 0, 255), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 0, 0));
             SetRotBlauGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), this, BarDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(0, 0, 255), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 0, 0));
             SetAllesAusCommand = new SetGlobalSceneCommand(kanalplan, SceneAllesAus, this);
@@ -30,26 +32,16 @@ namespace DMXforDummies.ViewModels
             SetWarmeFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), this, BarDevices, Color.FromRgb(220, 50, 0), Color.FromRgb(200, 150, 0), Color.FromRgb(220, 50, 0), Color.FromRgb(0, 0, 0));
             SetAVFarbenGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), this, BarDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(192, 0, 0));
             SetAVFarbenKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), this, BarDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(192, 0, 0));
-            SelectRGBKlSaalCommand = new DelegateCommand(() => SelectRGBFarben(kanalplan.Group("kl Saal")));
-            SelectRGBGrSaalCommand = new DelegateCommand(() => SelectRGBFarben(kanalplan.Group("gr Saal")));
+            SelectRGBKlSaalCommand = new DelegateCommand(() => SelectBarFarben(kanalplan.Group("kl Saal")));
+            SelectRGBGrSaalCommand = new DelegateCommand(() => SelectBarFarben(kanalplan.Group("gr Saal")));
             SetAusGrSaalCommand = new SetGroupSceneCommand(kanalplan.Group("gr Saal"), this, BarDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
             SetAusKlSaalCommand = new SetGroupSceneCommand(kanalplan.Group("kl Saal"), this, BarDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
             HideWindowCommand = new DelegateCommand(() => WindowVisibility = Visibility.Collapsed);
             _universe_update_task = UpdateDMXUniverse();
 
-            SetLicht1AnCommand = new DelegateCommand(() => { universe.Set(49, 255); });
-            SetLicht2AnCommand = new DelegateCommand(() => { universe.Set(53, 255); });
-            SetLicht3AnCommand = new DelegateCommand(() => { universe.Set(57, 255); });
-            SetLicht4AnCommand = new DelegateCommand(() => { universe.Set(61, 255); });
-            SetLicht5AnCommand = new DelegateCommand(() => { universe.Set(81, 255); universe.Set(82, 255); });
-            SetLicht6AnCommand = new DelegateCommand(() => { universe.Set(85, 255); universe.Set(86, 255); });
-            SetLicht7AnCommand = new DelegateCommand(() => { universe.Set(89, 255); universe.Set(90, 255); });
-            SetLicht8AnCommand = new DelegateCommand(() => { universe.Set(93, 255); universe.Set(94, 255); });
 
-            SetRelaisAnCommand = new DelegateCommand(() => {universe.Set(1, 255);universe.Set(5, 255);});
-
-            klSaal = SaalStatus.Create(4);
-            grSaal = SaalStatus.Create(4);
+            klSaalBar = GroupStatus.Create(4);
+            grSaalBar = GroupStatus.Create(4);
         }
 
         public Visibility WindowVisibility
@@ -85,16 +77,14 @@ namespace DMXforDummies.ViewModels
         public ICommand SetAusGrSaalCommand { get; }
 
         public ICommand SetAllesAusCommand { get; }
-        
-        public ICommand SetLicht1AnCommand { get; }
-        public ICommand SetLicht2AnCommand { get; }
-        public ICommand SetLicht3AnCommand { get; }
-        public ICommand SetLicht4AnCommand { get; }
-        public ICommand SetLicht5AnCommand { get; }
-        public ICommand SetLicht6AnCommand { get; }
-        public ICommand SetLicht7AnCommand { get; }
-        public ICommand SetLicht8AnCommand { get; }
-        public ICommand SetRelaisAnCommand { get; }
+
+        public ICommand SetRotBuehneCommand { get; }
+
+        public ICommand SetGruenBuehneCommand { get; }
+
+        public ICommand SetBlauBuehneCommand { get; }
+
+        public ICommand SetGelbBuehneCommand { get; }
 
         public float SetDimmKlSaalCommand
         {
@@ -102,7 +92,7 @@ namespace DMXforDummies.ViewModels
             set
             {
                 kanalplan.Group("kl Saal").Dimmer = value;
-                SetSceneRGBFarben(kanalplan.Group("kl Saal"), klSaal, BarDevices);
+                SetSceneRGBFarben(kanalplan.Group("kl Saal"), klSaalBar, BarDevices);
             }
         }
 
@@ -112,27 +102,37 @@ namespace DMXforDummies.ViewModels
             set
             {
                 kanalplan.Group("gr Saal").Dimmer = value;
-                SetSceneRGBFarben(kanalplan.Group("gr Saal"), grSaal, BarDevices);
+                SetSceneRGBFarben(kanalplan.Group("gr Saal"), grSaalBar, BarDevices);
             }
         }
 
-        private void SelectRGBFarben(DMXDeviceGroup group)
+        public float SetDimmBuehneCommand
+        {
+            get { return kanalplan.Group("Bühne").Dimmer; }
+            set
+            {
+                kanalplan.Group("Bühne").Dimmer = value;
+                SetSceneRGBFarben(kanalplan.Group("Bühne"), grSaalBar, BuehneDevices);
+            }
+        }
+
+        private void SelectBarFarben(DMXDeviceGroup group)
         {
             ColorDialog dialog = new ColorDialog();
 
             if (group.Name.Equals("kl Saal"))
             {
-                dialog.colorSchattenfuge.SelectedColor = klSaal.Identifiers[0];
-                dialog.colorBarOben.SelectedColor = klSaal.Identifiers[1];
-                dialog.colorBarUnten.SelectedColor = klSaal.Identifiers[2];
-                dialog.barWeiß.Value = (double)klSaal.Identifiers[3].R / 255d;
+                dialog.colorSchattenfuge.SelectedColor = klSaalBar.Identifiers[0];
+                dialog.colorBarOben.SelectedColor = klSaalBar.Identifiers[1];
+                dialog.colorBarUnten.SelectedColor = klSaalBar.Identifiers[2];
+                dialog.barWeiß.Value = (double)klSaalBar.Identifiers[3].R / 255d;
             }
             else if (group.Name.Equals("gr Saal"))
             {
-                dialog.colorSchattenfuge.SelectedColor = grSaal.Identifiers[0];
-                dialog.colorBarOben.SelectedColor = grSaal.Identifiers[1];
-                dialog.colorBarUnten.SelectedColor = grSaal.Identifiers[2];
-                dialog.barWeiß.Value = (double)grSaal.Identifiers[3].R / 255d;
+                dialog.colorSchattenfuge.SelectedColor = grSaalBar.Identifiers[0];
+                dialog.colorBarOben.SelectedColor = grSaalBar.Identifiers[1];
+                dialog.colorBarUnten.SelectedColor = grSaalBar.Identifiers[2];
+                dialog.barWeiß.Value = (double)grSaalBar.Identifiers[3].R / 255d;
             }
 
             if (dialog.ShowDialog() == false)
@@ -147,31 +147,31 @@ namespace DMXforDummies.ViewModels
                 return;
             }
 
-            SaalStatus saal = SaalStatus.Create(4);
-            saal.Identifiers[0] = dialog.colorSchattenfuge.SelectedColor.Value;
-            saal.Identifiers[1] = dialog.colorBarOben.SelectedColor.Value;
-            saal.Identifiers[2] = dialog.colorBarUnten.SelectedColor.Value;
-            saal.Identifiers[3].R = (byte) (dialog.barWeiß.Value * 255);
+            GroupStatus groupStatus = GroupStatus.Create(4);
+            groupStatus.Identifiers[0] = dialog.colorSchattenfuge.SelectedColor.Value;
+            groupStatus.Identifiers[1] = dialog.colorBarOben.SelectedColor.Value;
+            groupStatus.Identifiers[2] = dialog.colorBarUnten.SelectedColor.Value;
+            groupStatus.Identifiers[3].R = (byte) (dialog.barWeiß.Value * 255);
 
-            SetSceneRGBFarben(group, saal, BarDevices);
+            SetSceneRGBFarben(group, groupStatus, BarDevices);
         }
 
-        public void SetSceneRGBFarben(DMXDeviceGroup group, SaalStatus saal, string[] devices)
+        public void SetSceneRGBFarben(DMXDeviceGroup group, GroupStatus groupStatus, string[] devices)
         {
             DMXDevice dev;
             
             if (group.Name.Equals("kl Saal"))
             {
-                klSaal = saal;
+                klSaalBar = groupStatus;
             } else if (group.Name.Equals("gr Saal"))
             {
-                grSaal = saal;
+                grSaalBar = groupStatus;
             }
 
             for(int i=0; i<devices.Length; ++i)
             {
                 dev = group.Device(devices[i]);
-                universe.SetValues(dev.StartChannel, group, saal.Identifiers[i].R, saal.Identifiers[i].G, saal.Identifiers[i].B);
+                universe.SetValues(dev.StartChannel, group, groupStatus.Identifiers[i].R, groupStatus.Identifiers[i].G, groupStatus.Identifiers[i].B);
             }
 
             UpdateBrushes();
@@ -179,13 +179,13 @@ namespace DMXforDummies.ViewModels
 
         private void UpdateBrushes()
         {
-            MainWindow.INSTANCE.ColorKlSaalSchattenfuge.Background = new SolidColorBrush(klSaal.Identifiers[0]);
-            MainWindow.INSTANCE.ColorKlSaalBarOben.Background = new SolidColorBrush(klSaal.Identifiers[1]);
-            MainWindow.INSTANCE.ColorKlSaalBarUnten.Background = new SolidColorBrush(klSaal.Identifiers[2]);
+            MainWindow.INSTANCE.ColorKlSaalSchattenfuge.Background = new SolidColorBrush(klSaalBar.Identifiers[0]);
+            MainWindow.INSTANCE.ColorKlSaalBarOben.Background = new SolidColorBrush(klSaalBar.Identifiers[1]);
+            MainWindow.INSTANCE.ColorKlSaalBarUnten.Background = new SolidColorBrush(klSaalBar.Identifiers[2]);
 
-            MainWindow.INSTANCE.ColorGrSaalSchattenfuge.Background = new SolidColorBrush(grSaal.Identifiers[0]);
-            MainWindow.INSTANCE.ColorGrSaalBarOben.Background = new SolidColorBrush(grSaal.Identifiers[1]);
-            MainWindow.INSTANCE.ColorGrSaalBarUnten.Background = new SolidColorBrush(grSaal.Identifiers[2]);
+            MainWindow.INSTANCE.ColorGrSaalSchattenfuge.Background = new SolidColorBrush(grSaalBar.Identifiers[0]);
+            MainWindow.INSTANCE.ColorGrSaalBarOben.Background = new SolidColorBrush(grSaalBar.Identifiers[1]);
+            MainWindow.INSTANCE.ColorGrSaalBarUnten.Background = new SolidColorBrush(grSaalBar.Identifiers[2]);
         }
 
         private void SceneAllesAus(DMXKanalplan kanalplan)
@@ -195,8 +195,8 @@ namespace DMXforDummies.ViewModels
                 universe.Set(i, 0);
             }
 
-            klSaal = SaalStatus.Create(4);
-            grSaal = SaalStatus.Create(4);
+            klSaalBar = GroupStatus.Create(4);
+            grSaalBar = GroupStatus.Create(4);
             UpdateBrushes();
         }
 

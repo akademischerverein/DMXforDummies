@@ -2,13 +2,13 @@
 
 namespace DMXforDummies.ViewModels
 {
-    public struct SaalStatus
+    public struct GroupStatus
     {
         public Color[] Identifiers;
 
-        public static SaalStatus Create(int ids)
+        public static GroupStatus Create(int ids)
         {
-            SaalStatus s;
+            GroupStatus s;
             s.Identifiers = new Color[ids];
 
             for (int i = 0; i < ids; ++i)
