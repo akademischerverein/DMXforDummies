@@ -24,6 +24,25 @@ namespace DMXforDummies.Models
             grSaalGrp.AddDevice(new DMXDevice(41, 3, "RGB", "Bar oben"));
             grSaalGrp.AddDevice(new DMXDevice(45, 3, "RGB", "Schattenfuge"));
             AddGroup(grSaalGrp);
+
+            DMXDeviceGroup stromGrp = new DMXDeviceGroup("Feststrom");
+            stromGrp.AddDevice(new DMXDevice(1, 1, "Relais", "Türseite 1"));
+            stromGrp.AddDevice(new DMXDevice(5, 1, "Relais", "Kammerseite 1"));
+            AddGroup(stromGrp);
+
+            DMXDeviceGroup buehneGrp = new DMXDeviceGroup("Bühne");
+            buehneGrp.AddDevice(new DMXDevice(81, 4, "DRGB", "links"));
+            buehneGrp.AddDevice(new DMXDevice(85, 4, "DRGB", "halblinks"));
+            buehneGrp.AddDevice(new DMXDevice(89, 4, "DRGB", "halbrechts"));
+            buehneGrp.AddDevice(new DMXDevice(93, 4, "DRGB", "rechts"));
+            AddGroup(buehneGrp);
+
+            DMXDeviceGroup saalGrp = new DMXDeviceGroup("LED Kanne Saal");
+            saalGrp.AddDevice(new DMXDevice(49, 4, "RGBW", "1"));
+            saalGrp.AddDevice(new DMXDevice(53, 4, "RGBW", "2"));
+            saalGrp.AddDevice(new DMXDevice(57, 4, "RGBW", "3"));
+            saalGrp.AddDevice(new DMXDevice(61, 4, "RGBW", "4"));
+            AddGroup(saalGrp);
         }
 
         public DMXDeviceGroup Group(string name) => _groups.First(g => g.Name == name);
