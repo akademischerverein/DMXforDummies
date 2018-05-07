@@ -40,22 +40,29 @@ namespace DMXforDummies.ViewModels
             HideWindowCommand = new DelegateCommand(() => WindowVisibility = Visibility.Collapsed);
             _universe_update_task = UpdateDMXUniverse();
 
-            SetRotBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0));
+            SetBuntBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 0, 255), Color.FromRgb(175, 175, 0));
             SetGruenBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0));
             SetBlauBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255));
             SetGelbBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0));
+            SelectRGBBuehneCommand = new DelegateCommand(() => SelectSaalFarben(kanalplan.Group("Bühne")));
             SetAusBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
 
             SetRotSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0));
             SetGruenSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0));
             SetBlauSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255));
             SetGelbSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0));
+            SelectRGBSaalCommand = new DelegateCommand(() => SelectSaalFarben(kanalplan.Group("LED Kanne Saal")));
             SetAusSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
 
             klSaalBar = GroupStatus.Create(4);
             grSaalBar = GroupStatus.Create(4);
             buehne = GroupStatus.Create(4);
             ledSaal = GroupStatus.Create(4);
+
+            kanalplan.Group("kl Saal").Dimmer = (float) MainWindow.INSTANCE.SldrKlSaalDimm.Maximum;
+            kanalplan.Group("gr Saal").Dimmer = (float)MainWindow.INSTANCE.SldrGrSaalDimm.Maximum;
+            kanalplan.Group("Bühne").Dimmer = (float)MainWindow.INSTANCE.SldrBühneDimm.Maximum;
+            kanalplan.Group("LED Kanne Saal").Dimmer = (float)MainWindow.INSTANCE.SldrSaalDimm.Maximum;
         }
 
         public Visibility WindowVisibility
@@ -92,13 +99,15 @@ namespace DMXforDummies.ViewModels
 
         public ICommand SetAllesAusCommand { get; }
 
-        public ICommand SetRotBuehneCommand { get; }
+        public ICommand SetBuntBuehneCommand { get; }
 
         public ICommand SetGruenBuehneCommand { get; }
 
         public ICommand SetBlauBuehneCommand { get; }
 
         public ICommand SetGelbBuehneCommand { get; }
+
+        public ICommand SelectRGBBuehneCommand { get; }
 
         public ICommand SetAusBuehneCommand { get; }
 
@@ -109,6 +118,8 @@ namespace DMXforDummies.ViewModels
         public ICommand SetBlauSaalCommand { get; }
 
         public ICommand SetGelbSaalCommand { get; }
+
+        public ICommand SelectRGBSaalCommand { get; }
 
         public ICommand SetAusSaalCommand { get; }
 

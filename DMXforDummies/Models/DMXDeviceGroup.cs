@@ -11,7 +11,7 @@ namespace DMXforDummies.Models
         public DMXDeviceGroup(string name)
         {
             Name = name;
-            Dimmer = 1.0f;
+            //Dimmer = 1.0f;
         }
 
         public string Name { get; }
