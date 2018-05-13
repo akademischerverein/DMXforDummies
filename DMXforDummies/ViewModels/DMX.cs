@@ -42,16 +42,16 @@ namespace DMXforDummies.ViewModels
             _universe_update_task = UpdateDMXUniverse();
 
             SetBuntBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 0, 255), Color.FromRgb(175, 175, 0));
-            SetGruenBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0));
-            SetBlauBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255));
-            SetGelbBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0));
+            SetWarmeFarbenBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(200, 150, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(200, 150, 0));
+            SetKalteFarbenBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 143, 209), Color.FromRgb(124, 252, 0), Color.FromRgb(0, 143, 209), Color.FromRgb(124, 252, 0));
+            SetRotGruenBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(50, 255, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(50, 255, 0), Color.FromRgb(255, 0, 0));
             SelectRGBBuehneCommand = new DelegateCommand(() => SelectSaalFarben(kanalplan.Group("Bühne")));
             SetAusBuehneCommand = new SetGroupSceneCommand(kanalplan.Group("Bühne"), this, BuehneDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
 
             SetBuntSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 0, 255), Color.FromRgb(175, 175, 0));
-            SetGruenSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0), Color.FromRgb(0, 255, 0));
-            SetBlauSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255), Color.FromRgb(0, 0, 255));
-            SetGelbSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0), Color.FromRgb(200, 200, 0));
+            SetWarmeFarbenSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(200, 150, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(200, 150, 0));
+            SetKalteFarbenSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 143, 209), Color.FromRgb(124, 252, 0), Color.FromRgb(0, 143, 209), Color.FromRgb(124, 252, 0));
+            SetRotGruenSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(50, 255, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(50, 255, 0), Color.FromRgb(255, 0, 0));
             SelectRGBSaalCommand = new DelegateCommand(() => SelectSaalFarben(kanalplan.Group("LED Kanne Saal")));
             SetAusSaalCommand = new SetGroupSceneCommand(kanalplan.Group("LED Kanne Saal"), this, SaalDevices, Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0), Color.FromRgb(0, 0, 0));
 
@@ -97,11 +97,11 @@ namespace DMXforDummies.ViewModels
 
         public ICommand SetBuntBuehneCommand { get; }
 
-        public ICommand SetGruenBuehneCommand { get; }
+        public ICommand SetWarmeFarbenBuehneCommand { get; }
 
-        public ICommand SetBlauBuehneCommand { get; }
+        public ICommand SetKalteFarbenBuehneCommand { get; }
 
-        public ICommand SetGelbBuehneCommand { get; }
+        public ICommand SetRotGruenBuehneCommand { get; }
 
         public ICommand SelectRGBBuehneCommand { get; }
 
@@ -109,11 +109,11 @@ namespace DMXforDummies.ViewModels
 
         public ICommand SetBuntSaalCommand { get; }
 
-        public ICommand SetGruenSaalCommand { get; }
+        public ICommand SetWarmeFarbenSaalCommand { get; }
 
-        public ICommand SetBlauSaalCommand { get; }
+        public ICommand SetKalteFarbenSaalCommand { get; }
 
-        public ICommand SetGelbSaalCommand { get; }
+        public ICommand SetRotGruenSaalCommand { get; }
 
         public ICommand SelectRGBSaalCommand { get; }
 
