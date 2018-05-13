@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -13,6 +14,8 @@ namespace DMXforDummies.Models
             Name = name;
             //Dimmer = 1.0f;
         }
+
+        public IReadOnlyCollection<DMXDevice> Devices => _devices;
 
         public string Name { get; }
 
