@@ -211,6 +211,7 @@ namespace DMXforDummies.ViewModels
                 dialog.colorTwo.SelectedColor = buehne.Identifiers[1];
                 dialog.colorThree.SelectedColor = buehne.Identifiers[2];
                 dialog.colorFour.SelectedColor = buehne.Identifiers[3];
+                dialog.SetAlphaDisplay(true);
 
                 devices = BuehneDevices;
             }
@@ -221,6 +222,7 @@ namespace DMXforDummies.ViewModels
                 dialog.colorTwo.SelectedColor = ledSaal.Identifiers[1];
                 dialog.colorThree.SelectedColor = ledSaal.Identifiers[2];
                 dialog.colorFour.SelectedColor = ledSaal.Identifiers[3];
+                dialog.SetAlphaDisplay(false);
 
                 devices = SaalDevices;
             }
@@ -338,6 +340,8 @@ namespace DMXforDummies.ViewModels
 
             klSaalBar = GroupStatus.Create(4);
             grSaalBar = GroupStatus.Create(4);
+            buehne = GroupStatus.Create(4);
+            ledSaal = GroupStatus.Create(4);
             UpdateBrushes();
         }
 

@@ -34,6 +34,14 @@ namespace DMXforDummies
             lblFour.Content = captions[3];
         }
 
+        public void SetAlphaDisplay(bool enable)
+        {
+            colorOne.UsingAlphaChannel = enable;
+            colorTwo.UsingAlphaChannel = enable;
+            colorThree.UsingAlphaChannel = enable;
+            colorFour.UsingAlphaChannel = enable;
+        }
+
         private void DialogFinish(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
