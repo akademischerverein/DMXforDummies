@@ -1,0 +1,57 @@
+Universe
+    - Channels
+    - Devices
+    - DeviceGroups
+    
+IDevice
+    - Guid
+    - FriendlyName
+    - ChWidth
+    
+IDeviceGroup
+    - Devices
+    - FriendlyName
+    
+DeviceFilter(Of DeviceState)
+
+SceneFilter
+
+OnOffFilter
+    # deviceGroup Has Active Dev -> turn on dev
+
+DeviceState
+    - IDevice
+    - Data
+    - IsActive
+    
+DeviceGroupState
+    - IDeviceGroup
+    - DeviceStates
+    - IsActive
+
+ISceneTranslator
+    - DeviceFilters
+    - SceneFilters
+    - GetData(Scene, Devices, DeviceGroups) : byte[]
+    
+Scene
+    # defines devices parameters at one point in time
+    - DeviceStates<Device>
+    - DeviceGroupState<DeviceGroup>
+    
+SceneGenerator
+    - consumes SignalGenerator
+    - Universe
+    - CurrentScene
+    - Event SceneChange
+
+ISignal
+    
+ISignalGenerator
+    - Event Signal
+
+Controller
+    - Universe
+    - SignalGenerator
+    - SceneGenerator
+    - ISceneTranslator
