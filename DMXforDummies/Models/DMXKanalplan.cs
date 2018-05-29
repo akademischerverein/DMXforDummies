@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -12,17 +13,17 @@ namespace DMXforDummies.Models
         {
             // FIXME: aus kanalbelegung.txt parsen
             DMXDeviceGroup klSaalGrp = new DMXDeviceGroup("kl Saal");
-            klSaalGrp.AddDevice(new DMXDevice(17, 3, "RGB", "Bar unten"));
-            klSaalGrp.AddDevice(new DMXDevice(21, 1, "Dimmer", "Bar weiß"));
-            klSaalGrp.AddDevice(new DMXDevice(25, 3, "RGB", "Bar oben"));
             klSaalGrp.AddDevice(new DMXDevice(29, 3, "RGB", "Schattenfuge"));
+            klSaalGrp.AddDevice(new DMXDevice(17, 3, "RGB", "Bar unten"));
+            klSaalGrp.AddDevice(new DMXDevice(25, 3, "RGB", "Bar oben"));
+            klSaalGrp.AddDevice(new DMXDevice(21, 1, "Dimmer", "Bar weiß"));
             AddGroup(klSaalGrp);
 
             DMXDeviceGroup grSaalGrp = new DMXDeviceGroup("gr Saal");
-            grSaalGrp.AddDevice(new DMXDevice(33, 3, "RGB", "Bar unten"));
-            grSaalGrp.AddDevice(new DMXDevice(37, 1, "Dimmer", "Bar weiß"));
-            grSaalGrp.AddDevice(new DMXDevice(41, 3, "RGB", "Bar oben"));
             grSaalGrp.AddDevice(new DMXDevice(45, 3, "RGB", "Schattenfuge"));
+            grSaalGrp.AddDevice(new DMXDevice(33, 3, "RGB", "Bar unten"));
+            grSaalGrp.AddDevice(new DMXDevice(41, 3, "RGB", "Bar oben"));
+            grSaalGrp.AddDevice(new DMXDevice(37, 1, "Dimmer", "Bar weiß"));
             AddGroup(grSaalGrp);
 
             DMXDeviceGroup stromGrp = new DMXDeviceGroup("Feststrom");
@@ -46,6 +47,10 @@ namespace DMXforDummies.Models
         }
 
         public DMXDeviceGroup Group(string name) => _groups.First(g => g.Name == name);
+
+        public DMXDeviceGroup GroupByDevice(DMXDevice dev) => _groups.First(g => g.Devices.Contains(dev));
+
+        public IReadOnlyCollection<DMXDeviceGroup> Groups => _groups;
 
         public void AddGroup(DMXDeviceGroup group)
         {

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 using DMXforDummies.Models;
 
 namespace DMXforDummies
@@ -33,6 +35,16 @@ namespace DMXforDummies
             {
                 universe.Set(firstChannel+i, (byte) (values[i] * group.Dimmer));
             }
+        }
+
+        public static KeyValuePair<DMXDevice, Color> Change(this DMXDevice dev, Color color)
+        {
+            return new KeyValuePair<DMXDevice, Color>(dev, color);
+        }
+
+        public static KeyValuePair<String, Color> Change(string dev, Color color)
+        {
+            return new KeyValuePair<string, Color>(dev, color);
         }
     }
 }

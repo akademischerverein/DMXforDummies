@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media;
 
 namespace DMXforDummies.Models
 {
@@ -10,6 +11,7 @@ namespace DMXforDummies.Models
             NChannels = nChannels;
             Type = type;
             Name = name;
+            Value = Color.FromRgb(0, 0, 0);
         }
 
         public byte StartChannel { get; }
@@ -19,5 +21,7 @@ namespace DMXforDummies.Models
         public string Type { get; }
 
         public string Name { get; }
+
+        public Color Value;
     }
 }

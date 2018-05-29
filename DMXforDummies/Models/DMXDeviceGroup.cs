@@ -12,7 +12,6 @@ namespace DMXforDummies.Models
         public DMXDeviceGroup(string name)
         {
             Name = name;
-            //Dimmer = 1.0f;
         }
 
         public IReadOnlyCollection<DMXDevice> Devices => _devices;

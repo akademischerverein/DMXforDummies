@@ -162,9 +162,8 @@
     <Compile Include="Models\DMXDevice.cs" />
     <Compile Include="Models\DMXKanalplan.cs" />
     <Compile Include="SingleInstance.cs" />
-    <Compile Include="ViewModels\GroupStatus.cs" />
     <Compile Include="ViewModels\SetGlobalSceneCommand.cs" />
-    <Compile Include="ViewModels\SetGroupSceneCommand.cs" />
+    <Compile Include="ViewModels\SetDevicesSceneCommand.cs" />
     <Compile Include="ViewModels\DMX.cs" />
     <Compile Include="ViewModels\ObservableObject.cs" />
     <Page Include="MainWindow.xaml">
