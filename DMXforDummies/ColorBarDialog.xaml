@@ -8,15 +8,6 @@
         mc:Ignorable="d"
         Title="Farben auswählen..." Height="210" Width="449">
     <Grid>
-        <Label Content="Schattenfuge" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.421,0.462"/>
-        <xctk:ColorPicker x:Name="colorSchattenfuge"  VerticalAlignment="Top" Margin="115,14,10,0"/>
-        <Label Content="Bar obere Hälfte" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.229,0.577"/>
-        <xctk:ColorPicker x:Name="colorBarOben" VerticalAlignment="Top" Margin="115,45,10,0"/>
-        <Label Content="Bar untere Hälfte" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-        <xctk:ColorPicker x:Name="colorBarUnten" VerticalAlignment="Top" Margin="115,76,10,0"/>
-        <Button Content="OK" Click="DialogFinish" HorizontalAlignment="Left" Margin="10,142,0,0" VerticalAlignment="Top" Width="199"/>
-        <Button Content="Cancel" Click="DialogFinish"  HorizontalAlignment="Left" Margin="231,142,0,0" VerticalAlignment="Top" Width="200"/>
-        <Slider x:Name="barWeiß" HorizontalAlignment="Left" Margin="115,103,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.417,1.222" Width="316" Maximum="1" SmallChange="0.01"/>
-        <Label Content="Bar Weiß" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top"/>
+        
     </Grid>
 </Window>

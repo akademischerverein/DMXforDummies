@@ -8,10 +8,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using DMXforDummies.Models;
 using Xceed.Wpf.AvalonDock.Controls;
 using Xceed.Wpf.Toolkit;
@@ -24,86 +20,81 @@ namespace DMXforDummies
     /// </summary>
     public partial class ColorBarDialog : Window
     {
-        /*public enum FieldType
+        public enum FieldType
         {
             ColorPicker,
             ColorPickerWithAlpha,
             Slider
-        }*/
+        }
 
-        public ColorBarDialog(DMXDeviceGroup group)
+        public ColorBarDialog(KeyValuePair<DMXDevice, FieldType>[] fields)
         {
-            /*Dictionary<string, FieldType> fields = new Dictionary<string, FieldType>();
-            fields.Add("Schattenfuge", FieldType.ColorPicker);
-            fields.Add("Bar oben", FieldType.ColorPicker);
-            fields.Add("Bar unten", FieldType.ColorPicker);
-            fields.Add("Bar weiß", FieldType.Slider);
-
             InitializeComponent();
 
-            var addedFields = new Dictionary<DMXDevice, Control>();
+            int i = 0;
 
             foreach (var field in fields)
             {
+                Control control = null;
+
                 switch (field.Value)
                 {
                     case FieldType.ColorPicker:
-                        var color = new ColorPicker();
-                        color.UsingAlphaChannel = false;
-                        AddLogicalChild(color);
-                        addedFields.Add(group.Device(field.Key), color);
+                        control = new ColorPicker();
+                        ((ColorPicker) control).UsingAlphaChannel = false;
+                        ((ColorPicker) control).SelectedColor = field.Key.Value;
                         break;
                     case FieldType.ColorPickerWithAlpha:
-                        var colorAlpha = new ColorPicker();
-                        colorAlpha.UsingAlphaChannel = true;
-                        AddLogicalChild(colorAlpha);
-                        addedFields.Add(group.Device(field.Key), colorAlpha);
+                        control = new ColorPicker();
+                        ((ColorPicker) control).UsingAlphaChannel = true;
+                        ((ColorPicker) control).SelectedColor = field.Key.Value;
                         break;
                     case FieldType.Slider:
-                        var slider = new Slider();
-                        slider.Maximum = 1.0;
-                        slider.Minimum = 0.0;
-                        AddLogicalChild(slider);
-                        addedFields.Add(group.Device(field.Key), slider);
+                        control = new Slider();
+                        ((Slider) control).Maximum = 1.0;
+                        ((Slider) control).Minimum = 0.0;
+                        ((Slider) control).Value = field.Key.Value.R / 255.0;
                         break;
                 }
+
+                var label = new Label();
+                label.Content = field.Key.FriendlyName;
+                label.HorizontalAlignment = HorizontalAlignment.Left;
+                label.VerticalAlignment = VerticalAlignment.Top;
+                label.Margin = new Thickness(10, 10 + 31*(i), 0, 0);
+
+                control.VerticalAlignment = VerticalAlignment.Top;
+                control.Margin = new Thickness(115, 14 + 31*(i++), 10, 0);
+                this.FindLogicalChildren<Grid>().First().Children.Add(control);
+                this.FindLogicalChildren<Grid>().First().Children.Add(label);
             }
 
-            foreach (var kp in addedFields)
-            {
-                if (kp.Key.Type.Equals("Dimmer"))
-                {
-                    (kp.Value as Slider).Value = kp.Key.Value.R / 255.0;
-                }
-                else
-                {
-                    (kp.Value as ColorPicker).SelectedColor = kp.Key.Value;
-                }
-            }*/
+            var ok = new Button {Content = "OK"};
+            ok.Click += DialogFinish;
+            ok.HorizontalAlignment = HorizontalAlignment.Left;
+            ok.VerticalAlignment = VerticalAlignment.Top;
+            ok.Width = 200;
+            ok.Margin = new Thickness(10, 14+31*i+8, 0, 0);
 
+            var cancel = new Button {Content = "Cancel"};
+            cancel.Click += DialogFinish;
+            cancel.HorizontalAlignment = HorizontalAlignment.Left;
+            cancel.VerticalAlignment = VerticalAlignment.Top;
+            cancel.Width = 200;
+            cancel.Margin = new Thickness(231, 14 + 31 * i + 8, 0, 10);
+
+            this.FindLogicalChildren<Grid>().First().Children.Add(ok);
+            this.FindLogicalChildren<Grid>().First().Children.Add(cancel);
+
+            this.ResizeMode = ResizeMode.NoResize;
+            this.SizeToContent = SizeToContent.Height;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            colorSchattenfuge.UsingAlphaChannel = false;
-            colorBarOben.UsingAlphaChannel = false;
-            colorBarUnten.UsingAlphaChannel = false;
         }
 
         private void DialogFinish(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-
-            if (btn == null)
-            {
-                return;
-            }
-
-            if ("OK".Equals(btn.Content as string))
-            {
-                DialogResult = true;
-            }
-            else
-            {
-                DialogResult = false;
-            }
+            var btn = (Button) sender;
+            DialogResult = "OK".Equals(btn.Content as string);
         }
     }
 }
