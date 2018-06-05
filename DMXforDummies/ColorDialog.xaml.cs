@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Media;
 using DMXforDummies.Models;
 using Xceed.Wpf.AvalonDock.Controls;
 using Xceed.Wpf.Toolkit;
@@ -20,6 +21,8 @@ namespace DMXforDummies
     /// </summary>
     public partial class ColorBarDialog : Window
     {
+        private Dictionary<int, DMXDevice> deviceMap;
+
         public enum FieldType
         {
             ColorPicker,
@@ -30,6 +33,8 @@ namespace DMXforDummies
         public ColorBarDialog(KeyValuePair<DMXDevice, FieldType>[] fields)
         {
             InitializeComponent();
+
+            deviceMap = new Dictionary<int, DMXDevice>();
 
             int i = 0;
 
@@ -67,6 +72,8 @@ namespace DMXforDummies
                 control.Margin = new Thickness(115, 14 + 31*(i++), 10, 0);
                 this.FindLogicalChildren<Grid>().First().Children.Add(control);
                 this.FindLogicalChildren<Grid>().First().Children.Add(label);
+
+                deviceMap.Add(control.GetHashCode(), field.Key);
             }
 
             var ok = new Button {Content = "OK"};
@@ -95,6 +102,31 @@ namespace DMXforDummies
         {
             var btn = (Button) sender;
             DialogResult = "OK".Equals(btn.Content as string);
+
+            if (DialogResult != true) return;
+
+            var controls = this.FindLogicalChildren<Grid>().First().Children;
+
+            foreach (var nativeControl in controls)
+            {
+                if (nativeControl.GetType() == typeof(ColorPicker))
+                {
+                    var control = (ColorPicker) nativeControl;
+                    DMXDevice dev;
+                    if (control.SelectedColor.HasValue && deviceMap.TryGetValue(control.GetHashCode(), out dev))
+                    {
+                        dev.Value = control.SelectedColor.Value;
+                    }
+                } else if (nativeControl.GetType() == typeof(Slider))
+                {
+                    var control = (Slider)nativeControl;
+                    DMXDevice dev;
+                    if (deviceMap.TryGetValue(control.GetHashCode(), out dev))
+                    {
+                        dev.Value = Color.FromRgb((byte) (control.Value * 255.0), 0, 0);
+                    }
+                }
+            }
         }
     }
 }
