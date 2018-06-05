@@ -206,7 +206,19 @@ namespace DMXforDummies.ViewModels
                         universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.A, dev.Value.R, dev.Value.G, dev.Value.B);
                         break;
                     case "RGBW":
-                        universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.R, dev.Value.G, dev.Value.B, 0);
+                        double rLinear = dev.Value.R/255.0;
+                        double gLinear = dev.Value.G/255.0;
+                        double bLinear = dev.Value.B/255.0;
+
+                        rLinear = rLinear <= 0.04045 ? rLinear / 12.92 : Math.Pow((rLinear + 0.055) / 1.055, 2.4);
+                        gLinear = gLinear <= 0.04045 ? gLinear / 12.92 : Math.Pow((gLinear + 0.055) / 1.055, 2.4);
+                        bLinear = bLinear <= 0.04045 ? bLinear / 12.92 : Math.Pow((bLinear + 0.055) / 1.055, 2.4);
+
+                        double y = 0.2126 * rLinear + 0.7152 * gLinear + 0.0722 * bLinear;
+
+                        Console.WriteLine("{0}:{1} {2}:{3} {4}:{5} y:{6}", dev.Value.R / 255.0, rLinear, dev.Value.G / 255.0, gLinear, dev.Value.B / 255.0, bLinear, y);
+
+                        universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.R, dev.Value.G, dev.Value.B, (byte)(y*255));
                         break;
                 }
             }
