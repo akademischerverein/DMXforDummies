@@ -165,7 +165,7 @@ namespace DMXforDummies.ViewModels
 
         private void SelectFarben(params KeyValuePair<DMXDevice, ColorBarDialog.FieldType>[] fields)
         {
-            ColorBarDialog dialog = new ColorBarDialog(fields);
+            ColorBarDialog dialog = new ColorBarDialog(fields, this);
 
             if (dialog.ShowDialog() == false) return;
 
