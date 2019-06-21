@@ -92,6 +92,7 @@ namespace DMXforDummies
             liveLabel.HorizontalAlignment = HorizontalAlignment.Left;
             liveLabel.VerticalAlignment = VerticalAlignment.Top;
             liveLabel.Margin = new Thickness(130, 14 + 31 * i - 4, 0, 0);
+            liveLabel.MouseLeftButtonUp += ToggleLive;
 
             useLive = new CheckBox();
             useLive.HorizontalAlignment = HorizontalAlignment.Left;
@@ -121,6 +122,29 @@ namespace DMXforDummies
             this.ResizeMode = ResizeMode.NoResize;
             this.SizeToContent = SizeToContent.Height;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            this.Closed += DialogFinish;
+        }
+
+        private void DialogFinish(object sender, EventArgs e)
+        {
+            if (((ColorBarDialog) sender).DialogResult.HasValue && ((ColorBarDialog) sender).DialogResult.Value) return;
+
+            foreach (var field in startMap)
+            {
+                field.Key.Value = field.Value;
+            }
+            List<DMXDevice> devices = new List<DMXDevice>();
+            foreach (DMXDevice dev in deviceMap.Values)
+            {
+                devices.Add(dev);
+            }
+            dmx.UpdateSceneRGBFarben(devices);
+        }
+
+        private void ToggleLive(object sender, RoutedEventArgs e)
+        {
+            useLive.IsChecked = !useLive.IsChecked.Value;
         }
 
         private void color_changed(object sender, RoutedEventArgs e)
@@ -168,20 +192,7 @@ namespace DMXforDummies
             var btn = (Button) sender;
             DialogResult = "OK".Equals(btn.Content as string);
 
-            if (DialogResult != true)
-            {
-                foreach (var field in startMap)
-                {
-                    field.Key.Value = field.Value;
-                }
-                List<DMXDevice> devices = new List<DMXDevice>();
-                foreach (DMXDevice dev in deviceMap.Values)
-                {
-                    devices.Add(dev);
-                }
-                dmx.UpdateSceneRGBFarben(devices);
-                return;
-            }
+            if (DialogResult != true) return;
 
             UpdateColors();
         }
