@@ -206,7 +206,11 @@ namespace DMXforDummies.ViewModels
                         universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.A, dev.Value.R, dev.Value.G, dev.Value.B);
                         break;
                     case "RGBW":
-                        universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.R, dev.Value.G, dev.Value.B, 0);
+                        double gew_r = 0.21784 * dev.Value.R;
+                        double gew_g = dev.Value.G;
+                        double gew_b = 0.01308 * dev.Value.B;
+                        double W = Math.Min(Math.Min(gew_r, gew_g), gew_b);
+                        universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.R, dev.Value.G, dev.Value.B, (byte)W);
                         break;
                 }
             }
