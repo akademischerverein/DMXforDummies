@@ -15,7 +15,7 @@ namespace DMXforDummies.ViewModels
 {
     public class DMX : ObservableObject
     {
-        private readonly DMXUniverse universe = new DMXUniverse("192.168.0.2", 5120);
+        private readonly DMXUniverse universe = new DMXUniverse("192.168.0.6", 5120);
         private readonly DMXKanalplan kanalplan = new DMXKanalplan();
         private readonly Task _universe_update_task;
         private Visibility _windowVisibility;
