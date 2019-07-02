@@ -206,18 +206,10 @@ namespace DMXforDummies.ViewModels
                         universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.A, dev.Value.R, dev.Value.G, dev.Value.B);
                         break;
                     case "RGBW":
-                        double xn = 1/3.0;
-                        double yn = 1/3.0;
-                        double Yn = (1 / 0.17697) * (0.17697 * 255 + 0.8124 * 255 + 0.01063 * 255);
-                        double X = (1 / 0.17697) * (0.49 * dev.Value.R + 0.31 * dev.Value.G + 0.2 * dev.Value.B);
-                        double Y = (1 / 0.17697) * (0.17697 * dev.Value.R + 0.8124 * dev.Value.G + 0.01063 * dev.Value.B);
-                        double Z = (1 / 0.17697) * (0.01 * dev.Value.G + 0.99 * dev.Value.B);
-                        double x = X / (X + Y + Z);
-                        double y = Y / (X + Y + Z);
-                        double W = Y + 800 * (xn - x) + 1700 * (yn - y);
-                        W = W / Yn;
-                        W = W * 255;
-
+                        double gew_r = 0.21784 * dev.Value.R;
+                        double gew_g = dev.Value.G;
+                        double gew_b = 0.01308 * dev.Value.B;
+                        double W = Math.Min(Math.Min(gew_r, gew_g), gew_b);
                         universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.R, dev.Value.G, dev.Value.B, (byte)W);
                         break;
                 }
