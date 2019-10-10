@@ -33,7 +33,6 @@ namespace DMXforDummies
         public enum FieldType
         {
             ColorPicker,
-            ColorPickerWithAlpha,
             Slider
         }
 
@@ -54,11 +53,9 @@ namespace DMXforDummies
                 switch (field.Value)
                 {
                     case FieldType.ColorPicker:
-                    case FieldType.ColorPickerWithAlpha:
                         control = new ColorPicker();
                         ((ColorPicker) control).UsingAlphaChannel = true;
-                        ((ColorPicker) control).SelectedColor =
-                            ((DmxLib.Util.Color) field.Key.Get(DMXKanalplan.ColorProperty)).SystemColor();
+                        ((ColorPicker) control).SelectedColor = field.Key.SystemColor();
                         ((ColorPicker) control).SelectedColorChanged += color_changed;
                         break;
                     case FieldType.Slider:
@@ -82,7 +79,7 @@ namespace DMXforDummies
                 this.FindLogicalChildren<Grid>().First().Children.Add(label);
 
                 deviceMap.Add(control.GetHashCode(), field.Key);
-                startMap.Add(field.Key, ((DmxLib.Util.Color)field.Key.Get(DMXKanalplan.ColorProperty)).SystemColor());
+                startMap.Add(field.Key, field.Key.SystemColor());
             }
 
             var liveLabel = new Label();

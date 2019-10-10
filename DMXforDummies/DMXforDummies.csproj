@@ -161,6 +161,7 @@
     </Page>
     <Compile Include="Helpers.cs" />
     <Compile Include="Models\AvSink.cs" />
+    <Compile Include="Models\DimmerHandler.cs" />
     <Compile Include="Models\DMXUniverse.cs" />
     <Compile Include="Models\DMXDeviceGroup.cs" />
     <Compile Include="Models\DMXDevice.cs" />

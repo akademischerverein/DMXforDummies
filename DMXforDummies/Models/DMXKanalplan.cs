@@ -18,6 +18,7 @@ namespace DMXforDummies.Models
             var rgb = new RgbHandler("rgb");
             var drgb = new RgbHandler("drgb");
             var rgbw = new RgbHandler("rgbw");
+            var dimmer = new DimmerHandler();
 
             var groups = new Dictionary<string, List<IDevice>>();
 
@@ -49,6 +50,10 @@ namespace DMXforDummies.Models
                         break;
                     case "RGBW":
                         groups[line[2]].Add(new Device(line[3], uint.Parse(deviceType[0]), uint.Parse(line[0]), new[] { rgbw }));
+                        break;
+                    case "Dimmer":
+                        groups[line[2]].Add(new Device(line[3], uint.Parse(deviceType[0]), uint.Parse(line[0]), new[] { dimmer }));
+                        groups[line[2]][groups[line[2]].Count - 1].Set(DimmerProperty, 0.0);
                         break;
                 }
             }

@@ -50,9 +50,11 @@ namespace DMXforDummies
             return new KeyValuePair<string, ColorBarDialog.FieldType>(dev, type);
         }
 
-        public static Color SystemColor(this DmxLib.Util.Color color)
+        public static Color SystemColor(this DmxLib.IDevice device)
         {
-            return Color.FromRgb((byte) (color.R * 255), (byte) (color.G * 255), (byte) (color.B * 255));
+            var color = (DmxLib.Util.Color) device.Get(DMXKanalplan.ColorProperty);
+            var dimmer = (double) device.Get(DMXKanalplan.DimmerProperty);
+            return Color.FromArgb((byte) (dimmer * 255), (byte) (color.R * 255), (byte) (color.G * 255), (byte) (color.B * 255));
         }
     }
 }
