@@ -20,6 +20,7 @@ namespace DMXforDummies.ViewModels
         public void Execute(object parameter)
         {
             _scene(_kanalplan);
+            _dmx.UpdateBrushes();
         }
 
         public bool CanExecute(object parameter)

@@ -9,15 +9,15 @@ namespace DMXforDummies.ViewModels
 {
     public class SetDevicesSceneCommand : ICommand
     {
-        private readonly DMX _dmx;
         private readonly KeyValuePair<DeviceProperty, object[]>[] _values;
         private IDevice _group;
+        private DMX _dmx;
 
-        public SetDevicesSceneCommand(DMX dmx, IDevice group, params KeyValuePair<DeviceProperty, object[]>[] values)
+        public SetDevicesSceneCommand(DMX dmx, IDevice @group, params KeyValuePair<DeviceProperty, object[]>[] values)
         {
-            _dmx = dmx;
             _values = values;
             _group = group;
+            _dmx = dmx;
         }
 
         public void Execute(object parameter)

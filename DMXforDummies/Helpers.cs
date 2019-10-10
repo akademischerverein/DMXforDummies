@@ -39,12 +39,6 @@ namespace DMXforDummies
             return new KeyValuePair<DeviceProperty, object[]>(property, values);
         }
 
-        public static KeyValuePair<DMXDevice, ColorBarDialog.FieldType> Option(this DMXDevice dev,
-            ColorBarDialog.FieldType type)
-        {
-            return new KeyValuePair<DMXDevice, ColorBarDialog.FieldType>(dev, type);
-        }
-
         public static KeyValuePair<String, ColorBarDialog.FieldType> Option(string dev, ColorBarDialog.FieldType type)
         {
             return new KeyValuePair<string, ColorBarDialog.FieldType>(dev, type);
