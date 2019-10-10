@@ -106,11 +106,11 @@
     <Reference Include="Costura, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.2.0.0\lib\net452\Costura.dll</HintPath>
     </Reference>
-    <Reference Include="DmxLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DmxLib.1.0.0\lib\netstandard2.0\DmxLib.dll</HintPath>
+    <Reference Include="DmxLib">
+      <HintPath>..\DmxLib.dll</HintPath>
     </Reference>
-    <Reference Include="DmxLib.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DmxLib.Util.1.0.0\lib\netstandard2.0\DmxLib.Util.dll</HintPath>
+    <Reference Include="DmxLib.Util">
+      <HintPath>..\DmxLib.Util.dll</HintPath>
     </Reference>
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
