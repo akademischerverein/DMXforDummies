@@ -10,3 +10,7 @@ for /f "usebackq tokens=1* delims=: " %%i in (`vswhere -latest -requires Microso
 if exist "%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe" (
   "%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe" %*
 )
+
+if exist "%InstallDir%\MSBuild\Current\Bin\MSBuild.exe" (
+  "%InstallDir%\MSBuild\Current\Bin\MSBuild.exe" %*
+)
