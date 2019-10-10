@@ -12,8 +12,10 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using DMXforDummies.Models;
 using DMXforDummies.ViewModels;
+using DmxLib;
 using Xceed.Wpf.AvalonDock.Controls;
 using Xceed.Wpf.Toolkit;
+using static DMXforDummies.Helpers;
 using WindowStartupLocation = System.Windows.WindowStartupLocation;
 
 namespace DMXforDummies
@@ -23,10 +25,10 @@ namespace DMXforDummies
     /// </summary>
     public partial class ColorBarDialog : Window
     {
-        private Dictionary<int, DMXDevice> deviceMap;
+        private Dictionary<int, IDevice> deviceMap;
         private CheckBox useLive;
         private DMX dmx;
-        private Dictionary<DMXDevice, Color> startMap;
+        private Dictionary<IDevice, Color> startMap;
 
         public enum FieldType
         {
@@ -35,12 +37,12 @@ namespace DMXforDummies
             Slider
         }
 
-        public ColorBarDialog(KeyValuePair<DMXDevice, FieldType>[] fields, DMX dmx)
+        public ColorBarDialog(KeyValuePair<IDevice, FieldType>[] fields, DMX dmx)
         {
             InitializeComponent();
 
-            deviceMap = new Dictionary<int, DMXDevice>();
-            startMap = new Dictionary<DMXDevice, Color>();
+            deviceMap = new Dictionary<int, IDevice>();
+            startMap = new Dictionary<IDevice, Color>();
             this.dmx = dmx;
 
             int i = 0;
@@ -52,28 +54,24 @@ namespace DMXforDummies
                 switch (field.Value)
                 {
                     case FieldType.ColorPicker:
-                        control = new ColorPicker();
-                        ((ColorPicker) control).UsingAlphaChannel = false;
-                        ((ColorPicker) control).SelectedColor = field.Key.Value;
-                        ((ColorPicker) control).SelectedColorChanged += color_changed;
-                        break;
                     case FieldType.ColorPickerWithAlpha:
                         control = new ColorPicker();
                         ((ColorPicker) control).UsingAlphaChannel = true;
-                        ((ColorPicker) control).SelectedColor = field.Key.Value;
+                        ((ColorPicker) control).SelectedColor =
+                            ((DmxLib.Util.Color) field.Key.Get(DMXKanalplan.ColorProperty)).SystemColor();
                         ((ColorPicker) control).SelectedColorChanged += color_changed;
                         break;
                     case FieldType.Slider:
                         control = new Slider();
                         ((Slider) control).Maximum = 1.0;
                         ((Slider) control).Minimum = 0.0;
-                        ((Slider) control).Value = field.Key.Value.R / 255.0;
+                        ((Slider) control).Value = ((DmxLib.Util.Color)field.Key.Get(DMXKanalplan.ColorProperty)).R;
                         ((Slider) control).ValueChanged += color_changed;
                         break;
                 }
 
                 var label = new Label();
-                label.Content = field.Key.FriendlyName;
+                label.Content = field.Key.Name;
                 label.HorizontalAlignment = HorizontalAlignment.Left;
                 label.VerticalAlignment = VerticalAlignment.Top;
                 label.Margin = new Thickness(10, 10 + 31*(i), 0, 0);
@@ -84,7 +82,7 @@ namespace DMXforDummies
                 this.FindLogicalChildren<Grid>().First().Children.Add(label);
 
                 deviceMap.Add(control.GetHashCode(), field.Key);
-                startMap.Add(field.Key, field.Key.Value);
+                startMap.Add(field.Key, ((DmxLib.Util.Color)field.Key.Get(DMXKanalplan.ColorProperty)).SystemColor());
             }
 
             var liveLabel = new Label();
@@ -132,14 +130,14 @@ namespace DMXforDummies
 
             foreach (var field in startMap)
             {
-                field.Key.Value = field.Value;
+            //    field.Key.Value = field.Value;
             }
             List<DMXDevice> devices = new List<DMXDevice>();
             foreach (DMXDevice dev in deviceMap.Values)
             {
                 devices.Add(dev);
             }
-            dmx.UpdateSceneRGBFarben(devices);
+            //dmx.UpdateSceneRGBFarben(devices);
         }
 
         private void ToggleLive(object sender, RoutedEventArgs e)
@@ -157,7 +155,6 @@ namespace DMXforDummies
             {
                 devices.Add(dev);
             }
-            dmx.UpdateSceneRGBFarben(devices);
         }
 
         private void UpdateColors()
@@ -170,18 +167,18 @@ namespace DMXforDummies
                 {
                     var control = (ColorPicker)nativeControl;
                     DMXDevice dev;
-                    if (control.SelectedColor.HasValue && deviceMap.TryGetValue(control.GetHashCode(), out dev))
+                    //if (control.SelectedColor.HasValue && deviceMap.TryGetValue(control.GetHashCode(), out dev))
                     {
-                        dev.Value = control.SelectedColor.Value;
+                        //dev.Value = control.SelectedColor.Value;
                     }
                 }
                 else if (nativeControl.GetType() == typeof(Slider))
                 {
                     var control = (Slider)nativeControl;
                     DMXDevice dev;
-                    if (deviceMap.TryGetValue(control.GetHashCode(), out dev))
+                    //if (deviceMap.TryGetValue(control.GetHashCode(), out dev))
                     {
-                        dev.Value = Color.FromRgb((byte)(control.Value * 255.0), 0, 0);
+                        //dev.Value = Color.FromRgb((byte)(control.Value * 255.0), 0, 0);
                     }
                 }
             }

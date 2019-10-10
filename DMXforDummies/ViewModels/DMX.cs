@@ -3,54 +3,56 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using System.Windows.Media;
 using DMXforDummies.Models;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using DmxLib;
 using Prism.Commands;
 using static DMXforDummies.Helpers;
 using static DMXforDummies.ColorBarDialog.FieldType;
+using static DMXforDummies.Models.DMXKanalplan;
+using Color = DmxLib.Util.Color;
 
 namespace DMXforDummies.ViewModels
 {
     public class DMX : ObservableObject
     {
-        private readonly DMXUniverse universe = new DMXUniverse("192.168.0.6", 5120);
         private readonly DMXKanalplan kanalplan = new DMXKanalplan();
         private readonly Task _universe_update_task;
         private Visibility _windowVisibility;
 
         public DMX()
         {
-            SetRotBlauKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl Saal"), Change("Schattenfuge", Color.FromRgb(255, 0, 0)), Change("Bar oben", Color.FromRgb(0, 0, 255)), Change("Bar unten", Color.FromRgb(255, 0, 0)), Change("Bar weiß", Color.FromRgb(0, 0, 0)));
-            SetRotBlauGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr Saal"), Change("Schattenfuge", Color.FromRgb(255, 0, 0)), Change("Bar oben", Color.FromRgb(0, 0, 255)), Change("Bar unten", Color.FromRgb(255, 0, 0)), Change("Bar weiß", Color.FromRgb(0, 0, 0)));
+            SetRotBlauKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), Color.FromRGB(0, 0, 1), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
+            SetRotBlauGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), Color.FromRGB(0, 0, 1), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
             SetAllesAusCommand = new SetGlobalSceneCommand(kanalplan, SceneAllesAus, this);
-            SetKalteFarbenGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr Saal"), Change("Schattenfuge", Color.FromRgb(200, 200, 0)), Change("Bar oben", Color.FromRgb(0, 200, 200)), Change("Bar unten", Color.FromRgb(200, 200, 0)), Change("Bar weiß", Color.FromRgb(0, 0, 0)));
-            SetKalteFarbenKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl Saal"), Change("Schattenfuge", Color.FromRgb(200, 200, 0)), Change("Bar oben", Color.FromRgb(0, 200, 200)), Change("Bar unten", Color.FromRgb(200, 200, 0)), Change("Bar weiß", Color.FromRgb(0, 0, 0)));
-            SetWarmeFarbenGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr Saal"), Change("Schattenfuge", Color.FromRgb(220, 50, 0)), Change("Bar oben", Color.FromRgb(200, 150, 0)), Change("Bar unten", Color.FromRgb(220, 50, 0)), Change("Bar weiß", Color.FromRgb(0, 0, 0)));
-            SetWarmeFarbenKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl Saal"), Change("Schattenfuge", Color.FromRgb(220, 50, 0)), Change("Bar oben", Color.FromRgb(200, 150, 0)), Change("Bar unten", Color.FromRgb(220, 50, 0)), Change("Bar weiß", Color.FromRgb(0, 0, 0)));
-            SetAVFarbenGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr Saal"), Change("Schattenfuge", Color.FromRgb(255, 0, 0)), Change("Bar oben", Color.FromRgb(255, 0, 0)), Change("Bar unten", Color.FromRgb(255, 0, 0)), Change("Bar weiß", Color.FromRgb(192, 0, 0)));
-            SetAVFarbenKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl Saal"), Change("Schattenfuge", Color.FromRgb(255, 0, 0)), Change("Bar oben", Color.FromRgb(255, 0, 0)), Change("Bar unten", Color.FromRgb(255, 0, 0)), Change("Bar weiß", Color.FromRgb(192, 0, 0)));
-            SelectRGBKlSaalCommand = new DelegateCommand(() => SelectFarben(kanalplan.Group("kl Saal"), Option("Schattenfuge", ColorPicker), Option("Bar oben", ColorPicker), Option("Bar unten", ColorPicker), Option("Bar weiß", Slider)));
-            SelectRGBGrSaalCommand = new DelegateCommand(() => SelectFarben(kanalplan.Group("gr Saal"), Option("Schattenfuge", ColorPicker), Option("Bar oben", ColorPicker), Option("Bar unten", ColorPicker), Option("Bar weiß", Slider)));
-            SetAusGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr Saal"), Change("Schattenfuge", Color.FromRgb(0, 0, 0)), Change("Bar oben", Color.FromRgb(0, 0, 0)), Change("Bar unten", Color.FromRgb(0, 0, 0)), Change("Bar weiß", Color.FromRgb(0, 0, 0)));
-            SetAusKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl Saal"), Change("Schattenfuge", Color.FromRgb(0, 0, 0)), Change("Bar oben", Color.FromRgb(0, 0, 0)), Change("Bar unten", Color.FromRgb(0, 0, 0)), Change("Bar weiß", Color.FromRgb(0, 0, 0)));
+            SetKalteFarbenGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(200.0/255, 200.0/255, 0), Color.FromRGB(0, 200.0/255, 200.0/255), Color.FromRGB(200.0/255, 200.0/255, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
+            SetKalteFarbenKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(200.0 / 255, 200.0 / 255, 0), Color.FromRGB(0, 200.0 / 255, 200.0 / 255), Color.FromRGB(200.0 / 255, 200.0 / 255, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
+            SetWarmeFarbenGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(220.0 / 255, 50.0 / 255, 0), Color.FromRGB(200.0/255, 150.0 / 255, 0), Color.FromRGB(220.0 / 255, 50.0 / 255, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
+            SetWarmeFarbenKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(220.0 / 255, 50.0 / 255, 0), Color.FromRGB(200.0 / 255, 150.0 / 255, 0), Color.FromRGB(220.0 / 255, 50.0 / 255, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
+            SetAVFarbenGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
+            SetAVFarbenKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
+            SelectRGBKlSaalCommand = new DelegateCommand(() => SelectFarben(kanalplan.Group("kl. Saal"), Option("Schattenfuge", ColorPicker), Option("Bar oben", ColorPicker), Option("Bar unten", ColorPicker), Option("Bar weiß", Slider)));
+            SelectRGBGrSaalCommand = new DelegateCommand(() => SelectFarben(kanalplan.Group("gr. Saal"), Option("Schattenfuge", ColorPicker), Option("Bar oben", ColorPicker), Option("Bar unten", ColorPicker), Option("Bar weiß", Slider)));
+            SetAusGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
+            SetAusKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0)), DimmerProperty.Change(1.0, 1.0, 1.0));
             HideWindowCommand = new DelegateCommand(() => WindowVisibility = Visibility.Collapsed);
             _universe_update_task = UpdateDMXUniverse();
 
-            SetBuntBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Bühne"), Change("links", Color.FromRgb(255, 0, 0)), Change("halblinks", Color.FromRgb(0, 255, 0)), Change("halbrechts", Color.FromRgb(0, 0, 255)), Change("rechts", Color.FromRgb(175, 175, 0)));
-            SetWarmeFarbenBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Bühne"), Change("links", Color.FromRgb(200, 150, 0)), Change("halblinks", Color.FromRgb(255, 0, 0)), Change("halbrechts", Color.FromRgb(255, 0, 0)), Change("rechts", Color.FromRgb(200, 150, 0)));
-            SetKalteFarbenBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Bühne"), Change("links", Color.FromRgb(0, 143, 209)), Change("halblinks", Color.FromRgb(124, 252, 0)), Change("halbrechts", Color.FromRgb(0, 143, 209)), Change("rechts", Color.FromRgb(124, 252, 0)));
-            SetRotGruenBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Bühne"), Change("links", Color.FromRgb(50, 255, 0)), Change("halblinks", Color.FromRgb(255, 0, 0)), Change("halbrechts", Color.FromRgb(50, 255, 0)), Change("rechts", Color.FromRgb(255, 0, 0)));
+            SetBuntBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(1, 0, 0), Color.FromRGB(0, 1, 0), Color.FromRGB(0, 0, 1), Color.FromRGB(175.0/255, 175.0/255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetWarmeFarbenBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(200.0/255, 150.0/255, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(200.0 / 255, 150.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetKalteFarbenBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(0, 143.0 / 255, 209.0/255), Color.FromRGB(124.0/255, 252.0/255, 0), Color.FromRGB(0, 143.0 / 255, 209.0 / 255), Color.FromRGB(124.0 / 255, 252.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetRotGruenBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(50.0/255, 1, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(50.0/255, 1, 0), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1, 1, 1, 1));
             SelectRGBBuehneCommand = new DelegateCommand(() => SelectFarben(kanalplan.Group("Bühne"), Option("links", ColorPickerWithAlpha), Option("halblinks", ColorPickerWithAlpha), Option("halbrechts", ColorPickerWithAlpha), Option("rechts", ColorPickerWithAlpha)));
-            SetAusBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Bühne"), Change("links", Color.FromRgb(0, 0, 0)), Change("halblinks", Color.FromRgb(0, 0, 0)), Change("halbrechts", Color.FromRgb(0, 0, 0)), Change("rechts", Color.FromRgb(0, 0, 0)));
+            SetAusBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0)), DimmerProperty.Change(1, 1, 1, 1));
 
-            SetBuntSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne Saal"), Change("1", Color.FromRgb(255, 0, 0)), Change("2", Color.FromRgb(0, 255, 0)), Change("3", Color.FromRgb(0, 0, 255)), Change("4", Color.FromRgb(175, 175, 0)));
-            SetWarmeFarbenSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne Saal"), Change("1", Color.FromRgb(200, 150, 0)), Change("2", Color.FromRgb(255, 0, 0)), Change("3", Color.FromRgb(255, 0, 0)), Change("4", Color.FromRgb(200, 150, 0)));
-            SetKalteFarbenSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne Saal"), Change("1", Color.FromRgb(0, 143, 209)), Change("2", Color.FromRgb(124, 252, 0)), Change("3", Color.FromRgb(0, 143, 209)), Change("4", Color.FromRgb(124, 252, 0)));
-            SetRotGruenSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne Saal"), Change("1", Color.FromRgb(50, 255, 0)), Change("2", Color.FromRgb(255, 0, 0)), Change("3", Color.FromRgb(50, 255, 0)), Change("4", Color.FromRgb(255, 0, 0)));
-            SelectRGBSaalCommand = new DelegateCommand(() => SelectFarben(kanalplan.Group("LED Kanne Saal"), Option("1", ColorPicker), Option("2", ColorPicker), Option("3", ColorPicker), Option("4", ColorPicker)));
-            SetAusSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne Saal"), Change("1", Color.FromRgb(0, 0, 0)), Change("2", Color.FromRgb(0, 0, 0)), Change("3", Color.FromRgb(0, 0, 0)), Change("4", Color.FromRgb(0, 0, 0)));
+            SetBuntSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), Color.FromRGB(0, 1, 0), Color.FromRGB(0, 0, 1), Color.FromRGB(175.0 / 255, 175.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetWarmeFarbenSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(200.0 / 255, 150.0 / 255, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(200.0 / 255, 150.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetKalteFarbenSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(0, 143.0 / 255, 209.0 / 255), Color.FromRGB(124.0 / 255, 252.0 / 255, 0), Color.FromRGB(0, 143.0 / 255, 209.0 / 255), Color.FromRGB(124.0 / 255, 252.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetRotGruenSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(50.0 / 255, 1, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(50.0 / 255, 1, 0), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SelectRGBSaalCommand = new DelegateCommand(() => SelectFarben(kanalplan.Group("LED Kanne gr. Saal"), Option("1", ColorPicker), Option("2", ColorPicker), Option("3", ColorPicker), Option("4", ColorPicker)));
+            SetAusSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0)), DimmerProperty.Change(1, 1, 1, 1));
         }
 
         public Visibility WindowVisibility
@@ -111,147 +113,85 @@ namespace DMXforDummies.ViewModels
 
         public ICommand SetAusSaalCommand { get; }
 
-        public float SetDimmKlSaalCommand
+        public double SetDimmKlSaalCommand
         {
-            get => kanalplan.Group("kl Saal").Dimmer;
-            set
-            {
-                kanalplan.Group("kl Saal").Dimmer = value;
-                UpdateSceneRGBFarben(kanalplan.Group("kl Saal").Devices);
-            }
+            get => (double)kanalplan.Group("kl. Saal").Get(DimmerProperty);
+            set => kanalplan.Group("kl. Saal").Set(DimmerProperty, value);
         }
 
-        public float SetDimmGrSaalCommand
+        public double SetDimmGrSaalCommand
         {
-            get => kanalplan.Group("gr Saal").Dimmer;
-            set
-            {
-                kanalplan.Group("gr Saal").Dimmer = value;
-                UpdateSceneRGBFarben(kanalplan.Group("gr Saal").Devices);
-            }
+            get => (double)kanalplan.Group("gr. Saal").Get(DimmerProperty);
+            set => kanalplan.Group("gr. Saal").Set(DimmerProperty, value);
         }
 
-        public float SetDimmBuehneCommand
+        public double SetDimmBuehneCommand
         {
-            get => kanalplan.Group("Bühne").Dimmer;
-            set
-            {
-                kanalplan.Group("Bühne").Dimmer = value;
-                UpdateSceneRGBFarben(kanalplan.Group("Bühne").Devices);
-            }
+            get => (double) kanalplan.Group("Outdoor LED").Get(DimmerProperty);
+            set => kanalplan.Group("Outdoor LED").Set(DimmerProperty, value);
         }
 
-        public float SetDimmLEDSaalCommand
+        public double SetDimmLEDSaalCommand
         {
-            get => kanalplan.Group("LED Kanne Saal").Dimmer;
-            set
-            {
-                kanalplan.Group("LED Kanne Saal").Dimmer = value;
-                UpdateSceneRGBFarben(kanalplan.Group("LED Kanne Saal").Devices);
-            }
+            get => (double) kanalplan.Group("LED Kanne gr. Saal").Get(DimmerProperty);
+            set => kanalplan.Group("LED Kanne gr. Saal").Set(DimmerProperty, value);
         }
 
-        private void SelectFarben(DMXDeviceGroup group, params KeyValuePair<string, ColorBarDialog.FieldType>[] fields)
+        private void SelectFarben(IDevice group, params KeyValuePair<string, ColorBarDialog.FieldType>[] fields)
         {
-            KeyValuePair<DMXDevice, ColorBarDialog.FieldType>[] options = new KeyValuePair<DMXDevice, ColorBarDialog.FieldType>[fields.Length];
+            var options = new KeyValuePair<IDevice, ColorBarDialog.FieldType>[fields.Length];
 
             for (int i = 0; i < options.Length; ++i)
             {
-                options[i] = new KeyValuePair<DMXDevice, ColorBarDialog.FieldType>(group.Device(fields[i].Key), fields[i].Value);
+                options[i] = new KeyValuePair<IDevice, ColorBarDialog.FieldType>(group.Children.First(d => d.Name == fields[i].Key), fields[i].Value);
             }
 
             SelectFarben(options);
         }
 
-        private void SelectFarben(params KeyValuePair<DMXDevice, ColorBarDialog.FieldType>[] fields)
+        private void SelectFarben(params KeyValuePair<IDevice, ColorBarDialog.FieldType>[] fields)
         {
             ColorBarDialog dialog = new ColorBarDialog(fields, this);
 
             if (dialog.ShowDialog() == false) return;
 
-            UpdateSceneRGBFarben(fields.ToDictionary(kvp => kvp.Key, kvp => kvp.Value).Keys);
+            //UpdateSceneRGBFarben(fields.ToDictionary(kvp => kvp.Key, kvp => kvp.Value).Keys);
         }
 
-        public void UpdateSceneRGBFarben(IReadOnlyCollection<DMXDevice> devices)
+        public void UpdateBrushes()
         {
-            //Requirements work-around:
-            if (devices.Any((dev) => kanalplan.GroupByDevice(dev).Name.Equals("Bühne")))
-            {
-               //TODO: Which relais are necessary?
+            MainWindow.INSTANCE.ColorKlSaalSchattenfuge.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("kl. Saal").Children[2].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorKlSaalBarOben.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("kl. Saal").Children[1].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorKlSaalBarUnten.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("kl. Saal").Children[0].Get(ColorProperty)).SystemColor());
 
-            } else if (devices.Any((dev) => kanalplan.GroupByDevice(dev).Name.Equals("LED Kanne Saal")))
-            {
-                if (kanalplan.Group("LED Kanne Saal").Devices.Any((dev) => !dev.Value.Equals(Color.FromRgb(0, 0, 0))))
-                {
-                     universe.Set(kanalplan.Group("Feststrom").Device("Türseite 1").StartChannel, 255);
-                     universe.Set(kanalplan.Group("Feststrom").Device("Kammerseite 1").StartChannel, 255);
-                }
-                else
-                {
-                     universe.Set(kanalplan.Group("Feststrom").Device("Türseite 1").StartChannel, 0);
-                     universe.Set(kanalplan.Group("Feststrom").Device("Kammerseite 1").StartChannel, 0);
-                }
-            }
+            MainWindow.INSTANCE.ColorGrSaalSchattenfuge.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("gr. Saal").Children[2].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorGrSaalBarOben.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("gr. Saal").Children[1].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorGrSaalBarUnten.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("gr. Saal").Children[0].Get(ColorProperty)).SystemColor());
 
-            foreach (var dev in devices)
-            {
-                switch (dev.Type)
-                {
-                    case "RGB":
-                    case "Dimmer":
-                        universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.R, dev.Value.G, dev.Value.B);
-                        break;
+            MainWindow.INSTANCE.ColorBühneLinks.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("Outdoor LED").Children[0].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorBühneHalblinks.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("Outdoor LED").Children[1].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorBühneHalbrechts.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("Outdoor LED").Children[2].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorBühneRechts.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("Outdoor LED").Children[3].Get(ColorProperty)).SystemColor());
 
-                    case "DRGB":
-                        universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.A, dev.Value.R, dev.Value.G, dev.Value.B);
-                        break;
-                    case "RGBW":
-                        double gew_r = 0.21784 * dev.Value.R;
-                        double gew_g = dev.Value.G;
-                        double gew_b = 0.01308 * dev.Value.B;
-                        double W = Math.Min(Math.Min(gew_r, gew_g), gew_b);
-                        universe.SetValues(dev.StartChannel, kanalplan.GroupByDevice(dev), dev.Value.R, dev.Value.G, dev.Value.B, (byte)W);
-                        break;
-                }
-            }
-
-            UpdateBrushes();
-        }
-
-        //TODO: Use new functionality
-        private void UpdateBrushes()
-        {
-            MainWindow.INSTANCE.ColorKlSaalSchattenfuge.Background = new SolidColorBrush(kanalplan.Group("kl Saal").Device("Schattenfuge").Value);
-            MainWindow.INSTANCE.ColorKlSaalBarOben.Background = new SolidColorBrush(kanalplan.Group("kl Saal").Device("Bar oben").Value);
-            MainWindow.INSTANCE.ColorKlSaalBarUnten.Background = new SolidColorBrush(kanalplan.Group("kl Saal").Device("Bar unten").Value);
-
-            MainWindow.INSTANCE.ColorGrSaalSchattenfuge.Background = new SolidColorBrush(kanalplan.Group("gr Saal").Device("Schattenfuge").Value);
-            MainWindow.INSTANCE.ColorGrSaalBarOben.Background = new SolidColorBrush(kanalplan.Group("gr Saal").Device("Bar oben").Value);
-            MainWindow.INSTANCE.ColorGrSaalBarUnten.Background = new SolidColorBrush(kanalplan.Group("gr Saal").Device("Bar unten").Value);
-
-            MainWindow.INSTANCE.ColorBühneLinks.Background = new SolidColorBrush(kanalplan.Group("Bühne").Device("links").Value);
-            MainWindow.INSTANCE.ColorBühneHalblinks.Background = new SolidColorBrush(kanalplan.Group("Bühne").Device("halblinks").Value);
-            MainWindow.INSTANCE.ColorBühneHalbrechts.Background = new SolidColorBrush(kanalplan.Group("Bühne").Device("halbrechts").Value);
-            MainWindow.INSTANCE.ColorBühneRechts.Background = new SolidColorBrush(kanalplan.Group("Bühne").Device("rechts").Value);
-
-            MainWindow.INSTANCE.ColorSaalHintenRechts.Background = new SolidColorBrush(kanalplan.Group("LED Kanne Saal").Device("1").Value);
-            MainWindow.INSTANCE.ColorSaalVorneRechts.Background = new SolidColorBrush(kanalplan.Group("LED Kanne Saal").Device("2").Value);
-            MainWindow.INSTANCE.ColorSaalsVorneLinks.Background = new SolidColorBrush(kanalplan.Group("LED Kanne Saal").Device("3").Value);
-            MainWindow.INSTANCE.ColorSaalHintenLinks.Background = new SolidColorBrush(kanalplan.Group("LED Kanne Saal").Device("4").Value);
+            MainWindow.INSTANCE.ColorSaalHintenRechts.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("LED Kanne gr. Saal").Children[0].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorSaalVorneRechts.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("LED Kanne gr. Saal").Children[1].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorSaalsVorneLinks.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("LED Kanne gr. Saal").Children[2].Get(ColorProperty)).SystemColor());
+            MainWindow.INSTANCE.ColorSaalHintenLinks.Background = new SolidColorBrush(((DmxLib.Util.Color)kanalplan.Group("LED Kanne gr. Saal").Children[3].Get(ColorProperty)).SystemColor());
         }
 
         private void SceneAllesAus(DMXKanalplan kanalplan)
         {
-            for (int i = 1; i <= 512; i++)
+            foreach (var group in kanalplan.Universe.Devices)
             {
-                universe.Set(i, 0);
-            }
-
-            foreach (var group in kanalplan.Groups)
-            {
-                foreach (var dev in group.Devices)
+                foreach (var dev in group.Children)
                 {
-                    dev.Value = Color.FromRgb(0, 0, 0);
+                    if (dev.SupportedProperties.Contains(ColorProperty))
+                    {
+                        dev.Set(ColorProperty, DmxLib.Util.Color.FromRGB(0, 0, 0));
+                    } else if (dev.SupportedProperties.Contains(DimmerProperty))
+                    {
+                        dev.Set(DimmerProperty, 0);
+                    }
                 }
             }
 
@@ -265,8 +205,7 @@ namespace DMXforDummies.ViewModels
 #endif
             while (true)
             {
-                universe.Commit();
-
+                kanalplan.Sink.Commit();
                 // don't run again for at least 100 milliseconds
                 await Task.Delay(100).ConfigureAwait(false);
             }

@@ -2,43 +2,36 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
-using System.Windows.Media;
+using DmxLib;
+using DmxLib.Util;
 
 namespace DMXforDummies.ViewModels
 {
     public class SetDevicesSceneCommand : ICommand
     {
         private readonly DMX _dmx;
-        private readonly Dictionary<DMXDevice, Color> _values;
+        private readonly KeyValuePair<DeviceProperty, object[]>[] _values;
+        private IDevice _group;
 
-        public SetDevicesSceneCommand(DMX dmx, DMXDeviceGroup group, params KeyValuePair<String, Color>[] colors)
+        public SetDevicesSceneCommand(DMX dmx, IDevice group, params KeyValuePair<DeviceProperty, object[]>[] values)
         {
             _dmx = dmx;
-            _values = new Dictionary<DMXDevice, Color>();
-            foreach (var kp in colors)
-            {
-                _values.Add(group.Device(kp.Key), kp.Value);
-            }
-        }
-
-        public SetDevicesSceneCommand(DMX dmx, params KeyValuePair<DMXDevice, Color>[] colors)
-        {
-            _dmx = dmx;
-            _values = new Dictionary<DMXDevice, Color>();
-            foreach (var kp in colors)
-            {
-                _values.Add(kp.Key, kp.Value);
-            }
+            _values = values;
+            _group = group;
         }
 
         public void Execute(object parameter)
         {
-            foreach (var kp in _values)
+            for (var i = 0; i < _group.Children.Count; i++)
             {
-                kp.Key.Value = kp.Value;
+                foreach(var value in _values)
+                {
+                    if (!_group.Children[i].SupportedProperties.Contains(value.Key)) continue;
+                    _group.Children[i].Set(value.Key, value.Value[i]);
+                }
             }
 
-            _dmx.UpdateSceneRGBFarben(_values.Keys);
+            _dmx.UpdateBrushes();
         }
 
         public bool CanExecute(object parameter)

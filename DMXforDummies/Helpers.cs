@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using DMXforDummies.Models;
+using DmxLib;
 
 namespace DMXforDummies
 {
@@ -29,22 +30,13 @@ namespace DMXforDummies
             return true;
         }
 
-        public static void SetValues(this DMXUniverse universe, int firstChannel, DMXDeviceGroup group, params byte[] values)
+        public static KeyValuePair<DeviceProperty, object[]> Change(this DeviceProperty property, params object[] values)
         {
-            for (int i = 0; i < values.Length; ++i)
+            for (var i = 0; i < values.Length; i++)
             {
-                universe.Set(firstChannel+i, (byte) (values[i] * group.Dimmer));
+                values[i] = Convert.ChangeType(values[i], property.Type);
             }
-        }
-
-        public static KeyValuePair<DMXDevice, Color> Change(this DMXDevice dev, Color color)
-        {
-            return new KeyValuePair<DMXDevice, Color>(dev, color);
-        }
-
-        public static KeyValuePair<String, Color> Change(string dev, Color color)
-        {
-            return new KeyValuePair<string, Color>(dev, color);
+            return new KeyValuePair<DeviceProperty, object[]>(property, values);
         }
 
         public static KeyValuePair<DMXDevice, ColorBarDialog.FieldType> Option(this DMXDevice dev,
@@ -56,6 +48,11 @@ namespace DMXforDummies
         public static KeyValuePair<String, ColorBarDialog.FieldType> Option(string dev, ColorBarDialog.FieldType type)
         {
             return new KeyValuePair<string, ColorBarDialog.FieldType>(dev, type);
+        }
+
+        public static Color SystemColor(this DmxLib.Util.Color color)
+        {
+            return Color.FromRgb((byte) (color.R * 255), (byte) (color.G * 255), (byte) (color.B * 255));
         }
     }
 }
