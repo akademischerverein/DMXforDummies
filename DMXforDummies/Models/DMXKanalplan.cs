@@ -2,60 +2,103 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using DmxLib;
+using Color = DmxLib.Util.Color;
 
 namespace DMXforDummies.Models
 {
     public class DMXKanalplan
     {
-        private readonly ObservableCollection<DMXDeviceGroup> _groups = new ObservableCollection<DMXDeviceGroup>();
-
         public DMXKanalplan()
         {
-            // FIXME: aus kanalbelegung.txt parsen
-            DMXDeviceGroup klSaalGrp = new DMXDeviceGroup("kl Saal");
-            klSaalGrp.AddDevice(new DMXDevice(29, 3, "RGB", "Schattenfuge", "Schattenfuge"));
-            klSaalGrp.AddDevice(new  DMXDevice(17, 3, "RGB", "Bar unten", "Bar untere Hälfte"));
-            klSaalGrp.AddDevice(new DMXDevice(25, 3, "RGB", "Bar oben", "Bar obere Hälfte"));
-            klSaalGrp.AddDevice(new DMXDevice(21, 1, "Dimmer", "Bar weiß", "Bar Weiß"));
-            AddGroup(klSaalGrp);
+            Sink = new AvSink("192.168.0.6", 5120);
+            Universe = new Universe(512, Sink);
+            Universe.Hooks += _relayChannelsApply;
 
-            DMXDeviceGroup grSaalGrp = new DMXDeviceGroup("gr Saal");
-            grSaalGrp.AddDevice(new DMXDevice(45, 3, "RGB", "Schattenfuge", "Schattenfuge"));
-            grSaalGrp.AddDevice(new DMXDevice(33, 3, "RGB", "Bar unten", "Bar untere Hälfte"));
-            grSaalGrp.AddDevice(new DMXDevice(41, 3, "RGB", "Bar oben", "Bar obere Hälfte"));
-            grSaalGrp.AddDevice(new DMXDevice(37, 1, "Dimmer", "Bar weiß", "Bar Weiß"));
-            AddGroup(grSaalGrp);
+            var rgb = new RgbHandler("rgb");
+            var drgb = new RgbHandler("drgb");
+            var rgbw = new RgbHandler("rgbw");
+            var dimmer = new DimmerHandler();
 
-            DMXDeviceGroup stromGrp = new DMXDeviceGroup("Feststrom");
-            stromGrp.AddDevice(new DMXDevice(1, 1, "Relais", "Türseite 1", "Relais Saallichter 1"));
-            stromGrp.AddDevice(new DMXDevice(5, 1, "Relais", "Kammerseite 1", "Relais Saallichter 2"));
-            AddGroup(stromGrp);
+            var groups = new Dictionary<string, List<IDevice>>();
 
-            DMXDeviceGroup buehneGrp = new DMXDeviceGroup("Bühne");
-            buehneGrp.AddDevice(new DMXDevice(81, 4, "DRGB", "links", "Links"));
-            buehneGrp.AddDevice(new DMXDevice(85, 4, "DRGB", "halblinks", "Halblinks"));
-            buehneGrp.AddDevice(new DMXDevice(89, 4, "DRGB", "halbrechts", "Halbrechts"));
-            buehneGrp.AddDevice(new DMXDevice(93, 4, "DRGB", "rechts", "Rechts"));
-            AddGroup(buehneGrp);
+            foreach (var l in Properties.Resources.kanalplan.Split('\n'))
+            {
+                if (l.StartsWith("#") || l.Trim().Length == 0) continue;
 
-            DMXDeviceGroup saalGrp = new DMXDeviceGroup("LED Kanne Saal");
-            saalGrp.AddDevice(new DMXDevice(49, 4, "RGBW", "1", "Hinten rechts"));
-            saalGrp.AddDevice(new DMXDevice(53, 4, "RGBW", "2", "Vorne rechts"));
-            saalGrp.AddDevice(new DMXDevice(57, 4, "RGBW", "3", "Vorne links"));
-            saalGrp.AddDevice(new DMXDevice(61, 4, "RGBW", "4", "Hinten links"));
-            AddGroup(saalGrp);
+                var line = l.Trim().Split(';');
+
+                for (var i = 0; i < line.Length; i++)
+                {
+                    line[i] = line[i].Trim();
+                }
+
+                var deviceType = line[1].Split(':');
+
+                if (!groups.ContainsKey(line[2]))
+                {
+                    groups[line[2]] = new List<IDevice>();
+                }
+
+                switch (deviceType[1])
+                {
+                    case "RGB":
+                        groups[line[2]].Add(new Device(line[3], uint.Parse(deviceType[0]), uint.Parse(line[0]), new []{rgb}));
+                        break;
+                    case "DRGB":
+                        groups[line[2]].Add(new Device(line[3], uint.Parse(deviceType[0]), uint.Parse(line[0]), new[] { drgb }));
+                        break;
+                    case "RGBW":
+                        groups[line[2]].Add(new Device(line[3], uint.Parse(deviceType[0]), uint.Parse(line[0]), new[] { rgbw }));
+                        break;
+                    case "Dimmer":
+                        groups[line[2]].Add(new Device(line[3], uint.Parse(deviceType[0]), uint.Parse(line[0]), new[] { dimmer }));
+                        groups[line[2]][groups[line[2]].Count - 1].Set(DimmerProperty, 0.0);
+                        break;
+                }
+            }
+
+            foreach (var g in groups)
+            {
+                if (g.Value.Count == 0) continue;
+                Universe.AddDevice(new DeviceGroup(g.Key, g.Value));
+            }
         }
 
-        public DMXDeviceGroup Group(string name) => _groups.First(g => g.Name == name);
+        private DateTime? _lastRelayUse;
+        private List<uint> _relayChannels = new List<uint>(new uint[]{0, 4});
+        private List<uint> _relayRequiredFor = new List<uint>(new uint[]{48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63});
 
-        public DMXDeviceGroup GroupByDevice(DMXDevice dev) => _groups.First(g => g.Devices.Contains(dev));
-
-        public IReadOnlyCollection<DMXDeviceGroup> Groups => _groups;
-
-        public void AddGroup(DMXDeviceGroup group)
+        private void _relayChannelsApply(Universe universe, ref byte[] values)
         {
-            if (_groups.Any(g => g.Name == group.Name)) throw new InvalidOperationException("One Kanalplan can not contain more than one group with the same name");
-            _groups.Add(group);
+            var localRef = values;
+            if (_relayRequiredFor.Any(ch => localRef[ch] > 0))
+            {
+                _lastRelayUse = DateTime.Now;
+            }
+
+            byte chValue = 0;
+
+            if (_lastRelayUse.HasValue && (DateTime.Now - _lastRelayUse.Value).TotalSeconds < 300)
+            {
+                chValue = 255;
+            }
+
+            foreach (var ch in _relayChannels)
+            {
+                values[ch] = chValue;
+            }
         }
+
+        public IDevice Group(string name) => Universe.Devices.First(g => g.Name == name);
+
+        public IDevice GroupByDevice(IDevice dev) => Universe.Devices.First(g => g.Children.Contains(dev));
+        public Universe Universe { get; }
+        public AvSink Sink { get; }
+
+        public static readonly DeviceProperty ColorProperty =
+            DeviceProperty.RegisterProperty("color", typeof(Color), Color.FromRGB(0, 0, 0), (g, d) => ((Color)g).R != 0 || ((Color)g).G != 0 || ((Color)g).B != 0 ? g : d);
+        public static readonly DeviceProperty DimmerProperty =
+            DeviceProperty.RegisterProperty("dimmer", typeof(double), 1.0, (g, d) => (double)g * (double)d);
     }
 }
