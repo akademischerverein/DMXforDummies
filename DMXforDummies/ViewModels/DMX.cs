@@ -182,7 +182,7 @@ namespace DMXforDummies.ViewModels
                         dev.Set(ColorProperty, DmxLib.Util.Color.FromRGB(0, 0, 0));
                     } else if (dev.SupportedProperties.Contains(DimmerProperty))
                     {
-                        dev.Set(DimmerProperty, 0);
+                        dev.Set(DimmerProperty, 0.0);
                     }
                 }
             }
