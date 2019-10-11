@@ -37,8 +37,8 @@ deploy-to-fs:
     - choco install vswhere -y
   script:
     - nuget restore DMXforDummies.sln
-    - net use \\ad.akademischerverein.de\Software$ %AVAdmin_PW% /user:haus.akademischerverein.de\AVAdmin
-    - call msbuild.bat /t:Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\ad.akademischerverein.de\Software$\DMXforDummies\
+    - net use \\192.168.0.4\Software$ %AVAdmin_PW% /user:AV\avadmin
+    - call msbuild.bat /t:Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\192.168.0.4\Software$\DMXforDummies\
   when: manual
   cache:
     key: "windows_$CI_PIPELINE_ID"
