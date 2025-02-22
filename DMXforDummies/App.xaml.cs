@@ -5,33 +5,17 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Shell;
 
 namespace DMXforDummies
 {
     /// <summary>
     /// Interaktionslogik für "App.xaml"
     /// </summary>
-    public partial class App : Application, ISingleInstanceApp
+    public partial class App : Application
     {
         private const string Unique = "ac702c4fee8f4df395bcc09122a9aa4c";
 
-        [STAThread]
-        public static void Main()
-        {
-            if (!SingleInstance<App>.InitializeAsFirstInstance(Unique)) return;
-            try
-            {
-                var application = new App();
-                application.InitializeComponent();
-                application.Run();
-            }
-            finally
-            {
-                // Allow single instance code to perform cleanup operations
-                SingleInstance<App>.Cleanup();
-            }
-        }
+
 
         public bool SignalExternalCommandLineArgs(IList<string> args)
         {
