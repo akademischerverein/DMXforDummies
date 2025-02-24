@@ -14,28 +14,24 @@ namespace DMXforDummies
     public partial class App : Application
     {
         private const string Unique = "ac702c4fee8f4df395bcc09122a9aa4c";
+        private static System.Threading.Mutex singleInstanceMutex;
 
-
-
-        public bool SignalExternalCommandLineArgs(IList<string> args)
+        private void Application_Startup(object sender, StartupEventArgs e)
         {
-            // Handle command line arguments of second instance
+            singleInstanceMutex = new System.Threading.Mutex(true, Unique);
+            var isOnlyInstance = singleInstanceMutex.WaitOne(TimeSpan.Zero, true);
 
-            MainWindow.Show();
-
-            // Bring window to foreground
-            if (MainWindow.WindowState == WindowState.Minimized)
+            if (isOnlyInstance)
             {
-                MainWindow.WindowState = WindowState.Normal;
+                StartupUri = new Uri("MainWindow.xaml", UriKind.Relative);
+
+                singleInstanceMutex.ReleaseMutex();
             }
-
-            // Kind of hackish but makes MainWindow visible
-            var topMost = MainWindow.Topmost;
-            MainWindow.Topmost = true;
-            MainWindow.Topmost = topMost;
-
-            MainWindow.Activate();
-            return true;
+            else
+            {
+                SingleInstance.PostMessage((IntPtr)SingleInstance.HWND_BROADCAST, SingleInstance.WM_SHOWME, IntPtr.Zero, IntPtr.Zero);
+                Shutdown();
+            }
         }
     }
 }
