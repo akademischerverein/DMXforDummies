@@ -6,8 +6,10 @@ build:
   stage: build
   script:
     - dotnet restore DMXforDummies.sln
-    - dotnet build /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Debug"
-    - dotnet build /t:Clean,Rebuild DMXforDummies.sln /p:Configuration="Release"
+    - dotnet clean DMXforDummies.sln -c Debug
+    - dotnet clean DMXforDummies.sln -c Release
+    - dotnet build DMXforDummies.sln -c Debug
+    - dotnet build DMXforDummies.sln -c Release
   tags:
     - msbuild
     - windows
@@ -32,7 +34,7 @@ deploy-to-fs:
   script:
     - dotnet restore DMXforDummies.sln
     - net use \\192.168.0.4\Software$ %AVAdmin_PW% /user:AV\avadmin
-    - dotnet build /t:Publish DMXforDummies.sln /p:Configuration="Release" /p:DeployOnBuild=true /p:PublishDir=\\192.168.0.4\Software$\DMXforDummies\
+    - dotnet publish DMXforDummies.sln -c Release -p:DeployOnBuild=true -o \\192.168.0.4\Software$\DMXforDummies\
   when: manual
   cache:
     key: "windows_$CI_PIPELINE_ID"
