@@ -28,7 +28,7 @@ namespace DMXforDummies
         {
             INSTANCE = this;
             InitializeComponent();
-            Title = $"DMX for Dummies {Assembly.GetExecutingAssembly().GetName().Version}";
+            Title = $"DMX for Dummies {ThisAssembly.AssemblyInformationalVersion}";
 
             SldrKlSaalDimm.Value = SldrKlSaalDimm.Maximum;
             SldrGrSaalDimm.Value = SldrGrSaalDimm.Maximum;
