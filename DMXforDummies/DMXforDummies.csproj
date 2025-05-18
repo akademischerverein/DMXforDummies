@@ -53,17 +53,10 @@
     <ManifestTimestampUrl>http://timestamp.comodoca.com/</ManifestTimestampUrl>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DmxLib">
-      <HintPath>..\DmxLib.dll</HintPath>
-    </Reference>
-    <Reference Include="DmxLib.Util">
-      <HintPath>..\DmxLib.Util.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\kanalplan.txt" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="DmxLib" Version="0.1.10" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25103.5738" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115">
       <PrivateAssets>all</PrivateAssets>
