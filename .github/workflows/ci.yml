@@ -25,4 +25,4 @@ jobs:
       with:
         name: DMXforDummies-${{ steps.nbgv.outputs.SemVer2 }}
         path: |
-          bin/Release/**/*
+          DMXforDummies/bin/Release/**/*
