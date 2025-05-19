@@ -24,14 +24,19 @@ namespace DMXforDummies
             singleInstanceMutex = new System.Threading.Mutex(true, Unique);
             var isOnlyInstance = singleInstanceMutex.WaitOne(TimeSpan.Zero, true);
 
-            if (isOnlyInstance)
+            if(!isOnlyInstance)
             {
-#if !DEBUG
-                VelopackApp.Build().Run();
+                SingleInstance.PostMessage((IntPtr)SingleInstance.HWND_BROADCAST, SingleInstance.WM_SHOWME, IntPtr.Zero, IntPtr.Zero);
+                Shutdown();
+            }
 
-                try
+            VelopackApp.Build().Run();
+            try
+            {
+                var mgr = new UpdateManager(new GithubSource("https://github.com/akademischerverein/DMXforDummies", null, false));
+
+                if (mgr?.CurrentVersion != null)
                 {
-                    var mgr = new UpdateManager(new GithubSource("https://github.com/akademischerverein/DMXforDummies", null, false));
                     var updateInfo = await mgr.CheckForUpdatesAsync();
 
                     if (updateInfo != null)
@@ -46,25 +51,22 @@ namespace DMXforDummies
 
                             updateWindow.SetStatus("Installiere Updates...");
                             mgr.ApplyUpdatesAndRestart(updateInfo);
-                        } catch(Exception ex)
+                        }
+                        catch (Exception ex)
                         {
                             MessageBox.Show("Fehler beim Aktualisieren: " + ex.Message);
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Fehler beim Überprüfen auf neue Updates: " + ex.Message);
-                }
-#endif
-                StartupUri = new Uri("MainWindow.xaml", UriKind.Relative);
-                singleInstanceMutex.ReleaseMutex();
             }
-            else
+            catch (Exception ex)
             {
-                SingleInstance.PostMessage((IntPtr)SingleInstance.HWND_BROADCAST, SingleInstance.WM_SHOWME, IntPtr.Zero, IntPtr.Zero);
-                Shutdown();
+                MessageBox.Show("Fehler beim Überprüfen auf neue Updates: " + ex.Message);
             }
+
+            var mw = new MainWindow();
+            mw.Show();
+            singleInstanceMutex.ReleaseMutex();
         }
     }
 }
