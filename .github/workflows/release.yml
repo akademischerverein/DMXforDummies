@@ -23,5 +23,6 @@ jobs:
     - name: Upload Release
       run: |
         dotnet tool install -g vpk
-        vpk pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish -f net8-x64-desktop --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDumies/Resources/Logo.ico -e DMXforDummies.exe 
+        vpk download github --repoUrl https://github.com/${{ github.repository }}
+        vpk pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish -f net8-x64-desktop --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Resources/Logo.ico -e DMXforDummies.exe 
         vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --pre
