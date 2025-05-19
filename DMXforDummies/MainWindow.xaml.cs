@@ -28,7 +28,11 @@ namespace DMXforDummies
         {
             INSTANCE = this;
             InitializeComponent();
+#if DEBUG
             Title = $"DMX for Dummies {ThisAssembly.AssemblyInformationalVersion}";
+#else
+            Title = $"DMX for Dummies {ThisAssembly.AssemblyInformationalVersion.Substring(0, ThisAssembly.AssemblyInformationalVersion.IndexOf("+"))}";
+#endif
 
             SldrKlSaalDimm.Value = SldrKlSaalDimm.Maximum;
             SldrGrSaalDimm.Value = SldrGrSaalDimm.Maximum;

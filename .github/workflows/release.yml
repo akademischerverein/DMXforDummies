@@ -19,16 +19,10 @@ jobs:
     - name: Build
       run: dotnet build -c Release /p:ContinuousIntegrationBuild=true
     - name: Publish app
-      run: dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -o publish -r win-x64 --self-contained true
+      run: dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -o publish -r win-x64 --self-contained false
     - name: Upload Release
       run: |
         dotnet tool install -g vpk
         vpk download github --repoUrl https://github.com/${{ github.repository }}
-        vpk pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Resources/Logo.ico -e DMXforDummies.exe 
+        vpk pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish -f net8-x64 --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Resources/Logo.ico -e DMXforDummies.exe --noPortable
         vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }}
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: DMXforDummies-${{ steps.nbgv.outputs.SemVer2 }}
-        path: |
-          publish/*
