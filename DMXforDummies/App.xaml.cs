@@ -26,6 +26,7 @@ namespace DMXforDummies
 
             if (isOnlyInstance)
             {
+#if !DEBUG
                 VelopackApp.Build().Run();
 
                 try
@@ -55,7 +56,7 @@ namespace DMXforDummies
                 {
                     MessageBox.Show("Fehler beim Überprüfen auf neue Updates: " + ex.Message);
                 }
-
+#endif
                 StartupUri = new Uri("MainWindow.xaml", UriKind.Relative);
                 singleInstanceMutex.ReleaseMutex();
             }
