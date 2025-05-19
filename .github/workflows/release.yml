@@ -1,0 +1,28 @@
+name: Create GitHub release
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
+    - uses: dotnet/nbgv@v0.4
+      id: nbgv
+    - name: Build
+      run: dotnet build -c Release /p:ContinuousIntegrationBuild=true
+    - name: Create publish
+      run: dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -o publish -r win-x64 --self-contained false
+    - name: Upload Release
+      run: |
+        dotnet tool install -g vpk
+        vpk download github --repoUrl https://github.com/${{ github.repository }}
+        vpk pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish -f net8-x64-desktop --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDumies/Resources/Logo.ico -e DMXforDummies.exe 
+        vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --pre
