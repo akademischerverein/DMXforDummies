@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Input;
 
-namespace DMXforDummies.Avalonia.ViewModels
+namespace DMXforDummies.ViewModels
 {
     public class SetGlobalSceneCommand : ICommand
     {

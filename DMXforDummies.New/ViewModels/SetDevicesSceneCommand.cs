@@ -5,7 +5,7 @@ using System.Windows.Input;
 using DmxLib;
 using DmxLib.Util;
 
-namespace DMXforDummies.Avalonia.ViewModels
+namespace DMXforDummies.ViewModels
 {
     public class SetDevicesSceneCommand : ICommand
     {

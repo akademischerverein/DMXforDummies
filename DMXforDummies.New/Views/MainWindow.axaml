@@ -1,13 +1,14 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:DMXforDummies.Avalonia.ViewModels"
+        xmlns:vm="using:DMXforDummies.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" Height="430" Width="780" CanResize="false" WindowStartupLocation="CenterScreen"
-        x:Class="DMXforDummies.Avalonia.Views.MainWindow"
+        x:Class="DMXforDummies.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/Logo.ico"
-        Title="DMX for Dummies">
+        Title="DMX for Dummies"
+        IsVisible="{Binding WindowVisibility, Mode=TwoWay}">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -29,7 +30,7 @@
         </Grid.RowDefinitions>
 
         <Menu Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Background="#F0F0F0">
-            <MenuItem Header="Verstecken" />
+            <MenuItem Command="{Binding HideWindowCommand}" Header="Verstecken" />
         </Menu>
         <Grid HorizontalAlignment="Left" Width="198" Height="315" VerticalAlignment="Top" Grid.Row="1">
             <TextBlock HorizontalAlignment="Center" Margin="0,10,10,0" TextWrapping="Wrap" Text="kl. Saal Bar" VerticalAlignment="Top"/>
@@ -37,7 +38,7 @@
             <Button Command="{Binding SetWarmeFarbenKlSaalCommand}" Content="Warme Farben" Margin="0,87,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetKalteFarbenKlSaalCommand}" Content="Kalte Farben" Margin="0,122,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetRotBlauKlSaalCommand}" Content="Rot Blau" Margin="0,157,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
-            <Button Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
+            <Button Command="{Binding SelectRGBKlSaalCommand}" Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetAusKlSaalCommand}" Content="Aus" Background="DarkGray" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/> 
             <Slider Value="{Binding SetDimmKlSaalCommand, Mode=TwoWay}" Margin="0,270,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="1" SmallChange="0.01"/>
@@ -51,7 +52,7 @@
             <Button Command="{Binding SetWarmeFarbenGrSaalCommand}" Content="Warme Farben" Margin="0,87,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetKalteFarbenGrSaalCommand}" Content="Kalte Farben" Margin="0,122,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetRotBlauGrSaalCommand}" Content="Rot Blau" Margin="0,157,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
-            <Button Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
+            <Button Command="{Binding SelectRGBGrSaalCommand}" Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetAusGrSaalCommand}" Content="Aus" Background="DarkGray" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/>
             <Slider Value="{Binding SetDimmGrSaalCommand, Mode=TwoWay}" Margin="0,270,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="1" SmallChange="0.01"/>
@@ -65,7 +66,7 @@
             <Button Command="{Binding SetWarmeFarbenBuehneCommand}" Content="Warme Farben" Margin="0,87,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetKalteFarbenBuehneCommand}" Content="Kalte Farben" Margin="0,122,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetRotGruenBuehneCommand}" Content="Rot Grün" Margin="0,157,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
-            <Button Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
+            <Button Command="{Binding SelectRGBBuehneCommand}" Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetAusBuehneCommand}" Content="Aus" Background="DarkGray" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/>
             <Slider Value="{Binding SetDimmBuehneCommand, Mode=TwoWay}" Margin="0,270,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="0.66" SmallChange="0.01"/>
@@ -80,7 +81,7 @@
             <Button Command="{Binding SetWarmeFarbenSaalCommand}" Content="Warme Farben" Margin="0,87,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetKalteFarbenSaalCommand}" Content="Kalte Farben" Margin="0,122,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetRotGruenSaalCommand}" Content="Rot Grün" Margin="0,157,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
-            <Button Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
+            <Button Command="{Binding SelectRGBSaalCommand}" Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetAusSaalCommand}" Content="Aus" Background="DarkGray" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/>
             <Slider Value="{Binding SetDimmLEDSaalCommand, Mode=TwoWay}" Margin="0,270,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="0.66" SmallChange="0.01"/>

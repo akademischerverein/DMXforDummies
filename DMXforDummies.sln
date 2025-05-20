@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXforDummies", "DMXforDummies\DMXforDummies.csproj", "{CE2882D9-E7FB-48F3-BC35-264E18909E47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXforDummies.Avalonia", "DMXforDummies.Avalonia\DMXforDummies.Avalonia.csproj", "{FDBA0394-ADCE-400B-B497-E9F7B84FD994}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXforDummies.New", "DMXforDummies.New\DMXforDummies.New.csproj", "{FDBA0394-ADCE-400B-B497-E9F7B84FD994}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
