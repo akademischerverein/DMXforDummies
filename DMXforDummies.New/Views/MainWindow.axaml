@@ -41,7 +41,7 @@
             <Button Command="{Binding SelectRGBKlSaalCommand}" Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetAusKlSaalCommand}" Content="Aus" Background="DarkGray" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/> 
-            <Slider Value="{Binding SetDimmKlSaalCommand, Mode=TwoWay}" Margin="0,270,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="1" SmallChange="0.01"/>
+            <Slider Value="{Binding SetDimmKlSaalCommand, Mode=TwoWay}" Margin="0,275,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="1" SmallChange="0.01"/>
             <Label x:Name="ColorKlSaalSchattenfuge" Content="" HorizontalAlignment="Left" Margin="66,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
             <Label x:Name="ColorKlSaalBarOben" Content="" HorizontalAlignment="Left" Margin="87,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
             <Label x:Name="ColorKlSaalBarUnten" Content="" HorizontalAlignment="Left" Margin="108,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
@@ -55,7 +55,7 @@
             <Button Command="{Binding SelectRGBGrSaalCommand}" Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetAusGrSaalCommand}" Content="Aus" Background="DarkGray" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/>
-            <Slider Value="{Binding SetDimmGrSaalCommand, Mode=TwoWay}" Margin="0,270,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="1" SmallChange="0.01"/>
+            <Slider Value="{Binding SetDimmGrSaalCommand, Mode=TwoWay}" Margin="0,275,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="1" SmallChange="0.01"/>
             <Label x:Name="ColorGrSaalSchattenfuge" Content="" HorizontalAlignment="Left" Margin="66,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
             <Label x:Name="ColorGrSaalBarOben" Content="" HorizontalAlignment="Left" Margin="87,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
             <Label x:Name="ColorGrSaalBarUnten" Content="" HorizontalAlignment="Left" Margin="108,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
@@ -69,7 +69,7 @@
             <Button Command="{Binding SelectRGBBuehneCommand}" Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetAusBuehneCommand}" Content="Aus" Background="DarkGray" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/>
-            <Slider Value="{Binding SetDimmBuehneCommand, Mode=TwoWay}" Margin="0,270,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="0.66" SmallChange="0.01"/>
+            <Slider Value="{Binding SetDimmBuehneCommand, Mode=TwoWay}" Margin="0,275,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="0.66" SmallChange="0.01"/>
             <Label x:Name="ColorBühneLinks" Content="" HorizontalAlignment="Left" Margin="55,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
             <Label x:Name="ColorBühneHalblinks" Content="" HorizontalAlignment="Left" Margin="76,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
             <Label x:Name="ColorBühneHalbrechts" Content="" HorizontalAlignment="Left" Margin="97,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
@@ -84,7 +84,7 @@
             <Button Command="{Binding SelectRGBSaalCommand}" Content="Farben auswählen" Margin="0,192,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetAusSaalCommand}" Content="Aus" Background="DarkGray" Margin="0,227,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,262,20,0" TextWrapping="Wrap" Text="Helligkeit" VerticalAlignment="Top"/>
-            <Slider Value="{Binding SetDimmLEDSaalCommand, Mode=TwoWay}" Margin="0,270,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="0.66" SmallChange="0.01"/>
+            <Slider Value="{Binding SetDimmLEDSaalCommand, Mode=TwoWay}" Margin="0,275,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="40" Maximum="0.66" SmallChange="0.01"/>
             <Label x:Name="ColorSaalHintenLinks" Content="" HorizontalAlignment="Left" Margin="55,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
             <Label x:Name="ColorSaalVorneLinks" Content="" HorizontalAlignment="Left" Margin="76,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
             <Label x:Name="ColorSaalVorneRechts" Content="" HorizontalAlignment="Left" Margin="97,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
