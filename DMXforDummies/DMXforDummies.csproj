@@ -5,6 +5,7 @@
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
     <SatelliteResourceLanguages>en;de</SatelliteResourceLanguages>
+      <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>DMXforDummies.App</StartupObject>
