@@ -50,6 +50,7 @@ namespace DMXforDummies.ViewModels
 
             SetAllesAusCommand = new SetGlobalSceneCommand(kanalplan, SceneAllesAus, this);
             HideWindowCommand = new DelegateCommand(() => WindowVisibility = false);
+            _universe_update_task = UpdateDMXUniverse();
         }
 
         public bool WindowVisibility
@@ -59,6 +60,8 @@ namespace DMXforDummies.ViewModels
         }
 
         public ICommand HideWindowCommand { get; }
+
+        private Task _universe_update_task;
 
         public ICommand SetAVFarbenKlSaalCommand { get; }
 
@@ -189,6 +192,19 @@ namespace DMXforDummies.ViewModels
             }
 
             UpdateBrushes();
+        }
+
+        private async Task UpdateDMXUniverse()
+        {
+#if DEBUG
+            if (Avalonia.Controls.Design.IsDesignMode) return;
+#endif
+            while (true)
+            {
+                kanalplan.Sink.Commit();
+                // don't run again for at least 100 milliseconds
+                await Task.Delay(10).ConfigureAwait(false);
+            }
         }
     }
 }
