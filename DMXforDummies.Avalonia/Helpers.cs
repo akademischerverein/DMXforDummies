@@ -40,7 +40,7 @@ namespace DMXforDummies.Avalonia
             return new KeyValuePair<string, ColorBarDialog.FieldType>(dev, type);
         }*/
 
-        public static Color SystemColor(this DmxLib.IDevice device)
+        public static Color SystemColor(this IDevice device)
         {
             var color = (DmxLib.Util.Color) device.Get(DMXKanalplan.ColorProperty);
             var dimmer = (double) device.Get(DMXKanalplan.DimmerProperty);
