@@ -73,6 +73,7 @@ namespace DMXforDummies
                     mw.IsVisible = true;
                     mw.Activate();
                 }
+                _pipe.Disconnect();
             }
         }
 
