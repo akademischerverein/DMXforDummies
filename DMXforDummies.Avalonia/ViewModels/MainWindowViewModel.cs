@@ -19,6 +19,29 @@ namespace DMXforDummies.Avalonia.ViewModels
             SetRotBlauKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), null, Color.FromRGB(0, 0, 1), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
 
             SetAusKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(0, 0, 0), null, Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
+
+            SetAVFarbenGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), null, Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1.0, 1, 1.0, 1.0));
+            SetWarmeFarbenGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(220.0 / 255, 50.0 / 255, 0), null, Color.FromRGB(200.0 / 255, 150.0 / 255, 0), Color.FromRGB(220.0 / 255, 50.0 / 255, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
+            SetKalteFarbenGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(200.0 / 255, 200.0 / 255, 0), null, Color.FromRGB(0, 200.0 / 255, 200.0 / 255), Color.FromRGB(200.0 / 255, 200.0 / 255, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
+            SetRotBlauGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), null, Color.FromRGB(0, 0, 1), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
+
+            SetAusGrSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("gr. Saal"), ColorProperty.Change(Color.FromRGB(0, 0, 0), null, Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
+
+            SetBuntBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(1, 0, 0), Color.FromRGB(0, 1, 0), Color.FromRGB(0, 0, 1), Color.FromRGB(175.0 / 255, 175.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetWarmeFarbenBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(200.0 / 255, 150.0 / 255, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(200.0 / 255, 150.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetKalteFarbenBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(0, 143.0 / 255, 209.0 / 255), Color.FromRGB(124.0 / 255, 252.0 / 255, 0), Color.FromRGB(0, 143.0 / 255, 209.0 / 255), Color.FromRGB(124.0 / 255, 252.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetRotGruenBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(50.0 / 255, 1, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(50.0 / 255, 1, 0), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1, 1, 1, 1));
+
+            SetAusBuehneCommand = new SetDevicesSceneCommand(this, kanalplan.Group("Outdoor LED"), ColorProperty.Change(Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0)), DimmerProperty.Change(1, 1, 1, 1));
+
+            SetBuntSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), Color.FromRGB(0, 1, 0), Color.FromRGB(0, 0, 1), Color.FromRGB(175.0 / 255, 175.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetWarmeFarbenSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(200.0 / 255, 150.0 / 255, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(200.0 / 255, 150.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetKalteFarbenSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(0, 143.0 / 255, 209.0 / 255), Color.FromRGB(124.0 / 255, 252.0 / 255, 0), Color.FromRGB(0, 143.0 / 255, 209.0 / 255), Color.FromRGB(124.0 / 255, 252.0 / 255, 0)), DimmerProperty.Change(1, 1, 1, 1));
+            SetRotGruenSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(50.0 / 255, 1, 0), Color.FromRGB(1, 0, 0), Color.FromRGB(50.0 / 255, 1, 0), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1, 1, 1, 1));
+
+            SetAusSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("LED Kanne gr. Saal"), ColorProperty.Change(Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0)), DimmerProperty.Change(1, 1, 1, 1));
+
+            SetAllesAusCommand = new SetGlobalSceneCommand(kanalplan, SceneAllesAus, this);
         }
 
         public ICommand HideWindowCommand { get; }
@@ -73,6 +96,30 @@ namespace DMXforDummies.Avalonia.ViewModels
 
         public ICommand SetAusSaalCommand { get; }
 
+        public double SetDimmKlSaalCommand
+        {
+            get => (double)kanalplan.Group("kl. Saal").Get(DimmerProperty);
+            set => kanalplan.Group("kl. Saal").Set(DimmerProperty, value);
+        }
+
+        public double SetDimmGrSaalCommand
+        {
+            get => (double)kanalplan.Group("gr. Saal").Get(DimmerProperty);
+            set => kanalplan.Group("gr. Saal").Set(DimmerProperty, value);
+        }
+
+        public double SetDimmBuehneCommand
+        {
+            get => (double)kanalplan.Group("Outdoor LED").Get(DimmerProperty);
+            set => kanalplan.Group("Outdoor LED").Set(DimmerProperty, value);
+        }
+
+        public double SetDimmLEDSaalCommand
+        {
+            get => (double)kanalplan.Group("LED Kanne gr. Saal").Get(DimmerProperty);
+            set => kanalplan.Group("LED Kanne gr. Saal").Set(DimmerProperty, value);
+        }
+
         public void UpdateBrushes()
         {
             MainWindow.INSTANCE.ColorKlSaalSchattenfuge.Background = new SolidColorBrush(kanalplan.Group("kl. Saal").Children[3].SystemColor());
@@ -92,6 +139,26 @@ namespace DMXforDummies.Avalonia.ViewModels
             MainWindow.INSTANCE.ColorSaalVorneRechts.Background = new SolidColorBrush(kanalplan.Group("LED Kanne gr. Saal").Children[1].SystemColor());
             MainWindow.INSTANCE.ColorSaalVorneLinks.Background = new SolidColorBrush(kanalplan.Group("LED Kanne gr. Saal").Children[2].SystemColor());
             MainWindow.INSTANCE.ColorSaalHintenLinks.Background = new SolidColorBrush(kanalplan.Group("LED Kanne gr. Saal").Children[3].SystemColor());
+        }
+
+        private void SceneAllesAus(DMXKanalplan kanalplan)
+        {
+            foreach (var group in kanalplan.Universe.Devices)
+            {
+                foreach (var dev in group.Children)
+                {
+                    if (dev.SupportedProperties.Contains(ColorProperty))
+                    {
+                        dev.Set(ColorProperty, DmxLib.Util.Color.FromRGB(0, 0, 0));
+                    }
+                    else if (dev.SupportedProperties.Contains(DimmerProperty))
+                    {
+                        dev.Set(DimmerProperty, 0.0);
+                    }
+                }
+            }
+
+            UpdateBrushes();
         }
     }
 }
