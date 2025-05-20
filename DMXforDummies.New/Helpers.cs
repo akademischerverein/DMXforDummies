@@ -5,7 +5,7 @@ using Avalonia.Media;
 using DMXforDummies.Models;
 using DmxLib;
 
-namespace DMXforDummies.Avalonia
+namespace DMXforDummies
 {
     internal static class Helpers
     {
@@ -35,10 +35,10 @@ namespace DMXforDummies.Avalonia
             return new KeyValuePair<DeviceProperty, object[]>(property, values);
         }
 
-        /*public static KeyValuePair<String, ColorBarDialog.FieldType> Option(string dev, ColorBarDialog.FieldType type)
+        public static KeyValuePair<String, ColorDialog.FieldType> Option(string dev, ColorDialog.FieldType type)
         {
-            return new KeyValuePair<string, ColorBarDialog.FieldType>(dev, type);
-        }*/
+            return new KeyValuePair<string, ColorDialog.FieldType>(dev, type);
+        }
 
         public static Color SystemColor(this IDevice device)
         {

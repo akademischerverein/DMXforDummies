@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace DMXforDummies.Avalonia.Views
+namespace DMXforDummies.Views
 {
     public partial class MainWindow : Window
     {

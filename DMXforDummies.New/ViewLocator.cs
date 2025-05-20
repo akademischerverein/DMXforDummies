@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using DMXforDummies.Avalonia.ViewModels;
+using DMXforDummies.ViewModels;
 using System;
 
-namespace DMXforDummies.Avalonia
+namespace DMXforDummies
 {
     public class ViewLocator : IDataTemplate
     {
