@@ -1,0 +1,97 @@
+﻿using Avalonia.Media;
+using DMXforDummies.Avalonia.Views;
+using DMXforDummies.Models;
+using System.Windows.Input;
+using static DMXforDummies.Models.DMXKanalplan;
+using Color = DmxLib.Util.Color;
+
+namespace DMXforDummies.Avalonia.ViewModels
+{
+    public partial class MainWindowViewModel : ViewModelBase
+    {
+        private readonly DMXKanalplan kanalplan = new DMXKanalplan();
+
+        public MainWindowViewModel()
+        {
+            SetAVFarbenKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), null, Color.FromRGB(1, 0, 0), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1.0, 1, 1.0, 1.0));
+            SetWarmeFarbenKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(220.0 / 255, 50.0 / 255, 0), null, Color.FromRGB(200.0 / 255, 150.0 / 255, 0), Color.FromRGB(220.0 / 255, 50.0 / 255, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
+            SetKalteFarbenKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(200.0 / 255, 200.0 / 255, 0), null, Color.FromRGB(0, 200.0 / 255, 200.0 / 255), Color.FromRGB(200.0 / 255, 200.0 / 255, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
+            SetRotBlauKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(1, 0, 0), null, Color.FromRGB(0, 0, 1), Color.FromRGB(1, 0, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
+
+            SetAusKlSaalCommand = new SetDevicesSceneCommand(this, kanalplan.Group("kl. Saal"), ColorProperty.Change(Color.FromRGB(0, 0, 0), null, Color.FromRGB(0, 0, 0), Color.FromRGB(0, 0, 0)), DimmerProperty.Change(1.0, 0, 1.0, 1.0));
+        }
+
+        public ICommand HideWindowCommand { get; }
+
+        public ICommand SetAVFarbenKlSaalCommand { get; }
+
+        public ICommand SetAVFarbenGrSaalCommand { get; }
+
+        public ICommand SetWarmeFarbenKlSaalCommand { get; }
+
+        public ICommand SetWarmeFarbenGrSaalCommand { get; }
+
+        public ICommand SetKalteFarbenKlSaalCommand { get; }
+
+        public ICommand SetKalteFarbenGrSaalCommand { get; }
+
+        public ICommand SetRotBlauKlSaalCommand { get; }
+
+        public ICommand SetRotBlauGrSaalCommand { get; }
+
+        public ICommand SelectRGBKlSaalCommand { get; }
+
+        public ICommand SelectRGBGrSaalCommand { get; }
+
+        public ICommand SetAusKlSaalCommand { get; }
+
+        public ICommand SetAusGrSaalCommand { get; }
+
+        public ICommand SetAllesAusCommand { get; }
+
+        public ICommand SetBuntBuehneCommand { get; }
+
+        public ICommand SetWarmeFarbenBuehneCommand { get; }
+
+        public ICommand SetKalteFarbenBuehneCommand { get; }
+
+        public ICommand SetRotGruenBuehneCommand { get; }
+
+        public ICommand SelectRGBBuehneCommand { get; }
+
+        public ICommand SetAusBuehneCommand { get; }
+
+        public ICommand SetBuntSaalCommand { get; }
+
+        public ICommand SetWarmeFarbenSaalCommand { get; }
+
+        public ICommand SetKalteFarbenSaalCommand { get; }
+
+        public ICommand SetRotGruenSaalCommand { get; }
+
+        public ICommand SelectRGBSaalCommand { get; }
+
+        public ICommand SetAusSaalCommand { get; }
+
+        public void UpdateBrushes()
+        {
+            MainWindow.INSTANCE.ColorKlSaalSchattenfuge.Background = new SolidColorBrush(kanalplan.Group("kl. Saal").Children[3].SystemColor());
+            MainWindow.INSTANCE.ColorKlSaalBarOben.Background = new SolidColorBrush(kanalplan.Group("kl. Saal").Children[2].SystemColor());
+            MainWindow.INSTANCE.ColorKlSaalBarUnten.Background = new SolidColorBrush(kanalplan.Group("kl. Saal").Children[0].SystemColor());
+
+            MainWindow.INSTANCE.ColorGrSaalSchattenfuge.Background = new SolidColorBrush(kanalplan.Group("gr. Saal").Children[3].SystemColor());
+            MainWindow.INSTANCE.ColorGrSaalBarOben.Background = new SolidColorBrush(kanalplan.Group("gr. Saal").Children[2].SystemColor());
+            MainWindow.INSTANCE.ColorGrSaalBarUnten.Background = new SolidColorBrush(kanalplan.Group("gr. Saal").Children[0].SystemColor());
+
+            MainWindow.INSTANCE.ColorBühneLinks.Background = new SolidColorBrush(kanalplan.Group("Outdoor LED").Children[0].SystemColor());
+            MainWindow.INSTANCE.ColorBühneHalblinks.Background = new SolidColorBrush(kanalplan.Group("Outdoor LED").Children[1].SystemColor());
+            MainWindow.INSTANCE.ColorBühneHalbrechts.Background = new SolidColorBrush(kanalplan.Group("Outdoor LED").Children[2].SystemColor());
+            MainWindow.INSTANCE.ColorBühneRechts.Background = new SolidColorBrush(kanalplan.Group("Outdoor LED").Children[3].SystemColor());
+
+            MainWindow.INSTANCE.ColorSaalHintenRechts.Background = new SolidColorBrush(kanalplan.Group("LED Kanne gr. Saal").Children[0].SystemColor());
+            MainWindow.INSTANCE.ColorSaalVorneRechts.Background = new SolidColorBrush(kanalplan.Group("LED Kanne gr. Saal").Children[1].SystemColor());
+            MainWindow.INSTANCE.ColorSaalVorneLinks.Background = new SolidColorBrush(kanalplan.Group("LED Kanne gr. Saal").Children[2].SystemColor());
+            MainWindow.INSTANCE.ColorSaalHintenLinks.Background = new SolidColorBrush(kanalplan.Group("LED Kanne gr. Saal").Children[3].SystemColor());
+        }
+    }
+}

@@ -1,0 +1,42 @@
+#################################################
+#  DMX Kanalplan Akademischer Verein Darmstadt  #
+#################################################
+
+# Format:
+# Spalten werden durch ein Semikolon (;) getrennt
+# Leerzeichen am Anfang oder Ende einer Zelle werden ignoriert
+# Zeilen mit # beginnend sind Kommentare und werden ignoriert
+
+# Kanal Typ        Gruppe                 Name
+001;    1:Relais;  Feststrom;             Türseite 1
+002;    1:Relais;  Feststrom;             Türseite 2
+003;    1:Relais;  Feststrom;             Türseite 3
+004;    1:Relais;  Feststrom;             Türseite 4
+005;    1:Relais;  Feststrom;             Kammerseite 1
+006;    1:Relais;  Feststrom;             Kammerseite 2
+007;    1:Relais;  Feststrom;             Kammerseite 3
+008;    1:Relais;  Feststrom;             Kammerseite 4
+010;    1:Blinder; gr. Saal;              Dimmer 1
+011;    1:Blinder; gr. Saal;              Dimmer 2
+012;    1:Blinder; gr. Saal;              Dimmer 3
+013;    1:Blinder; gr. Saal;              Dimmer 4
+017;    3:RGB;     kl. Saal;              Bar unten
+021;    1:Dimmer;  kl. Saal;              Bar weiß
+025;    3:RGB;     kl. Saal;              Bar oben
+029;    3:RGB;     kl. Saal;              Schattenfuge
+033;    3:RGB;     gr. Saal;              Bar unten
+037;    1:Dimmer;  gr. Saal;              Bar weiß
+041;    3:RGB;     gr. Saal;              Bar oben
+045;    3:RGB;     gr. Saal;              Schattenfuge
+049;    4:RGBW;    LED Kanne gr. Saal;    1
+053;    4:RGBW;    LED Kanne gr. Saal;    2
+057;    4:RGBW;    LED Kanne gr. Saal;    3
+061;    4:RGBW;    LED Kanne gr. Saal;    4
+073;    7:Scanner; Scanner;               links
+065;    7:Scanner; Scanner;               rechts
+081;    4:DRGB;    Outdoor LED;           links
+085;    4:DRGB;    Outdoor LED;           halblinks
+089;    4:DRGB;    Outdoor LED;           halbrechts
+093;    4:DRGB;    Outdoor LED;           rechts
+097;    2:Strobo;  Strobo;                Halogen
+099;    4:Dimmer;  Dimmerpack;            gr. Saal Traverse
