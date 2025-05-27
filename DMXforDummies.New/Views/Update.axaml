@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Height="150" Width="400" CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        x:Class="DMXforDummies.New.Update"
+        Title="Aktualisiere DMXForDummies...">
+    <Grid Margin="20">
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock x:Name="UpdateStatus" Text="Aktualisiere..." FontSize="16" Margin="0,0,0,10" HorizontalAlignment="Center" />
+            <ProgressBar x:Name="UpdateProgressbar" Height="20" Minimum="0" Maximum="100" Value="0" />
+        </StackPanel>
+    </Grid>
+</Window>

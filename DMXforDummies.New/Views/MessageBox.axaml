@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="DMXforDummies.Views.MessageBox"
+        Title="" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        CanResize="False" Closed="Window_Closed">
+    <StackPanel>
+        <TextBlock TextWrapping="Wrap" MaxWidth="400" x:Name="ErrorMessage" Margin="10" Text="Abcd" />
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="90" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Content="OK" Click="Button_Click" />
+        </Grid>
+    </StackPanel>
+</Window>

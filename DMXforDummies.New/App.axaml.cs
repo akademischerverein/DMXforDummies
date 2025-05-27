@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using DMXforDummies.New;
 using DMXforDummies.ViewModels;
 using DMXforDummies.Views;
 using System;
@@ -11,6 +12,8 @@ using System.IO.Pipes;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
+using Velopack;
+using Velopack.Sources;
 
 namespace DMXforDummies
 {
@@ -25,8 +28,10 @@ namespace DMXforDummies
             AvaloniaXamlLoader.Load(this);
         }
 
-        public override void OnFrameworkInitializationCompleted()
+        public override async void OnFrameworkInitializationCompleted()
         {
+            var exception = false;
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
@@ -49,17 +54,74 @@ namespace DMXforDummies
                 }
 
                 _pipe = new NamedPipeServerStream($"{Unique}.DMXforDummies.{Environment.UserName}");
-                CheckPipe();
 
-                desktop.MainWindow = new MainWindow
+                var errorMsg = string.Empty;
+                desktop.ShutdownMode = Avalonia.Controls.ShutdownMode.OnExplicitShutdown;
+
+                VelopackApp.Build().Run();
+                try
                 {
-                    DataContext = new MainWindowViewModel(),
-                };
+                    var mgr = new UpdateManager(new GithubSource("https://github.com/akademischerverein/DMXforDummies", null, false));
 
-                desktop.MainWindow.Closed += CloseApp;
+                    if (mgr?.CurrentVersion != null)
+                    {
+                        var updateInfo = await mgr.CheckForUpdatesAsync();
+
+                        if (updateInfo != null)
+                        {
+                            try
+                            {
+                                var updateWindow = new Update();
+                                updateWindow.Show();
+
+                                updateWindow.SetStatus("Lade Update herunter...");
+                                await mgr.DownloadUpdatesAsync(updateInfo, updateWindow.SetProgress);
+
+                                updateWindow.SetStatus("Installiere Updates...");
+                                mgr.ApplyUpdatesAndRestart(updateInfo);
+                            }
+                            catch (Exception ex)
+                            {
+                                errorMsg = "Fehler beim Aktualisieren: " + ex.Message;
+                                exception = true;
+
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errorMsg = "Fehler beim Überprüfen auf neue Updates: " + ex.Message;
+                    exception = true;
+                }
+
+                if (exception)
+                {
+                    desktop.MainWindow = new MessageBox(errorMsg, Startup);
+                }
+                else
+                {
+                    Startup();
+                }
+
+                base.OnFrameworkInitializationCompleted();
             }
+        }
 
-            base.OnFrameworkInitializationCompleted();
+        private void Startup() {
+            CheckPipe();
+
+            var desktop = ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+
+            desktop.MainWindow = new MainWindow
+            {
+                DataContext = new MainWindowViewModel(),
+                IsVisible = true,
+            };
+
+            desktop.MainWindow.Closed += CloseApp;
+            desktop.MainWindow.Show();
+            desktop.ShutdownMode = Avalonia.Controls.ShutdownMode.OnMainWindowClose;
         }
 
         private async Task CheckPipe()

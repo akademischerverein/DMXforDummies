@@ -11,10 +11,6 @@
       <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
 
-    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-        <DefineConstants>OS_MAC</DefineConstants>
-    </PropertyGroup>
-
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
@@ -41,5 +37,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Prism.Core" Version="9.0.537" />
+    <PackageReference Include="Velopack" Version="0.0.1251" />
   </ItemGroup>
 </Project>

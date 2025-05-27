@@ -18,10 +18,6 @@ namespace DMXforDummies.Views
             SldrGrSaalDimm.Value = SldrGrSaalDimm.Maximum;
             SldrBühneDimm.Value = SldrBühneDimm.Maximum;
             SldrSaalDimm.Value = SldrSaalDimm.Maximum;
-
-#if OS_MAC
-            MenuHideWindow.IsVisible = false;
-#endif
         }
 
         public static MainWindow INSTANCE;
