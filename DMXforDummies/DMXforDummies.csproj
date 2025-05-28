@@ -6,6 +6,7 @@
     <Platforms>AnyCPU;x64</Platforms>
     <SatelliteResourceLanguages>en;de</SatelliteResourceLanguages>
       <PublishSingleFile>true</PublishSingleFile>
+	  <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>DMXforDummies.App</StartupObject>
