@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
@@ -27,3 +28,4 @@ jobs:
         name: DMXforDummies-${{ steps.nbgv.outputs.SemVer2 }}
         path: |
           DMXforDummies/bin/Release/**/*
+          DMXforDummies.New/bin/Release/**/*
