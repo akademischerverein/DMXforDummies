@@ -7,7 +7,10 @@ on:
   workflow_call:
 jobs:
   build:
-    runs-on: windows-2019
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     steps:
     - name: Checkout
