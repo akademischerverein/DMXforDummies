@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
     <BuildProject>false</BuildProject>
   </PropertyGroup>
