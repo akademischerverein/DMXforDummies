@@ -16,7 +16,7 @@ namespace DMXforDummies.Views
 
             SldrKlSaalDimm.Value = SldrKlSaalDimm.Maximum;
             SldrGrSaalDimm.Value = SldrGrSaalDimm.Maximum;
-            SldrBühneDimm.Value = SldrBühneDimm.Maximum;
+            SldrBÃ¼hneDimm.Value = SldrBÃ¼hneDimm.Maximum;
             SldrSaalDimm.Value = SldrSaalDimm.Maximum;
         }
 
