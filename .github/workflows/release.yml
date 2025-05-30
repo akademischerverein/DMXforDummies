@@ -7,8 +7,22 @@ on:
   workflow_dispatch:
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            runtime: win-x64
+            exe: DMXforDummies.exe
+            extra: "--noPortable -f net8-x64"
+            icon: DMXforDummies/Assets/Logo.ico
+          - os: ubuntu-latest
+            runtime: linux-x64
+            exe: DMXforDummies
+            extra: "--categories \"Network;Utility\""
+            icon: Logo.svg
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -21,14 +35,10 @@ jobs:
     - name: Build
       run: dotnet build -c Release /p:ContinuousIntegrationBuild=true
     - name: Publish app
-      run: |
-        dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -o publish-win -r win-x64 --self-contained true
-        dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -o publish-linux -r linux-x64 --self-contained true
+      run: dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -o publish -r ${{ matrix.runtime }} --self-contained true
     - name: Upload Release
       run: |
         dotnet tool install -g vpk
         vpk download github --repoUrl https://github.com/${{ github.repository }}
-        vpk [win] pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish-win -f net8-x64 --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Assets/Logo.ico -e DMXforDummies.exe --noPortable
-        vpk [win] upload github --repoUrl https://github.com/${{ github.repository }} --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }}
-        vpk [linux] pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish-linux --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Assets/Logo.ico -e DMXforDummies --categories "Network;Utility"vpk [win] upload github --repoUrl https://github.com/${{ github.repository }} --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }}
-        vpk [linux] upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }} --pre
+        vpk pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Assets/Logo.ico -e ${{ matrix.exe }} ${{ matrix.extra }}"
+        vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }} --pre
