@@ -2,7 +2,7 @@ name: Update .NET SDK in global.json
 
 on:
   schedule:
-    - cron: '0 5 * * 1' # Jeden Montag um 5 Uhr UTC
+    - cron: '0 5 * * *' # Jeden Tag um 5 Uhr UTC
   workflow_dispatch:
 
 jobs:
