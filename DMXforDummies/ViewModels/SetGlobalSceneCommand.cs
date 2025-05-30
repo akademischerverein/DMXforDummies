@@ -8,9 +8,9 @@ namespace DMXforDummies.ViewModels
     {
         private readonly DMXKanalplan _kanalplan;
         private readonly Action<DMXKanalplan> _scene;
-        private readonly DMX _dmx;
+        private readonly MainWindowViewModel _dmx;
 
-        public SetGlobalSceneCommand(DMXKanalplan kanalplan, Action<DMXKanalplan> scene, DMX dmx)
+        public SetGlobalSceneCommand(DMXKanalplan kanalplan, Action<DMXKanalplan> scene, MainWindowViewModel dmx)
         {
             _kanalplan = kanalplan;
             _scene = scene;

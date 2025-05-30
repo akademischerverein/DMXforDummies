@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
+using Avalonia.Media;
 using DMXforDummies.Models;
 using DmxLib;
 
@@ -39,12 +35,12 @@ namespace DMXforDummies
             return new KeyValuePair<DeviceProperty, object[]>(property, values);
         }
 
-        public static KeyValuePair<String, ColorBarDialog.FieldType> Option(string dev, ColorBarDialog.FieldType type)
+        public static KeyValuePair<String, ColorDialog.FieldType> Option(string dev, ColorDialog.FieldType type)
         {
-            return new KeyValuePair<string, ColorBarDialog.FieldType>(dev, type);
+            return new KeyValuePair<string, ColorDialog.FieldType>(dev, type);
         }
 
-        public static Color SystemColor(this DmxLib.IDevice device)
+        public static Color SystemColor(this IDevice device)
         {
             var color = (DmxLib.Util.Color) device.Get(DMXKanalplan.ColorProperty);
             var dimmer = (double) device.Get(DMXKanalplan.DimmerProperty);

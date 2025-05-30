@@ -11,9 +11,9 @@ namespace DMXforDummies.ViewModels
     {
         private readonly KeyValuePair<DeviceProperty, object[]>[] _values;
         private IDevice _group;
-        private DMX _dmx;
+        private MainWindowViewModel _dmx;
 
-        public SetDevicesSceneCommand(DMX dmx, IDevice @group, params KeyValuePair<DeviceProperty, object[]>[] values)
+        public SetDevicesSceneCommand(MainWindowViewModel dmx, IDevice @group, params KeyValuePair<DeviceProperty, object[]>[] values)
         {
             _values = values;
             _group = group;
