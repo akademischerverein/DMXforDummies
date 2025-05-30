@@ -21,9 +21,9 @@ jobs:
     - uses: dotnet/nbgv@v0.4
       id: nbgv
     - name: Publish Windows
-      run: dotnet publish DMXforDummies.New/DMXforDummies.New.csproj -c Release -r win-x64 -o output-windows/ --self-contained true
+      run: dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -r win-x64 -o output-windows/ --self-contained true
     - name: Publish Linux
-      run: dotnet publish DMXforDummies.New/DMXforDummies.New.csproj -c Release -r linux-x64 -o output-linux/ --self-contained true
+      run: dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -r linux-x64 -o output-linux/ --self-contained true
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:

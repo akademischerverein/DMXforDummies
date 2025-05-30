@@ -22,14 +22,9 @@ jobs:
       id: nbgv
     - name: Build
       run: dotnet build -c Release /p:ContinuousIntegrationBuild=true
-      if: runner.os == 'Windows'
-    - name: Build
-      run: dotnet build -c Release /p:ContinuousIntegrationBuild=true DMXforDummies.New/DMXforDummies.New.csproj
-      if: runner.os != 'Windows'
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: DMXforDummies-${{ runner.os }}-${{ steps.nbgv.outputs.SemVer2 }}
         path: |
           DMXforDummies/bin/Release/**/*
-          DMXforDummies.New/bin/Release/**/*
