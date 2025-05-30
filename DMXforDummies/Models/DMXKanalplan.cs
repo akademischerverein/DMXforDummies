@@ -25,7 +25,7 @@ namespace DMXforDummies.Models
 
             var groups = new Dictionary<string, List<IDevice>>();
 
-            var stream = new StreamReader(AssetLoader.Open(new Uri("avares://DMXforDummies.New/Assets/kanalplan.txt")));
+            var stream = new StreamReader(AssetLoader.Open(new Uri("avares://DMXforDummies/Assets/kanalplan.txt")));
             var kanalplan = stream.ReadToEnd();
 
             foreach (var l in kanalplan.Split('\n'))
