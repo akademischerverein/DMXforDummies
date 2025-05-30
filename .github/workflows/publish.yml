@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   workflow_call:
 jobs:
-  build:
+  publish:
     strategy:
       fail-fast: false
       matrix:
