@@ -1,4 +1,4 @@
-name: Build
+name: Build and Publish
 
 on:
   push:
@@ -20,16 +20,14 @@ jobs:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
     - uses: dotnet/nbgv@v0.4
       id: nbgv
-    - name: Build
-      run: dotnet build -c Release /p:ContinuousIntegrationBuild=true
-      if: runner.os == 'Windows'
-    - name: Build
-      run: dotnet build -c Release /p:ContinuousIntegrationBuild=true DMXforDummies.New/DMXforDummies.New.csproj
-      if: runner.os != 'Windows'
+    - name: Publish Windows
+      run: dotnet publish DMXforDummies.New/DMXforDummies.New.csproj -c Release -r win-x64 -o output-windows/ --self-contained true
+    - name: Publish Linux
+      run: dotnet publish DMXforDummies.New/DMXforDummies.New.csproj -c Release -r linux-x64 -o output-linux/ --self-contained true
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: DMXforDummies-${{ runner.os }}-${{ steps.nbgv.outputs.SemVer2 }}
         path: |
-          DMXforDummies/bin/Release/**/*
-          DMXforDummies.New/bin/Release/**/*
+          output-linux/*
+          output-windows/*
