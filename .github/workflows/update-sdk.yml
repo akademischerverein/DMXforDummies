@@ -1,0 +1,56 @@
+name: Update .NET SDK in global.json
+
+on:
+  schedule:
+    - cron: '0 5 * * 1' # Jeden Montag um 5 Uhr UTC
+  workflow_dispatch:
+
+jobs:
+  update-sdk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get install jq -y
+
+      - name: Get latest .NET 8 SDK version
+        id: get-latest-sdk
+        run: |
+          curl -sSL https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/8.0/releases.json -o releases.json
+          latest_version=$(jq -r '.releases[0].sdk.version' releases.json)
+          echo "latest=$latest_version" >> $GITHUB_OUTPUT
+
+      - name: Read current SDK version from global.json
+        id: get-current-sdk
+        run: |
+          current_version=$(jq -r '.sdk.version' global.json)
+          echo "current=$current_version" >> $GITHUB_OUTPUT
+
+      - name: Compare versions and update if needed
+        id: update-global-json
+        run: |
+          latest="${{ steps.get-latest-sdk.outputs.latest }}"
+          current="${{ steps.get-current-sdk.outputs.current }}"
+
+          if [ "$latest" != "$current" ]; then
+            echo "SDK version will be updated from $current to $latest"
+            jq --arg ver "$latest" '.sdk.version = $ver' global.json > global.json.tmp
+            mv global.json.tmp global.json
+            echo "updated=true" >> $GITHUB_OUTPUT
+          else
+            echo "SDK is up to date."
+            echo "updated=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request if updated
+        if: steps.update-global-json.outputs.updated == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: Update .NET SDK version to ${{ steps.get-latest-sdk.outputs.latest }}"
+          branch: sdk/${{ steps.get-latest-sdk.outputs.latest }}
+          title: "Update .NET SDK to ${{ steps.get-latest-sdk.outputs.latest }}"
+          body: |
+            This PR updates the .NET SDK version in `global.json` from `${{ steps.get-current-sdk.outputs.current }}` to `${{ steps.get-latest-sdk.outputs.latest }}`.
