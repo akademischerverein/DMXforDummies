@@ -42,7 +42,7 @@ jobs:
         dotnet tool install -g vpk
         vpk download github --repoUrl https://github.com/${{ github.repository }}
         vpk pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i ${{ matrix.icon }} -e ${{ matrix.exe }} ${{ matrix.extra }}
-        vpk upload github --repoUrl https://github.com/${{ github.repository }} --merge --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }}
+        vpk upload github --repoUrl https://github.com/${{ github.repository }} --merge --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }}
 
   publish:
     name: Publish release
@@ -59,6 +59,6 @@ jobs:
     - uses: dotnet/nbgv@v0.4
       id: nbgv
     - name: Publish draft release
-      run: gh release edit v${{ steps.nbgv.outputs.SemVer2 }} --draft=false --verify-tag
+      run: gh release edit v${{ steps.nbgv.outputs.SemVer2 }} --draft=false --verify-tag --title "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}"
       env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
