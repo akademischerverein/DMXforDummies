@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 jobs:
   release:
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
     - name: Checkout
@@ -19,10 +19,13 @@ jobs:
     - name: Build
       run: dotnet build -c Release /p:ContinuousIntegrationBuild=true
     - name: Publish app
-      run: dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -o publish -r win-x64 --self-contained false
+      run: |
+        dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -o publish-win -r win-x64 --self-contained true
+        dotnet publish DMXforDummies/DMXforDummies.csproj -c Release -o publish-linux -r linux-x64 --self-contained true
     - name: Upload Release
       run: |
         dotnet tool install -g vpk
         vpk download github --repoUrl https://github.com/${{ github.repository }}
-        vpk pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish -f net8-x64 --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Resources/Logo.ico -e DMXforDummies.exe --noPortable
-        vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }}
+        vpk [win] pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish-win -f net8-x64 --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Resources/Logo.ico -e DMXforDummies.exe --noPortable
+        vpk [linux] pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish-linux --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Resources/Logo.ico -e DMXforDummies --categories Network;Utility
+        vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }} --pre
