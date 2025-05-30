@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 jobs:
   release:
+    name: Create release
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     strategy:
@@ -41,4 +42,21 @@ jobs:
         dotnet tool install -g vpk
         vpk download github --repoUrl https://github.com/${{ github.repository }}
         vpk pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i ${{ matrix.icon }} -e ${{ matrix.exe }} ${{ matrix.extra }}
-        vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }} --pre
+        vpk upload github --repoUrl https://github.com/${{ github.repository }} --merge --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    name: Publish release
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
+    - name: Setup .NET SDK from global.json
+      uses: actions/setup-dotnet@v4
+    - uses: dotnet/nbgv@v0.4
+      id: nbgv
+    - name: Publish draft release
+      run: gh release edit v${{ steps.nbgv.outputs.SemVer2 }} --draft=false --prerelease
