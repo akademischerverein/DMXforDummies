@@ -1,7 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
-    <BuildProject>false</BuildProject>
-  </PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
