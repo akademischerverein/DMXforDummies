@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using Avalonia.Controls;
+using Avalonia.Platform;
+using DMXforDummies;
 using DmxLib;
 using Color = DmxLib.Util.Color;
 
@@ -22,7 +25,10 @@ namespace DMXforDummies.Models
 
             var groups = new Dictionary<string, List<IDevice>>();
 
-            foreach (var l in Properties.Resources.kanalplan.Split('\n'))
+            var stream = new StreamReader(AssetLoader.Open(new Uri("avares://DMXforDummies.New/Assets/kanalplan.txt")));
+            var kanalplan = stream.ReadToEnd();
+
+            foreach (var l in kanalplan.Split('\n'))
             {
                 if (l.StartsWith("#") || l.Trim().Length == 0) continue;
 
