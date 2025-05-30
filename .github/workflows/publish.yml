@@ -19,7 +19,7 @@ jobs:
       with:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
     - name: Setup .NET SDK from global.json
-        uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v4
     - uses: dotnet/nbgv@v0.4
       id: nbgv
     - name: Publish Windows
