@@ -30,4 +30,5 @@ jobs:
         vpk download github --repoUrl https://github.com/${{ github.repository }}
         vpk [win] pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish-win -f net8-x64 --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Assets/Logo.ico -e DMXforDummies.exe --noPortable
         vpk [linux] pack -u DMXforDummies -v ${{ steps.nbgv.outputs.SemVer2 }} -p publish-linux --packAuthors "Akademischer Verein an der TU Darmstadt" --packTitle DMXforDummies -i DMXforDummies/Assets/Logo.ico -e DMXforDummies --categories "Network;Utility"
-        vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }} --pre
+        vpk [win] upload github --repoUrl https://github.com/${{ github.repository }} --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }}
+        vpk [öinux] upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "DMXforDummies ${{ steps.nbgv.outputs.SemVer2 }}" --tag v${{ steps.nbgv.outputs.SemVer2 }} --token ${{ secrets.GITHUB_TOKEN }} --pre
