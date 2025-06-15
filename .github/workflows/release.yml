@@ -5,6 +5,12 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish release'
+        required: true
+        type: 'boolean'
+        default: 'true'
 jobs:
   release:
     name: Create release
@@ -46,6 +52,7 @@ jobs:
 
   publish:
     name: Publish release
+    if: github.event.inputs.publish
     timeout-minutes: 15
     runs-on: ubuntu-latest
     needs: release
