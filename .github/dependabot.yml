@@ -4,6 +4,10 @@ updates:
   directory: "/"
   schedule:
     interval: daily
+  groups:
+    avalonia:
+      patterns:
+      - "Avalonia*"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
