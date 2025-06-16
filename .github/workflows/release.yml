@@ -9,8 +9,12 @@ on:
       publish:
         description: 'Publish release'
         required: true
-        type: 'boolean'
-        default: 'true'
+        type: 'choice'
+        default: 'release'
+        options:
+        - release
+        - prerelease
+        - draft
 jobs:
   release:
     name: Create release
@@ -52,7 +56,7 @@ jobs:
 
   publish:
     name: Publish release
-    if: github.event.inputs.publish
+    if: github.event.inputs.publish != draft
     timeout-minutes: 15
     runs-on: ubuntu-latest
     needs: release
