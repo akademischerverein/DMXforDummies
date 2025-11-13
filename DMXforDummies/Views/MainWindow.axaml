@@ -76,7 +76,7 @@
             <Label x:Name="ColorBühneRechts" Content="" HorizontalAlignment="Left" Margin="118,31,0,0" VerticalAlignment="Top" Height="16" Width="16" Background="Black" RenderTransformOrigin="0.375,1.5"/>
         </Grid>
         <Grid HorizontalAlignment="Left" Width="198" Height="315" VerticalAlignment="Top" Grid.Column="3" Grid.Row="1">
-            <TextBlock HorizontalAlignment="Center" Margin="0,10,10,0" TextWrapping="Wrap" Text="Bühne" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Center" Margin="0,10,10,0" TextWrapping="Wrap" Text="Leinwand" VerticalAlignment="Top"/>
             <Button Command="{Binding SetBuntSaalCommand}" Content="Bunt" Margin="0,52,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetWarmeFarbenSaalCommand}" Content="Warme Farben" Margin="0,87,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
             <Button Command="{Binding SetKalteFarbenSaalCommand}" Content="Kalte Farben" Margin="0,122,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="178" Height="30" HorizontalContentAlignment="Center"/>
