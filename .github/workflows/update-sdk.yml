@@ -47,7 +47,7 @@ jobs:
 
       - name: Create Pull Request if updated
         if: steps.update-global-json.outputs.updated == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "chore: Update .NET SDK version to ${{ steps.get-latest-sdk.outputs.latest }}"
           branch: sdk/${{ steps.get-latest-sdk.outputs.latest }}
