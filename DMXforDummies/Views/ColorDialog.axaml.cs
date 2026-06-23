@@ -24,11 +24,11 @@ public partial class ColorDialog : Window
         ColorPicker,
         Slider
     }
-#if DEBUG
+
 #pragma warning disable CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Fügen Sie ggf. den „erforderlichen“ Modifizierer hinzu, oder deklarieren Sie den Modifizierer als NULL-Werte zulassend.
     public ColorDialog() { }
 #pragma warning restore CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Fügen Sie ggf. den „erforderlichen“ Modifizierer hinzu, oder deklarieren Sie den Modifizierer als NULL-Werte zulassend.
-#endif
+
     public ColorDialog(KeyValuePair<string, FieldType>[] fields, IDevice group, bool reverse)
     {
         InitializeComponent();

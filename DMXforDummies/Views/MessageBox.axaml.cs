@@ -7,20 +7,20 @@ namespace DMXforDummies.Views;
 
 public partial class MessageBox : Window
 {
-    private readonly Action startup;
+    private readonly Action? startup;
 
     public MessageBox()
     {
         InitializeComponent();
     }
 
-    public MessageBox(string message, System.Action startup) : this()
+    public MessageBox(string message, Action startup) : this()
     {
         ErrorMessage.Text = message;
         this.startup = startup;
     }
 
-    private void Window_Closed(object? sender, System.EventArgs e)
+    private void Window_Closed(object? sender, EventArgs e)
     {
         startup?.Invoke();
     }

@@ -18,7 +18,7 @@ namespace DMXforDummies
         /// <param name="onPropertyChangedInvoker">The OnPropertyChanged Event of the field.</param>
         /// <param name="propertyName">The property name of the field.</param>
         /// <returns><c>true</c> if field was set to new value, otherwise <c>false</c>.</returns>
-        public static bool SetField<T>(ref T field, T value, Action<string> onPropertyChangedInvoker, [CallerMemberName] string propertyName = null)
+        public static bool SetField<T>(ref T field, T value, Action<string?> onPropertyChangedInvoker, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;
             field = value;
