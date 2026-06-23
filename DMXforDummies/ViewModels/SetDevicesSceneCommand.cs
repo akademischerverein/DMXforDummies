@@ -20,7 +20,7 @@ namespace DMXforDummies.ViewModels
             _dmx = dmx;
         }
 
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             for (var i = 0; i < _group.Children.Count; i++)
             {
@@ -34,13 +34,13 @@ namespace DMXforDummies.ViewModels
             _dmx.UpdateBrushes();
         }
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return true;
         }
 
 #pragma warning disable 67
-        public event EventHandler CanExecuteChanged { add { } remove { } }
+        public event EventHandler? CanExecuteChanged { add { } remove { } }
 #pragma warning restore 67
     }
 }

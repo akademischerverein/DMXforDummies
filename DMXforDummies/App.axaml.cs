@@ -20,8 +20,8 @@ namespace DMXforDummies
     public partial class App : Application
     {
         private const string Unique = "ac702c4fee8f4df395bcc09122a9aa4c";
-        private FileStream _stream;
-        private NamedPipeServerStream _pipe;
+        private FileStream? _stream;
+        private NamedPipeServerStream? _pipe;
 
         public override void Initialize()
         {
@@ -34,10 +34,6 @@ namespace DMXforDummies
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-                // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
-                DisableAvaloniaDataAnnotationValidation();
-
                 var lockFile = Path.Combine(Path.GetTempPath(), $"{Unique}.DMXforDummies.lock");
                 try
                 {
@@ -109,11 +105,11 @@ namespace DMXforDummies
         }
 
         private void Startup() {
-            CheckPipe();
+            _ = CheckPipe();
 
             var desktop = ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
 
-            desktop.MainWindow = new MainWindow
+            desktop!.MainWindow = new MainWindow
             {
                 DataContext = new MainWindowViewModel(),
                 IsVisible = true,
@@ -128,11 +124,11 @@ namespace DMXforDummies
         {
             while (true)
             {
-                await _pipe.WaitForConnectionAsync();
+                await _pipe!.WaitForConnectionAsync();
                 if (_pipe.ReadByte() == 1)
                 {
-                    var mw = ((IClassicDesktopStyleApplicationLifetime)ApplicationLifetime).MainWindow as MainWindow;
-                    mw.IsVisible = true;
+                    var mw = ((IClassicDesktopStyleApplicationLifetime)ApplicationLifetime!).MainWindow as MainWindow;
+                    mw!.IsVisible = true;
                     mw.Activate();
                 }
                 _pipe.Disconnect();
@@ -141,21 +137,8 @@ namespace DMXforDummies
 
         private void CloseApp(object? sender, EventArgs e)
         {
-            _stream.Close();
-            _pipe.Close();
-        }
-
-        private void DisableAvaloniaDataAnnotationValidation()
-        {
-            // Get an array of plugins to remove
-            var dataValidationPluginsToRemove =
-                BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
-
-            // remove each entry found
-            foreach (var plugin in dataValidationPluginsToRemove)
-            {
-                BindingPlugins.DataValidators.Remove(plugin);
-            }
+            _stream?.Close();
+            _pipe?.Close();
         }
     }
 }

@@ -20,6 +20,6 @@ namespace DMXforDummies.Views
             SldrSaalDimm.Value = SldrSaalDimm.Maximum;
         }
 
-        public static MainWindow INSTANCE;
+        public static MainWindow INSTANCE = null!;
     }
 }
