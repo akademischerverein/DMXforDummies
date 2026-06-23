@@ -14,7 +14,7 @@ namespace DMXforDummies;
 
 public partial class ColorDialog : Window
 {
-    private Dictionary<int, IDevice> deviceMap;
+    private Dictionary<int, IDevice> deviceMap = new();
     private CheckBox useLive;
     private Dictionary<IDevice, Color> startMap;
     private bool? Result;
@@ -24,9 +24,11 @@ public partial class ColorDialog : Window
         ColorPicker,
         Slider
     }
-
+#if DEBUG
+#pragma warning disable CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Fügen Sie ggf. den „erforderlichen“ Modifizierer hinzu, oder deklarieren Sie den Modifizierer als NULL-Werte zulassend.
     public ColorDialog() { }
-
+#pragma warning restore CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Fügen Sie ggf. den „erforderlichen“ Modifizierer hinzu, oder deklarieren Sie den Modifizierer als NULL-Werte zulassend.
+#endif
     public ColorDialog(KeyValuePair<string, FieldType>[] fields, IDevice group, bool reverse)
     {
         InitializeComponent();
@@ -47,7 +49,7 @@ public partial class ColorDialog : Window
 
         for (; j < fields.Length && j > -1; j = j + jMod)
         {
-            Control control = null;
+            Control control;
             var field = fields[j];
 
             switch (field.Value)
@@ -68,6 +70,8 @@ public partial class ColorDialog : Window
                     ((Slider)control).Value = (double)group.Children[j].Get(DMXKanalplan.DimmerProperty);
                     ((Slider)control).ValueChanged += color_changed;
                     break;
+                default:
+                    throw new InvalidOperationException();
             }
 
             var label = new Label();
@@ -78,8 +82,8 @@ public partial class ColorDialog : Window
 
             control.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top;
             control.Margin = new Thickness(115, 14 + 31 * (i++), 10, 0);
-            grid.Children.Add(control);
-            grid.Children.Add(label);
+            grid?.Children.Add(control);
+            grid?.Children.Add(label);
 
             deviceMap.Add(control.GetHashCode(), group.Children[j]);
 
@@ -117,10 +121,10 @@ public partial class ColorDialog : Window
         cancel.Width = 200;
         cancel.Margin = new Thickness(231, 14 + 31 * i + 30, 0, 10);
 
-        grid.Children.Add(useLive);
-        grid.Children.Add(liveLabel);
-        grid.Children.Add(ok);
-        grid.Children.Add(cancel);
+        grid?.Children.Add(useLive);
+        grid?.Children.Add(liveLabel);
+        grid?.Children.Add(ok);
+        grid?.Children.Add(cancel);
 
         this.CanResize = false;
         this.SizeToContent = SizeToContent.Height;
@@ -129,9 +133,9 @@ public partial class ColorDialog : Window
         this.Closed += DialogFinish;
     }
 
-    private void DialogFinish(object sender, EventArgs e)
+    private void DialogFinish(object? sender, EventArgs e)
     {
-        if (((ColorDialog)sender).Result.HasValue && ((ColorDialog)sender).Result.Value) return;
+        if (((ColorDialog)sender!)?.Result.HasValue ?? false && ((ColorDialog)sender).Result.Value) return;
 
         foreach (var field in startMap)
         {
@@ -144,34 +148,33 @@ public partial class ColorDialog : Window
         }
     }
 
-    private void ToggleLive(object sender, RoutedEventArgs e)
+    private void ToggleLive(object? sender, RoutedEventArgs e)
     {
-        useLive.IsChecked = !useLive.IsChecked.Value;
+        useLive.IsChecked = !useLive.IsChecked ?? false;
     }
 
-    private void color_changed(object sender, RoutedEventArgs e)
+    private void color_changed(object? sender, RoutedEventArgs e)
     {
-        if (!useLive.IsChecked.Value) return;
+        if (!(useLive.IsChecked ?? false)) return;
         UpdateColors();
     }
 
-    private void color_changed(object sender, ColorChangedEventArgs e)
+    private void color_changed(object? sender, ColorChangedEventArgs e)
     {
-        if (!useLive.IsChecked.Value) return;
+        if (!(useLive.IsChecked ?? false)) return;
         UpdateColors();
     }
 
     private void UpdateColors()
     {
-        var controls = ((Grid)Content).Children;
+        var controls = ((Grid)Content!).Children;
 
         foreach (var nativeControl in controls)
         {
             if (nativeControl.GetType() == typeof(ColorPicker))
             {
                 var control = (ColorPicker)nativeControl;
-                IDevice dev;
-                if (deviceMap.TryGetValue(control.GetHashCode(), out dev))
+                if (deviceMap.TryGetValue(control.GetHashCode(), out var dev))
                 {
                     dev.Set(DMXKanalplan.ColorProperty, DmxLib.Util.Color.FromRGB(control.Color.R / 255.0, control.Color.G / 255.0, control.Color.B / 255.0));
                     dev.Set(DMXKanalplan.DimmerProperty, control.Color.A / 255.0);
@@ -180,8 +183,7 @@ public partial class ColorDialog : Window
             else if (nativeControl.GetType() == typeof(Slider))
             {
                 var control = (Slider)nativeControl;
-                IDevice dev;
-                if (deviceMap.TryGetValue(control.GetHashCode(), out dev))
+                if (deviceMap.TryGetValue(control.GetHashCode(), out var dev))
                 {
                     dev.Set(DMXKanalplan.DimmerProperty, control.Value);
                 }
@@ -189,10 +191,10 @@ public partial class ColorDialog : Window
         }
     }
 
-    private void DialogFinish(object sender, RoutedEventArgs e)
+    private void DialogFinish(object? sender, RoutedEventArgs e)
     {
-        var btn = (Button)sender;
-        Result = "OK".Equals(btn.Content as string);
+        var btn = (Button?)sender;
+        Result = "OK".Equals(btn?.Content as string);
         
         if(Result.Value)
         {
