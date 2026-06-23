@@ -16,10 +16,10 @@ jobs:
       - name: Install jq
         run: sudo apt-get install jq -y
 
-      - name: Get latest .NET 8 SDK version
+      - name: Get latest .NET 10 SDK version
         id: get-latest-sdk
         run: |
-          curl -sSL https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/8.0/releases.json -o releases.json
+          curl -sSL https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/10.0/releases.json -o releases.json
           latest_version=$(jq -r '.releases[0].sdk.version' releases.json)
           echo "latest=$latest_version" >> $GITHUB_OUTPUT
 
