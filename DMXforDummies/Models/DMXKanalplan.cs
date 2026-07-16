@@ -14,7 +14,7 @@ namespace DMXforDummies.Models
     {
         public DMXKanalplan()
         {
-            Sink = new AvSink("192.168.0.6", 5120);
+            Sink = new SacnSink(1872);
             Universe = new Universe(512, Sink);
             Universe.Hooks += _relayChannelsApply;
 
@@ -100,7 +100,7 @@ namespace DMXforDummies.Models
 
         public IDevice GroupByDevice(IDevice dev) => Universe.Devices.First(g => g.Children.Contains(dev));
         public Universe Universe { get; }
-        public AvSink Sink { get; }
+        public SacnSink Sink { get; }
 
         public static readonly DeviceProperty ColorProperty =
             DeviceProperty.RegisterProperty("color", typeof(Color), Color.FromRGB(0, 0, 0), (g, d) => ((Color)g).R != 0 || ((Color)g).G != 0 || ((Color)g).B != 0 ? g : d);

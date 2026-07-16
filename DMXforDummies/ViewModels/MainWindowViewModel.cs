@@ -202,7 +202,7 @@ namespace DMXforDummies.ViewModels
             while (true)
             {
                 kanalplan.Sink.Commit();
-                // don't run again for at least 100 milliseconds
+                // don't run again for at least 10 milliseconds
                 await Task.Delay(10).ConfigureAwait(false);
             }
         }
