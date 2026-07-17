@@ -22,7 +22,7 @@ namespace DMXforDummies.Models
 
         public SacnSink(ushort universe)
         {
-            _server = new IPEndPoint(new IPAddress([239, 255, (byte)(universe / 256), (byte)(universe % 256)]), 5568);
+            _server = new IPEndPoint(new IPAddress([192, 168, 0, 6]), 5568); //[239, 255, (byte)(universe / 256), (byte)(universe % 256)]
             _sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 16);
 
 #if DEBUG
