@@ -29,6 +29,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Prism.Core" Version="9.0.537" />
-    <PackageReference Include="Velopack" Version="1.2.0" />
+    <PackageReference Include="Velopack" Version="1.2.158" />
   </ItemGroup>
 </Project>
